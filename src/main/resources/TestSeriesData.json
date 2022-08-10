@@ -1,0 +1,16 @@
+{
+  "dataSet": [
+    {
+      "courseName": "",
+      "courseId": 123,
+      "testId": "",
+      "isSectionTime": false
+    },
+    {
+      "courseName": "",
+      "courseId": 123,
+      "testId": 1345,
+      "isSectionTime": true
+    }
+  ]
+}
