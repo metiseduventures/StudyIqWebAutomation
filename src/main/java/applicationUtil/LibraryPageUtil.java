@@ -21,15 +21,17 @@ public class LibraryPageUtil {
 	public List<String> libraryPageMsgList = new ArrayList<String>();
 	public Common_Function cfObj = new Common_Function();
 	ConfigFileReader rConfigFileReader;
+	HomePageUtil homPageUtilObj;
 
 	public LibraryPageUtil(WebDriver driver) {
 		libraryPage_OR = new LibraryPage_OR();
 		PageFactory.initElements(driver, libraryPage_OR);
 	}
 
-	public boolean verifyCourse(TestData testData) {
+	public boolean verifyPuchasedCourseOnMyLibrary(WebDriver driver,TestData testData) {
 		boolean result = true;
 		try {
+			
 
 			result = verifyBoughtCourse_Logout(testData.getCourseName());
 			if (!result) {

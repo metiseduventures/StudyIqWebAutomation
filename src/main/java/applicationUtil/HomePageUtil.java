@@ -27,34 +27,6 @@ public class HomePageUtil {
 		PageFactory.initElements(driver, homePageORObj);
 	}
 
-	public boolean isUserAuth(WebDriver driver, TestData testData, String strMobileNumber) {
-		boolean result = true;
-		if (testData.getIsUserGuest() == true) {
-			verifySearch(driver, testData);
-		} 
-		else if (testData.getIsUserGuest() == false) {
-
-			// click on login/register button
-			result = clickOnLoginRegisterButton(driver);
-			if (!result) {
-				return result;
-			}
-
-			result = verifyLogin(driver, strMobileNumber);
-			if (!result) {
-				return result;
-			}
-			verifySearch(driver, testData);
-			if (!result) {
-				return result;
-			}
-		} 
-		else {
-			return false;
-		}
-		return result;
-	}
-
 	public boolean verifyLogin(WebDriver driver, String strMobileNumber) {
 		boolean result = true;
 		 String strOtp = null;

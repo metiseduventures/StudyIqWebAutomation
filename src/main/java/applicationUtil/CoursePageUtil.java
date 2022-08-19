@@ -20,56 +20,59 @@ public class CoursePageUtil {
 	public Common_Function cfObj = new Common_Function();
 	ConfigFileReader rConfigFileReader;
 	HomePageUtil util;
+	LibraryPageUtil librayUtilObj;
 
 	public CoursePageUtil(WebDriver driver) {
 		coursePageORobj = new CoursePage_OR();
 		PageFactory.initElements(driver, coursePageORobj);
 	}
 
-	public boolean verifybuy_login(WebDriver driver, TestData testData, String userMobileNumber) {
+	public boolean verifyCoursePurchase(WebDriver driver, TestData testData) {
 		boolean result = true;
 		util = new HomePageUtil(driver);
 
 		try {
-			
-			System.out.println(userMobileNumber);
-			Thread.sleep(18000);
-			
 
-			result = verifyClickBuy();
+			if (!testData.getIsUserGuest()) {
+				result = util.verifyLogin(driver, ConfigFileReader.strUserMobileNumber);
+				if (!result) {
+					coursePageMsgList.addAll(util.homePageMsgList);
+					return result;
+				}
+			}
+
+			result = util.verifySearch(driver, testData);
+
+			if (!result) {
+				coursePageMsgList.addAll(util.homePageMsgList);
+				return result;
+			}
+			result = verifyClickBuy(testData.getIsUserGuest());
 			if (!result) {
 				return result;
 			}
 
-			List<WebElement> box = coursePageORobj.box();
-			if (box.size() > 0) {
+			if (testData.getIsUserGuest()) {
+				// add login functionality
+			}
 
-				result = util.verifyLogin(driver, userMobileNumber);
-				if (!result) {
-					return result;
-				}
-				
-
-				result = verifyClickBuy();
-				if (!result) {
-					return result;
-				}
-
-				result = verifyProcessBuy(driver, testData);
-				if (!result) {
-					return result;
-				}
-
-			} else {
-				result = verifyProcessBuy(driver, testData);
-				if (!result) {
-					return result;
-				}
+			result = verifyProcessBuy(driver, testData);
+			if (!result) {
+				return result;
+			}
+			
+			// call goLibaray function
+			
+			librayUtilObj = new LibraryPageUtil(driver);
+			result = librayUtilObj.verifyPuchasedCourseOnMyLibrary(driver, testData);
+			if(!result)
+			{
+				coursePageMsgList.addAll(librayUtilObj.libraryPageMsgList);
 			}
 
 		} catch (Exception e) {
 			result = false;
-			coursePageMsgList.add("verifyBuyLogin_Exception: " + e.getMessage());
+			coursePageMsgList.add("verifyCoursePurchase_Exception: " + e.getMessage());
 		}
 		return result;
 	}
@@ -115,7 +118,7 @@ public class CoursePageUtil {
 		return result;
 	}
 
-	public boolean verifyClickBuy() {
+	public boolean verifyClickBuy(boolean isGuestUSer) {
 		boolean result = true;
 
 		try {
@@ -127,6 +130,12 @@ public class CoursePageUtil {
 			} else {
 				result = false;
 				coursePageMsgList.add("This is not buy now button");
+			}
+
+			if (isGuestUSer) {
+				// check for login pop up
+			} else {
+				// check buy now page
 			}
 
 		} catch (Exception e) {
@@ -302,4 +311,8 @@ public class CoursePageUtil {
 		}
 		return result;
 	}
+	
+	// Add a function for do login on course detail page
+	
+	// click on goToLibary function
 }

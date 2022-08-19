@@ -26,10 +26,11 @@ public class CourseTest extends BaseTest {
 		coursePageUtilObj = new CoursePageUtil(driver);
 		boolean result = true;
 
-		result = coursePageUtilObj.verifybuy_login(driver, testData, ConfigFileReader.strUserMobileNumber);
+		result = coursePageUtilObj.verifyCoursePurchase(driver, testData);
 		Assert.assertEquals(result, true, coursePageUtilObj.coursePageMsgList.toString());
 	}
 	
+	@SuppressWarnings("serial")
 	@DataProvider
 	public Object[][] getData() throws Exception {
 		JsonElement jsonData = new JsonParser().parse(new FileReader("src/main/resources/TestData.json"));
