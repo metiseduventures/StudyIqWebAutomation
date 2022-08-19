@@ -11,29 +11,28 @@ public class ConfigFileReader {
 	
 	static {
 		strEnv = System.getProperty("env");
-		strEnv = "dev";
 		strRunMode = System.getProperty("runMode");
 		strRunMode = "local";
 		strEnv = System.getProperty("env");
-		strUserMobileNumber = System.getProperty("userMobileNumber");
 	}
 
-	private Properties properties;
+	public Properties properties;
 
 	public ConfigFileReader() {
 		BufferedReader reader;
 		String strPropertyPath = null;
+		strEnv = "dev";
 		try {
 			if (strEnv.equalsIgnoreCase("staging")) {
-				strPropertyPath = "src/main/resources/config/staging.properties";
+				strPropertyPath = "/home/adda247/eclipse-workspace/studyIQ_Task3/src/main/resources/config/staging.properties";
 
 			} else if (strEnv.equalsIgnoreCase("dev")) {
 
-				strPropertyPath = "src/main/resources/config/dev.properties";
+				strPropertyPath = "/home/adda247/eclipse-workspace/studyIQ_Task3/src/main/resources/config/dev.properties";
 
 			} else if (strEnv.equalsIgnoreCase("prod")) {
 
-				strPropertyPath = "src/main/resources/config/prod.properties";
+				strPropertyPath = "/home/adda247/eclipse-workspace/studyIQ_Task3/src/main/resources/config/prod.properties";
 
 			}
 			reader = new BufferedReader(new FileReader(strPropertyPath));
@@ -81,5 +80,5 @@ public class ConfigFileReader {
 		else
 			throw new RuntimeException("Base url web is not defined.");
 	}
-
+	
 }

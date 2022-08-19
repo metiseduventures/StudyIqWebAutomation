@@ -2,7 +2,6 @@ package util;
 
 import java.util.Map;
 
-import io.restassured.http.Cookie;
 import io.restassured.http.Cookies;
 import io.restassured.http.Headers;
 import io.restassured.response.Response;

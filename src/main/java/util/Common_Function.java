@@ -25,7 +25,6 @@ import java.util.stream.Collectors;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.json.JSONObject;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -40,6 +39,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.logging.LogEntries;
 import org.openqa.selenium.logging.LogEntry;
@@ -59,6 +60,7 @@ import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import pageObject.HomePage_OR;
 
 @SuppressWarnings("unused")
 public class Common_Function {
@@ -67,7 +69,7 @@ public class Common_Function {
 	public WebDriver driver;
 	public ConfigFileReader configReaderObj = new ConfigFileReader();
 
-	public WebDriver commonStartAndOpenURLBrowser() throws ParserConfigurationException, SAXException, IOException {
+	public WebDriver commonStartAndOpenURLBrowser() throws Exception {
 
 		DesiredCapabilities capability = null;
 		WebDriver driver = null;
@@ -87,9 +89,7 @@ public class Common_Function {
 			driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 		}
 
-		catch (
-
-		Exception e) {
+		catch (Exception e) {
 			e.printStackTrace();
 
 		} finally {

@@ -1,7 +1,6 @@
 package pageObject;
 
 import java.util.List;
-
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -56,11 +55,22 @@ public class HomePage_OR {
 		return listTextEmail;
 	}
 
-
 	@FindBy(xpath  = "//input[@aria-label='name']")
 	private List<WebElement> listTextEmail;
 	
+	@FindBy(css = "input[placeholder='What do you want to learn?']")
+	WebElement inputSearchElement;
 	
+	public WebElement searchItem() {
+		return inputSearchElement;
+	}
+	
+	@FindBy(css = "div[class='search_r_item list-group-item']")
+	List<WebElement> itemSearch;
+
+	public List<WebElement> searchElements() {
+		return itemSearch;
+	}
 	
 	
 }
