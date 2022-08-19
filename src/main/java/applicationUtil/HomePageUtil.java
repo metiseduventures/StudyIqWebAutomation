@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 
 import apiUtil.OtpUtil;
 import pageObject.HomePage_OR;
+import pojo.TestData;
 import util.Common_Function;
+import util.ConfigFileReader;
 
 public class HomePageUtil {
 
@@ -16,6 +19,7 @@ public class HomePageUtil {
 	public List<String> homePageMsgList = new ArrayList<String>();
 	public Common_Function cfObj = new Common_Function();
 	OtpUtil otpUtilObj;
+	ConfigFileReader fileReader = new ConfigFileReader();
 
 	public HomePageUtil(WebDriver driver) {
 
@@ -23,10 +27,12 @@ public class HomePageUtil {
 		PageFactory.initElements(driver, homePageORObj);
 	}
 
-	public boolean verifyLogin(WebDriver driver, String strMobileNumber) {
+	public boolean isUserAuth(WebDriver driver, TestData testData, String strMobileNumber) {
 		boolean result = true;
-		String strOtp = null;
-		try {
+		if (testData.getIsUserGuest() == true) {
+			verifySearch(driver, testData);
+		} 
+		else if (testData.getIsUserGuest() == false) {
 
 			// click on login/register button
 			result = clickOnLoginRegisterButton(driver);
@@ -34,9 +40,29 @@ public class HomePageUtil {
 				return result;
 			}
 
+			result = verifyLogin(driver, strMobileNumber);
+			if (!result) {
+				return result;
+			}
+			verifySearch(driver, testData);
+			if (!result) {
+				return result;
+			}
+		} 
+		else {
+			return false;
+		}
+		return result;
+	}
+
+	public boolean verifyLogin(WebDriver driver, String strMobileNumber) {
+		boolean result = true;
+		 String strOtp = null;
+		try {
+			//strMobileNumber = ConfigFileReader.strUserMobileNumber;	//Not needed but using
+			
 			// enter mobile number
 			result = enterMobileNumber(strMobileNumber);
-
 			if (result) {
 				return result;
 			}
@@ -59,8 +85,10 @@ public class HomePageUtil {
 				return result;
 			}
 
-			// Click on Continue button
+			
+			//Thread.sleep(18000);
 
+			// Click on Continue button
 			result = clickOnContinueButton();
 
 		} catch (Exception e) {
@@ -68,6 +96,22 @@ public class HomePageUtil {
 			homePageMsgList.add("verifyLogin_Exception: " + e.getMessage());
 		}
 
+		return result;
+	}
+
+	public boolean verifySearch(WebDriver driver, TestData testData) {
+		boolean result = true;
+		try {
+			// click on search button
+			result = searchItemOption(driver, testData.getCourseName());
+			if (!result) {
+				return result;
+			}
+
+		} catch (Exception e) {
+			result = false;
+			homePageMsgList.add("verifySearch_Exception: " + e.getMessage());
+		}
 		return result;
 	}
 
@@ -242,6 +286,27 @@ public class HomePageUtil {
 		} catch (Exception e) {
 			result = false;
 			homePageMsgList.add("enterEmail_Exception: " + e.getMessage());
+		}
+		return result;
+	}
+
+	public boolean searchItemOption(WebDriver driver, String strSearchItem) {
+		boolean result = true;
+		try {
+			homePageORObj.searchItem().sendKeys(strSearchItem);
+
+			List<WebElement> links = homePageORObj.searchElements();
+
+			for (int i = 0; i < links.size();) {
+				links.get(7).click();
+				break;
+			}
+
+			Thread.sleep(2000);
+
+		} catch (Exception e) {
+			result = false;
+			homePageMsgList.add("clickInputSearch_Exception: " + e.getMessage());
 		}
 		return result;
 	}
