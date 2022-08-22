@@ -29,10 +29,9 @@ public class HomePageUtil {
 
 	public boolean verifyLogin(WebDriver driver, String strMobileNumber) {
 		boolean result = true;
-		 String strOtp = null;
+		String strOtp = null;
 		try {
-			//strMobileNumber = ConfigFileReader.strUserMobileNumber;	//Not needed but using
-			
+		
 			// enter mobile number
 			result = enterMobileNumber(strMobileNumber);
 			if (result) {
@@ -40,12 +39,11 @@ public class HomePageUtil {
 			}
 
 			// click on get OTP
-
 			result = clickOnContinueButton();
-
 			if (!result) {
 				return result;
 			}
+
 			otpUtilObj = new OtpUtil();
 
 			strOtp = otpUtilObj.getOtp(strMobileNumber);
@@ -56,12 +54,13 @@ public class HomePageUtil {
 			if (!result) {
 				return result;
 			}
-
-			
 			//Thread.sleep(18000);
 
 			// Click on Continue button
 			result = clickOnContinueButton();
+			if (!result) {
+				return result;
+			}
 
 		} catch (Exception e) {
 			result = false;
@@ -270,12 +269,10 @@ public class HomePageUtil {
 			List<WebElement> links = homePageORObj.searchElements();
 
 			for (int i = 0; i < links.size();) {
-				links.get(7).click();
+				links.get(0).click();
+				Thread.sleep(18000);
 				break;
 			}
-
-			Thread.sleep(2000);
-
 		} catch (Exception e) {
 			result = false;
 			homePageMsgList.add("clickInputSearch_Exception: " + e.getMessage());

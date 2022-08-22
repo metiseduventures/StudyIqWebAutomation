@@ -195,10 +195,10 @@ public class CoursePage_OR {
 		return payStatus;
 	}
 	
-	@FindBy(css = "button[class='libray-btn btn btn-primary']")
+	@FindBy(xpath = "//button[normalize-space()='Go to My Library']")
 	WebElement libraryBtn;
 	
-	public WebElement libraryClick() {
+	public WebElement golibrary() {
 		return libraryBtn;
 	}
 	

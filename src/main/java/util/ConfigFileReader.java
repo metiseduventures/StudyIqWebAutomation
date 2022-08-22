@@ -10,8 +10,6 @@ public class ConfigFileReader {
 	public static String strEnv,strRunMode,strUserMobileNumber;
 	
 	static {
-		strEnv = System.getProperty("env");
-		strEnv = "dev";
 		strRunMode = System.getProperty("runMode");
 		strRunMode = "local";
 		strUserMobileNumber = System.getProperty("userMobileNumber");
@@ -23,7 +21,7 @@ public class ConfigFileReader {
 	public ConfigFileReader() {
 		BufferedReader reader;
 		String strPropertyPath = null;
-		//strEnv = System.getProperty("env");
+		strEnv = System.getProperty("env");
 		//strEnv = "dev";
 		
 		try {

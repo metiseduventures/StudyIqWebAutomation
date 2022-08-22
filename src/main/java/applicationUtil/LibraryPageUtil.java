@@ -28,12 +28,10 @@ public class LibraryPageUtil {
 		PageFactory.initElements(driver, libraryPage_OR);
 	}
 
-	public boolean verifyPuchasedCourseOnMyLibrary(WebDriver driver,TestData testData) {
+	public boolean verifyPuchasedCourseOnMyLibrary(WebDriver driver, TestData testData) {
 		boolean result = true;
 		try {
-			
-
-			result = verifyBoughtCourse_Logout(testData.getCourseName());
+			result = verifyBoughtCourse(testData.getCourseName());
 			if (!result) {
 				return result;
 			}
@@ -45,20 +43,15 @@ public class LibraryPageUtil {
 		return result;
 	}
 
-	public boolean verifyBoughtCourse_Logout(String searchCourseName) {
+	public boolean verifyBoughtCourse(String searchCourseName) {
 		boolean result = true;
 		coursePage_OR = new CoursePage_OR();
 		try {
-			
-			Thread.sleep(2000);
-			
-			String str[] = searchCourseName.split(" ");
-		
 			List<WebElement> linkCourses = libraryPage_OR.libraryTitles();
 			for (int i = 0; i < linkCourses.size(); i++) {
-				String courseInLibrary = linkCourses.get(i).getText();
-				Thread.sleep(2000);
-				if (courseInLibrary.contains(str[0])) {
+				String courseInLibrary = linkCourses.get(i).getText().toLowerCase();
+				Thread.sleep(1000);
+				if (courseInLibrary.contains(searchCourseName.toLowerCase())) {
 					return true;
 				}
 			}

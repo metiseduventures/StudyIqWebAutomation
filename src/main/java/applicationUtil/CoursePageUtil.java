@@ -33,41 +33,62 @@ public class CoursePageUtil {
 
 		try {
 
-			if (!testData.getIsUserGuest()) {
+			if (testData.getIsUserGuest() == true) {
+
+				result = util.verifySearch(driver, testData);
+				if (!result) {
+					coursePageMsgList.addAll(util.homePageMsgList);
+					return result;
+				}
+
+				result = verifyClickBuy(testData.getIsUserGuest(), driver);
+				if (!result) {
+					return result;
+				}
+				
 				result = util.verifyLogin(driver, ConfigFileReader.strUserMobileNumber);
 				if (!result) {
 					coursePageMsgList.addAll(util.homePageMsgList);
 					return result;
 				}
+
+				result = verifyClickBuy(testData.getIsUserGuest(), driver);
+				if (!result) {
+					return result;
+				}
+
+				result = verifyPackageCoupon_Library(driver, testData);
+				if (!result) {
+					return result;
+				}
+
 			}
 
-			result = util.verifySearch(driver, testData);
+			else {
 
-			if (!result) {
-				coursePageMsgList.addAll(util.homePageMsgList);
-				return result;
-			}
-			result = verifyClickBuy(testData.getIsUserGuest());
-			if (!result) {
-				return result;
-			}
+				// login new user
+				result = util.verifySignUp(driver);
+				if (!result) {
+					coursePageMsgList.addAll(util.homePageMsgList);
+					return result;
+				}
 
-			if (testData.getIsUserGuest()) {
-				// add login functionality
-			}
+				result = util.verifySearch(driver, testData);
+				if (!result) {
+					coursePageMsgList.addAll(util.homePageMsgList);
+					return result;
+				}
 
-			result = verifyProcessBuy(driver, testData);
-			if (!result) {
-				return result;
-			}
-			
-			// call goLibaray function
-			
-			librayUtilObj = new LibraryPageUtil(driver);
-			result = librayUtilObj.verifyPuchasedCourseOnMyLibrary(driver, testData);
-			if(!result)
-			{
-				coursePageMsgList.addAll(librayUtilObj.libraryPageMsgList);
+				result = verifyClickBuy(testData.getIsUserGuest(), driver);
+				if (!result) {
+					return result;
+				}
+
+				result = verifyPackageCoupon_Library(driver, testData);
+				if (!result) {
+					return result;
+				}
+
 			}
 
 		} catch (Exception e) {
@@ -77,7 +98,32 @@ public class CoursePageUtil {
 		return result;
 	}
 
-	public boolean verifyProcessBuy(WebDriver driver, TestData testData) {
+	public boolean verifyPackageCoupon_Library(WebDriver driver, TestData testData) {
+		boolean result = true;
+
+		// verify packages, coupon
+		result = verifyPackageCoupon(driver, testData);
+		if (!result) {
+			return result;
+		}
+
+		// call goLibaray function
+		result = goToLibrary();
+		if (!result) {
+			return result;
+		}
+		
+		// verify course
+		librayUtilObj = new LibraryPageUtil(driver);
+		result = librayUtilObj.verifyPuchasedCourseOnMyLibrary(driver, testData);
+		if (!result) {
+			coursePageMsgList.addAll(librayUtilObj.libraryPageMsgList);
+		}
+
+		return result;
+	}
+
+	public boolean verifyPackageCoupon(WebDriver driver, TestData testData) {
 		boolean result = true;
 		try {
 			result = verifyPackages(testData.getOfferName());
@@ -118,7 +164,7 @@ public class CoursePageUtil {
 		return result;
 	}
 
-	public boolean verifyClickBuy(boolean isGuestUSer) {
+	public boolean verifyClickBuy(boolean isGuestUser, WebDriver driver) {
 		boolean result = true;
 
 		try {
@@ -131,13 +177,6 @@ public class CoursePageUtil {
 				result = false;
 				coursePageMsgList.add("This is not buy now button");
 			}
-
-			if (isGuestUSer) {
-				// check for login pop up
-			} else {
-				// check buy now page
-			}
-
 		} catch (Exception e) {
 			result = false;
 			coursePageMsgList.add("click&VerifyBuyBtn_Exception: " + e.getMessage());
@@ -300,7 +339,7 @@ public class CoursePageUtil {
 			String actualPayStatus = coursePageORobj.statusPay().getText();
 
 			if (expectedPayStatus.equalsIgnoreCase(actualPayStatus)) {
-				coursePageORobj.libraryClick().click();
+				return true;
 			} else {
 				return false;
 			}
@@ -311,8 +350,18 @@ public class CoursePageUtil {
 		}
 		return result;
 	}
-	
+
 	// Add a function for do login on course detail page
-	
-	// click on goToLibary function
+
+	public boolean goToLibrary() {
+		boolean result = true;
+		try {
+			coursePageORobj.golibrary().click();
+
+		} catch (Exception e) {
+			result = false;
+			coursePageMsgList.add("Library Button not working " + e.getMessage());
+		}
+		return result;
+	}
 }

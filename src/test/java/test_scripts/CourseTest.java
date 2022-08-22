@@ -29,7 +29,7 @@ public class CourseTest extends BaseTest {
 		result = coursePageUtilObj.verifyCoursePurchase(driver, testData);
 		Assert.assertEquals(result, true, coursePageUtilObj.coursePageMsgList.toString());
 	}
-	
+
 	@SuppressWarnings("serial")
 	@DataProvider
 	public Object[][] getData() throws Exception {

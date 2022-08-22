@@ -2,7 +2,22 @@
   "dataSet" : [
   {
     "isUserGuest":true,
-    "courseName": "west bengal",
+    "courseName": "madhya",
+    "courseId" : "",
+    "paymentMethod" : "Paytm",
+    "couponCode": "MaggieMasala",
+    "offerName" : "Platinum",
+    "nameBill" : "Sahil",
+    "addressBill": "adarsh",
+    "zipBill": "3241123",
+    "cityBill": "barwala",
+    "stateBill":"indore",
+    "numberBill": "9872613831",
+    "emailBill": "sahil123@gmail.com"
+  },
+  {
+    "isUserGuest":true,
+    "courseName": "bihar",
     "courseId" : "",
     "paymentMethod" : "NetBank",
     "couponCode": "MaggieMasala",
@@ -16,8 +31,8 @@
     "emailBill": "shubh123@gmail.com"
   },
   {
-    "isUserGuest":true,
-    "courseName": "bihar",
+    "isUserGuest":false,
+    "courseName": "Jammu & Kashmir GK",
     "courseId" : "",
     "paymentMethod" : "NetBank",
     "couponCode": "MaggieMasala",
@@ -28,7 +43,7 @@
     "cityBill": "moahli",
     "stateBill":"punjab",
     "numberBill": "9872613831",
-    "emailBill": "guest123@gmail.com"
+    "emailBill": "rohit123@gmail.com"
   }
   ]
 }
