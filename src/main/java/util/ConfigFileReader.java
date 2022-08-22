@@ -11,7 +11,7 @@ public class ConfigFileReader {
 	
 	static {
 		strEnv = System.getProperty("env");
-		strEnv = "dev";
+		//strEnv = "dev";
 		strRunMode = System.getProperty("runMode");
 		strRunMode = "local";
 		strEnv = System.getProperty("env");
@@ -22,6 +22,7 @@ public class ConfigFileReader {
 
 	public ConfigFileReader() {
 		BufferedReader reader;
+		strEnv = "dev";
 		String strPropertyPath = null;
 		try {
 			if (strEnv.equalsIgnoreCase("staging")) {

@@ -60,7 +60,13 @@ public class HomePage_OR {
 	@FindBy(xpath  = "//input[@aria-label='name']")
 	private List<WebElement> listTextEmail;
 	
+	@FindBy(xpath="//*[@id=\"root\"]/div/div/div[3]/div[4]/div[2]/div[2]/div/div/div/div/div/div/img")
+	private List<WebElement> BestSelling_Button;
 	
+	
+	public  List<WebElement> getBestSelling_Button() {
+		return BestSelling_Button;
+	}
 	
 	
 }

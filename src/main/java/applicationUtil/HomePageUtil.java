@@ -245,5 +245,29 @@ public class HomePageUtil {
 		}
 		return result;
 	}
+	
+	public boolean clickOnBestSelling_Button(int index) {
+		boolean result = true;
+		try {
+	
+			boolean b1=homePageORObj.getBestSelling_Button().get(index).isDisplayed();
+			if (b1==true) {
+				homePageORObj.getBestSelling_Button().get(index).click();
+				Thread.sleep(2000);
+			}
+			else {
+				result=false;
+				homePageMsgList.add("BestSelling Button is not working");
+			}
+			
+
+		} catch (Exception e) {
+			result = false;
+			homePageMsgList.add("clickOnVerifyButton_Exception: " + e.getMessage());
+		}
+
+		return result;
+	}
+	
 
 }
