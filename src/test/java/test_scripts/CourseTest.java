@@ -15,17 +15,13 @@ import org.testng.*;
 
 import applicationUtil.CoursePageUtil;
 import pojo.TestData;
-import util.ConfigFileReader;
 
 public class CourseTest extends BaseTest {
 	CoursePageUtil coursePageUtilObj;
-	ConfigFileReader cfr = new ConfigFileReader();
-
 	@Test(dataProvider = "getData", enabled = true)
 	public void verifyCourseBuy(TestData testData) {
-		coursePageUtilObj = new CoursePageUtil(driver);
 		boolean result = true;
-
+		coursePageUtilObj = new CoursePageUtil(driver);
 		result = coursePageUtilObj.verifyCoursePurchase(driver, testData);
 		Assert.assertEquals(result, true, coursePageUtilObj.coursePageMsgList.toString());
 	}

@@ -31,7 +31,7 @@ public class HomePageUtil {
 		boolean result = true;
 		String strOtp = null;
 		try {
-		
+
 			// enter mobile number
 			result = enterMobileNumber(strMobileNumber);
 			if (result) {
@@ -46,15 +46,19 @@ public class HomePageUtil {
 
 			otpUtilObj = new OtpUtil();
 
-			strOtp = otpUtilObj.getOtp(strMobileNumber);
+			strOtp = otpUtilObj.getOtp(strMobileNumber, false);
 
+			if (strOtp == null) {
+				homePageMsgList.add("Error in getting otp");
+				return false;
+			}
 			// enter OTP
 			result = enterOtp(strOtp);
 
 			if (!result) {
 				return result;
 			}
-			//Thread.sleep(18000);
+			// Thread.sleep(18000);
 
 			// Click on Continue button
 			result = clickOnContinueButton();
@@ -196,7 +200,7 @@ public class HomePageUtil {
 			}
 			otpUtilObj = new OtpUtil();
 
-			strOtp = otpUtilObj.getOtp(strMobileNumber);
+			strOtp = otpUtilObj.getOtp(strMobileNumber, true);
 
 			// enter OTP
 			result = enterOtp(strOtp);
