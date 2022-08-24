@@ -50,7 +50,7 @@ public class HomePageUtil {
 			}
 			Thread.sleep(30000);
 			
-			/*otpUtilObj = new OtpUtil();
+			otpUtilObj = new OtpUtil();
 
 			strOtp = otpUtilObj.getOtp(strMobileNumber);
 
@@ -59,7 +59,7 @@ public class HomePageUtil {
 
 			if (!result) {
 				return result;
-			}*/
+			}
                 
 			// Click on Continue button
 

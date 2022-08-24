@@ -20,7 +20,7 @@ import util.ConfigFileReader;
 public class MyProfileTest extends BaseTest {
 
 	MyProfileUtil MyProfileUtilObj;
-	//HomePageUtil homeUtilObj;
+	
 	
 	@Test(dataProvider = "getData",enabled = true)
 	public void MyProfilePageFlow(TestData testData) throws InterruptedException {
