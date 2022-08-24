@@ -48,7 +48,9 @@ public class HomePageUtil {
 			if (!result) {
 				return result;
 			}
-			otpUtilObj = new OtpUtil();
+			Thread.sleep(30000);
+			
+			/*otpUtilObj = new OtpUtil();
 
 			strOtp = otpUtilObj.getOtp(strMobileNumber);
 
@@ -57,11 +59,16 @@ public class HomePageUtil {
 
 			if (!result) {
 				return result;
-			}
-
+			}*/
+                
 			// Click on Continue button
 
 			result = clickOnContinueButton();
+			if (!result) {
+				return result;
+			}
+			
+			Thread.sleep(5000);
 
 		} catch (Exception e) {
 			result = false;
@@ -152,6 +159,74 @@ public class HomePageUtil {
 
 		return result;
 	}
+	
+	public boolean verifyMyProfile(WebDriver driver) {
+		boolean result = true;
+		try {
+
+			// click on DropDown button
+			result = clickOnDropDown(driver);
+			if (!result) {
+				return result;
+			}
+
+			// click on My Profile button
+			result = clickOnMyProfile(driver);
+
+			if (result) {
+				return result;
+			}
+
+		} catch (Exception e) {
+			result = false;
+			homePageMsgList.add("verifyLogin_Exception: " + e.getMessage());
+		}
+
+		return result;
+	}
+	
+	public boolean clickOnDropDown(WebDriver driver) {
+		boolean result = true;
+		try {
+			cfObj.commonClick(homePageORObj.getDropDown_Button());
+
+			/*result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//*[@id=\\\"dropdown-basic-button\\\"]", "xpath", 30);
+			if (!result) {
+				homePageMsgList.add("DropDown is not Working");
+			}*/
+
+		} catch (Exception e) {
+			result = false;
+			homePageMsgList.add("clickOnDropDown_Exception: " + e.getMessage());
+		}
+
+		return result;
+	}
+	
+	public boolean clickOnMyProfile(WebDriver driver) {
+		boolean result = true;
+		try {
+             
+			boolean b1=homePageORObj.getMyProfile_Button().isDisplayed();
+			if (b1==true) {
+				homePageORObj.getMyProfile_Button().click();
+				Thread.sleep(2000);
+			}
+			else {
+				result=false;
+				homePageMsgList.add("My Profile Button is not Working");
+			}
+
+		} catch (Exception e) {
+			result = false;
+			homePageMsgList.add("clickOnVerifyButton_Exception: " + e.getMessage());
+		}
+
+		return result;
+	}
+	
+	
+	
 
 	public boolean verifySignUp(WebDriver driver) {
 		boolean result = true;

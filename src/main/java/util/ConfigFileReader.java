@@ -16,6 +16,7 @@ public class ConfigFileReader {
 		strRunMode = "local";
 		strEnv = System.getProperty("env");
 		strUserMobileNumber = System.getProperty("userMobileNumber");
+		strUserMobileNumber="9135442893";
 	}
 
 	private Properties properties;

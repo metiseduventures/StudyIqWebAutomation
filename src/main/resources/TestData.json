@@ -3,6 +3,11 @@
     "courseName": "",
     "courseId" : "",
     "paymentMethod" : "",
-    "couponCode" : ""
+    "couponCode" : "",
+    "YourName" :"Harsh Raj Sinha",
+    "YourCity" :"Gurgaon",
+    "YourAddress" :"Gurgaon,Haryana",
+    "YourState" :"Haryana",
+    "YourPinCode" :"122001"
   } ]
 }
