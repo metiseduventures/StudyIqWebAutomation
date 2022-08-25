@@ -11,12 +11,11 @@ public class ConfigFileReader {
 	
 	static {
 		strEnv = System.getProperty("env");
-		//strEnv = "dev";
+		strEnv = "dev";
 		strRunMode = System.getProperty("runMode");
 		strRunMode = "local";
 		strEnv = System.getProperty("env");
 		strUserMobileNumber = System.getProperty("userMobileNumber");
-		strUserMobileNumber="9135442893";
 	}
 
 	private Properties properties;

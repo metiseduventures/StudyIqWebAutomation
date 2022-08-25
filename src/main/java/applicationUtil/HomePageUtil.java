@@ -30,23 +30,21 @@ public class HomePageUtil {
 
 			// click on login/register button
 			result = clickOnLoginRegisterButton(driver);
-			if (!result) {
-				return result;
+			if (!result) { 
+				homePageMsgList.add(result+" Login/Register Button is not working");
 			}
 
 			// enter mobile number
 			result = enterMobileNumber(strMobileNumber);
-
-			if (result) {
-				return result;
+			if (result) { 
+				homePageMsgList.add(result+" Mobile Number Box is Not Working");
 			}
 
 			// click on get OTP
 
 			result = clickOnContinueButton();
-
 			if (!result) {
-				return result;
+				homePageMsgList.add(result+" Continue Button is Not working");
 			}
 			Thread.sleep(30000);
 			
@@ -58,21 +56,21 @@ public class HomePageUtil {
 			result = enterOtp(strOtp);
 
 			if (!result) {
-				return result;
+				  homePageMsgList.add(result+" OTP Box is not taking any Number");
 			}
                 
 			// Click on Continue button
 
+			Thread.sleep(3000);
 			result = clickOnContinueButton();
 			if (!result) {
-				return result;
+				homePageMsgList.add(result+" Verify Button is not Working");
 			}
 			
-			Thread.sleep(5000);
 
 		} catch (Exception e) {
 			result = false;
-			homePageMsgList.add("verifyLogin_Exception: " + e.getMessage());
+			homePageMsgList.add(" verifyLogin_Exception: " + e.getMessage());
 		}
 
 		return result;
@@ -167,14 +165,13 @@ public class HomePageUtil {
 			// click on DropDown button
 			result = clickOnDropDown(driver);
 			if (!result) {
-				return result;
+				homePageMsgList.add(result+"DropDown is not working");
 			}
 
 			// click on My Profile button
 			result = clickOnMyProfile(driver);
-
 			if (result) {
-				return result;
+				homePageMsgList.add(result+"My Profile Button is not working");
 			}
 
 		} catch (Exception e) {
@@ -189,11 +186,6 @@ public class HomePageUtil {
 		boolean result = true;
 		try {
 			cfObj.commonClick(homePageORObj.getDropDown_Button());
-
-			/*result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//*[@id=\\\"dropdown-basic-button\\\"]", "xpath", 30);
-			if (!result) {
-				homePageMsgList.add("DropDown is not Working");
-			}*/
 
 		} catch (Exception e) {
 			result = false;
@@ -210,7 +202,6 @@ public class HomePageUtil {
 			boolean b1=homePageORObj.getMyProfile_Button().isDisplayed();
 			if (b1==true) {
 				homePageORObj.getMyProfile_Button().click();
-				Thread.sleep(2000);
 			}
 			else {
 				result=false;

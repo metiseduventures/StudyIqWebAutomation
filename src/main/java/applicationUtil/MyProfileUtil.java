@@ -2,14 +2,9 @@ package applicationUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.Select;
-
 import pageObject.MyProfile_OR;
-import pojo.TestData;
 import util.Common_Function;
 import util.ConfigFileReader;
 
@@ -19,27 +14,31 @@ public class MyProfileUtil {
 	HomePageUtil homeUtilObj;
 	public List<String> MyProfileORobjMsgList = new ArrayList<String>();
 	public Common_Function cfObj = new Common_Function();
-	ConfigFileReader rConfigFileReader;
 	
 	public MyProfileUtil(WebDriver driver) {
 		MyProfileORobj = new MyProfile_OR();
 		PageFactory.initElements(driver, MyProfileORobj);
 	}
 	
-	public boolean verifyMyProfile_Page(WebDriver driver,TestData testData) {
+	public boolean verifyMyProfile_Page(WebDriver driver) {
 		boolean result = true;
 		try {
-			
 			homeUtilObj=new HomePageUtil(driver);
-			homeUtilObj.verifyLogin(driver, ConfigFileReader.strUserMobileNumber);
-			Thread.sleep(2000);
-			homeUtilObj.verifyMyProfile(driver);
+			result=homeUtilObj.verifyLogin(driver, ConfigFileReader.strUserMobileNumber);
+			if (!result) { 
+				MyProfileORobjMsgList.add(result+" Fail to Login/Register");
+			}
+			
+			
+			result=homeUtilObj.verifyMyProfile(driver);
+			if (!result) { 
+				MyProfileORobjMsgList.add(result+" Fail to Open My Profile");
+			}
 			
 			Thread.sleep(3000);
-			result = validateMyProfile_Page(testData.getYourName(), testData.getYourCity(),testData.getYourAddress(),
-					testData.getYourState(), testData.getYourPinCode());
+			result = validateMyProfile_Page();
 			if(!result) {
-				return result;
+				MyProfileORobjMsgList.add(result+" My Profile Page is not Validated ");
 			}
 			
 		} catch (Exception e) {
@@ -49,46 +48,41 @@ public class MyProfileUtil {
 		return result;
 	}
 	
-	public boolean validateMyProfile_Page(String Name,String City,String Address,String State,String Pincode) {
+	public boolean validateMyProfile_Page() {
 		boolean result = true;
 		try {
-			Thread.sleep(2000);
 			result=MyProfileORobj.getYourName_text().isDisplayed();
 			if (!result) {
 				MyProfileORobjMsgList.add("Your Name Title is not Available");
 			}
-			Thread.sleep(2000);
-			MyProfileORobj.getYourName_input().sendKeys(Name);;
-						
+			MyProfileORobj.getYourName_input().sendKeys("Harsh Raj Sinha");
+			
+			
 			result=MyProfileORobj.getYourCity_text().isDisplayed();
 			if (!result) {
 				MyProfileORobjMsgList.add("Your City Title is not Available");
 			}
-			Thread.sleep(2000);
-			MyProfileORobj.getYourCity_input().sendKeys(City);
+			MyProfileORobj.getYourCity_input().sendKeys("Gurgaon");
 			
 			
 			result=MyProfileORobj.getYourAddress_text().isDisplayed();
 			if (!result) {
 				MyProfileORobjMsgList.add("Your Address Title is not Available");
 			}
-			Thread.sleep(2000);
-			MyProfileORobj.getYourAddress_input().sendKeys(Address);;
+			MyProfileORobj.getYourAddress_input().sendKeys("Gurgaon,Haryana");;
 		
 			
 			result=MyProfileORobj.getYourState_text().isDisplayed();
 			if (!result) {
 				MyProfileORobjMsgList.add("Your State Title is not Available");
 			}
-			Thread.sleep(2000);
-			MyProfileORobj.getYourState_input().sendKeys(State);
+			MyProfileORobj.getYourState_input().sendKeys("Haryana");
 						
 			result=MyProfileORobj.getYourPinCode_text().isDisplayed();
 			if (!result) {
 				MyProfileORobjMsgList.add("Your PinCode Title is not Available");
 			}
-			Thread.sleep(2000);
-			MyProfileORobj.getYourPinCode_input().sendKeys(Pincode);;
+			MyProfileORobj.getYourPinCode_input().sendKeys("12201");;
 			
 			
 			boolean b1=MyProfileORobj.getUpdateProfile_button().isDisplayed();
