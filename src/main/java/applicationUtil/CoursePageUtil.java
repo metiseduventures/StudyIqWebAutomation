@@ -6,8 +6,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
-import org.testng.Assert;
-
 import pageObject.CoursePage_OR;
 import pojo.TestData;
 import util.Common_Function;
@@ -32,8 +30,14 @@ public class CoursePageUtil {
 		util = new HomePageUtil(driver);
 
 		try {
-
+			// for existing user
 			if (testData.getIsUserGuest() == true) {
+				
+				// handle the popup
+				int no = coursePageORobj.sizePopUp().size();
+				if (no > 0) {
+					coursePageORobj.popUpClose().click();
+				}
 
 				result = util.verifySearch(driver, testData);
 				if (!result) {
@@ -45,7 +49,7 @@ public class CoursePageUtil {
 				if (!result) {
 					return result;
 				}
-				
+
 				result = util.verifyLogin(driver, ConfigFileReader.strUserMobileNumber);
 				if (!result) {
 					coursePageMsgList.addAll(util.homePageMsgList);
@@ -57,16 +61,37 @@ public class CoursePageUtil {
 					return result;
 				}
 
-				result = verifyPackageCoupon_Library(driver, testData);
+				result = verifyPackages(testData.getOfferName());
+				if (!result) {
+					return result;
+				}
+
+				result = verifyClickOfferPromo(testData.getCouponCode());
+				if (!result) {
+					return result;
+				}
+
+				result = verifyPayCheckout(testData.getPaymentMethod(), driver, testData,
+						testData.getbankNameForPaytm());
+				if (!result) {
+					return result;
+				}
+
+				result = verifyLibraryCourse(driver, testData);
 				if (!result) {
 					return result;
 				}
 
 			}
-
+			// for new user
 			else {
 
-				// login new user
+				// handle the popup
+				int no = coursePageORobj.sizePopUp().size();
+				if (no > 0) {
+					coursePageORobj.popUpClose().click();
+				}
+
 				result = util.verifySignUp(driver);
 				if (!result) {
 					coursePageMsgList.addAll(util.homePageMsgList);
@@ -84,11 +109,26 @@ public class CoursePageUtil {
 					return result;
 				}
 
-				result = verifyPackageCoupon_Library(driver, testData);
+				result = verifyPackages(testData.getOfferName());
 				if (!result) {
 					return result;
 				}
 
+				result = verifyClickOfferPromo(testData.getCouponCode());
+				if (!result) {
+					return result;
+				}
+
+				result = verifyPayCheckout(testData.getPaymentMethod(), driver, testData,
+						testData.getbankNameForPaytm());
+				if (!result) {
+					return result;
+				}
+
+				result = verifyLibraryCourse(driver, testData);
+				if (!result) {
+					return result;
+				}
 			}
 
 		} catch (Exception e) {
@@ -98,70 +138,25 @@ public class CoursePageUtil {
 		return result;
 	}
 
-	public boolean verifyPackageCoupon_Library(WebDriver driver, TestData testData) {
+	public boolean verifyLibraryCourse(WebDriver driver, TestData testData) {
 		boolean result = true;
-
-		// verify packages, coupon
-		result = verifyPackageCoupon(driver, testData);
-		if (!result) {
-			return result;
-		}
 
 		// call goLibaray function
 		result = goToLibrary();
 		if (!result) {
 			return result;
 		}
-		
-		// verify course
+
+		// verify in library the course
 		librayUtilObj = new LibraryPageUtil(driver);
 		result = librayUtilObj.verifyPuchasedCourseOnMyLibrary(driver, testData);
 		if (!result) {
 			coursePageMsgList.addAll(librayUtilObj.libraryPageMsgList);
+			return result;
 		}
 
 		return result;
-	}
 
-	public boolean verifyPackageCoupon(WebDriver driver, TestData testData) {
-		boolean result = true;
-		try {
-			result = verifyPackages(testData.getOfferName());
-			if (!result) {
-				return result;
-			}
-
-			result = verifyClickOfferPromo(testData.getCouponCode());
-			if (!result) {
-				return result;
-			}
-
-			result = verifyPayCheckout(testData.getPaymentMethod());
-			if (!result) {
-				return result;
-			}
-
-			result = verifyBillingInfo(testData.getNameBill(), testData.getAddressBill(), testData.getZipBill(),
-					testData.getCityBill(), testData.getStateBill(), testData.getNumberBill(), testData.getEmailBill());
-			if (!result) {
-				return result;
-			}
-
-			result = verifyMerchantStatus();
-			if (!result) {
-				return result;
-			}
-
-			result = verifyPaymentStatus();
-			if (!result) {
-				return result;
-			}
-
-		} catch (Exception e) {
-			result = false;
-			coursePageMsgList.add("verifyBuy_Exception: " + e.getMessage());
-		}
-		return result;
 	}
 
 	public boolean verifyClickBuy(boolean isGuestUser, WebDriver driver) {
@@ -172,7 +167,6 @@ public class CoursePageUtil {
 
 			if (BuyText.equalsIgnoreCase("Buy Now")) {
 				coursePageORobj.buyNowClick().click();
-				Thread.sleep(2000);
 			} else {
 				result = false;
 				coursePageMsgList.add("This is not buy now button");
@@ -199,8 +193,12 @@ public class CoursePageUtil {
 				String bestValueTitleString = links.get(i).getText().toLowerCase();
 				String packageTitleString = packageTitleElement.getText().toLowerCase();
 
-				Assert.assertEquals(bestValueTitleString, packageTitleString);
-				Thread.sleep(2000);
+				if (bestValueTitleString.equalsIgnoreCase(packageTitleString)) {
+					result = true;
+				} else {
+					coursePageMsgList.add("The course offer given is not matching offer ");
+					return false;
+				}
 			}
 
 			// It clicks on the offer desired
@@ -211,6 +209,7 @@ public class CoursePageUtil {
 					return true;
 				}
 			}
+			coursePageMsgList.add("The offer is not present for this course");
 			result = false;
 
 		} catch (Exception e) {
@@ -223,21 +222,29 @@ public class CoursePageUtil {
 	public boolean verifyClickOfferPromo(String couponCode) {
 		boolean result = true;
 		try {
-			Thread.sleep(2000);
+
 			coursePageORobj.promoClick().click();
-			Thread.sleep(2000);
+
 			coursePageORobj.applyCode().click();
-			Thread.sleep(2000);
+
 			coursePageORobj.RApplyCodeClick().click();
-			Thread.sleep(2000);
+
 			coursePageORobj.promoClick().click();
-			Thread.sleep(2000);
+
 			coursePageORobj.inputCode().sendKeys(couponCode);
-			Thread.sleep(2000);
+
 			coursePageORobj.applyCodeMain().click();
-			Thread.sleep(2000);
-			coursePageORobj.buyNowMain().click();
-			Thread.sleep(2000);
+
+			if ((ConfigFileReader.strEnv).equalsIgnoreCase("dev")) {
+
+				result = true;
+				coursePageORobj.buyNowMain().click();
+
+			} else if ((ConfigFileReader.strEnv).equalsIgnoreCase("prod")) {
+
+				result = false;
+				coursePageMsgList.add("The prod is working fine and closes before payCheckOut");
+			}
 
 		} catch (Exception e) {
 			result = false;
@@ -246,23 +253,107 @@ public class CoursePageUtil {
 		return result;
 	}
 
-	public boolean verifyPayCheckout(String paymentMethod) {
+	public boolean verifyPayCheckout(String paymentMethod, WebDriver driver, TestData testData, String bankName) {
 		boolean result = true;
 		try {
 
 			coursePageORobj.viewDetails().click();
-			Thread.sleep(2000);
 
 			List<WebElement> links = coursePageORobj.payMethodClick();
+
 			for (int i = 0; i < links.size(); i++) {
+
 				String methodString = links.get(i).getText();
-				if (methodString.equalsIgnoreCase(paymentMethod)) {
+
+				if (methodString.equalsIgnoreCase(paymentMethod) && paymentMethod.equalsIgnoreCase("Netbank")) {
 					links.get(i).click();
+
+					result = verifyNetbankMethod(driver, testData);
+					if (!result) {
+						return result;
+					}
+				} else if (methodString.equalsIgnoreCase(paymentMethod) && paymentMethod.equalsIgnoreCase("Paytm")) {
+					links.get(i).click();
+
+					result = verifyPaytmMethod(driver, testData, bankName);
+					if (!result) {
+						return result;
+					}
+				} else if (methodString.equalsIgnoreCase(paymentMethod)) {
+					links.get(i).click();
+					verifyOtherPayMethods();
+				} else {
+					result = false;
 				}
 			}
+			if (!result) {
+				coursePageMsgList.add("There is no matching payment method found");
+				return false;
+			}
+
 		} catch (Exception e) {
 			result = false;
 			coursePageMsgList.add("Checkout_Exception: " + e.getMessage());
+		}
+		return result;
+	}
+
+	public boolean verifyNetbankMethod(WebDriver driver, TestData testData) {
+		boolean result = true;
+		try {
+
+			result = verifyBillingInfo(testData.getNameBill(), testData.getAddressBill(), testData.getZipBill(),
+					testData.getCityBill(), testData.getStateBill(), testData.getNumberBill(), testData.getEmailBill());
+			if (!result) {
+				return result;
+			}
+
+			result = verifyMerchantStatus();
+			if (!result) {
+				return result;
+			}
+
+			result = verifyPaymentStatus();
+			if (!result) {
+				return result;
+			}
+
+		} catch (Exception e) {
+			result = false;
+			coursePageMsgList.add("verifyNetbankMethod_Exception: " + e.getMessage());
+		}
+		return result;
+	}
+
+	public boolean verifyPaytmMethod(WebDriver driver, TestData testData, String bankNameFromUser) {
+		boolean result = true;
+		try {
+			coursePageORobj.netbankingInPaytm().click();
+			coursePageORobj.payBtnClick().click();
+			coursePageORobj.successInPaytm().click();
+
+			result = verifyPaymentStatus();
+			if (!result) {
+				return result;
+			}
+
+		} catch (Exception e) {
+			result = false;
+			coursePageMsgList.add("verifyPaytmMethod_Exception: " + e.getMessage());
+		}
+		return result;
+	}
+
+	public boolean verifyOtherPayMethods() {
+		boolean result = true;
+		try {
+
+			coursePageMsgList.add("The payment method is not working");
+			return false;
+
+		} catch (Exception e) {
+			result = false;
+			coursePageMsgList.add("verifyOtherPayMethod_Exception: " + e.getMessage());
 		}
 		return result;
 	}
@@ -273,39 +364,30 @@ public class CoursePageUtil {
 		try {
 			coursePageORobj.nameInfo().clear();
 			coursePageORobj.nameInfo().sendKeys(name);
-			Thread.sleep(2000);
 
 			coursePageORobj.addressInfo().clear();
 			coursePageORobj.addressInfo().sendKeys(address);
-			Thread.sleep(2000);
 
 			coursePageORobj.pincodeInfo().clear();
 			coursePageORobj.pincodeInfo().sendKeys(zip);
-			Thread.sleep(2000);
 
 			coursePageORobj.cityInfo().clear();
 			coursePageORobj.cityInfo().sendKeys(city);
-			Thread.sleep(2000);
 
 			coursePageORobj.stateInfo().clear();
 			coursePageORobj.stateInfo().sendKeys(state);
-			Thread.sleep(2000);
 
 			coursePageORobj.numberInfo().clear();
 			coursePageORobj.numberInfo().sendKeys(number);
-			Thread.sleep(2000);
 
 			coursePageORobj.emailInfo().clear();
 			coursePageORobj.emailInfo().sendKeys(email);
-			Thread.sleep(2000);
 
 			WebElement methods = coursePageORobj.bankMethods();
 			Select select = new Select(methods);
 			select.selectByIndex(1);
-			Thread.sleep(2000);
 
 			coursePageORobj.payClick().click();
-			Thread.sleep(2000);
 
 		} catch (Exception e) {
 			result = false;
@@ -350,8 +432,6 @@ public class CoursePageUtil {
 		}
 		return result;
 	}
-
-	// Add a function for do login on course detail page
 
 	public boolean goToLibrary() {
 		boolean result = true;

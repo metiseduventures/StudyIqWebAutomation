@@ -209,4 +209,40 @@ public class CoursePage_OR {
 		return loginRegisterBox;
 	}
 	
+	@FindBy(xpath = "(//div[contains(@class,'_202C d-block po-n o-h pos-r')])[3]")
+	WebElement netBankElement;
+	
+	public WebElement netbankingInPaytm() {
+		return netBankElement;
+	}
+	
+	@FindBy(css = ".btn.btn-primary.w100.pos-r._2fNU")
+	WebElement payBtn;
+	
+	public WebElement payBtnClick() {
+		return payBtn;
+	}
+	
+	@FindBy(xpath = "//button[@class='btn btnd']")
+	WebElement successBtnInPaytm;
+	
+	public WebElement successInPaytm() {
+		return successBtnInPaytm;
+	}
+	
+	@FindBy(xpath = "//div[@class='modal-content']")
+	List<WebElement> popUps;
+	
+	public List<WebElement> sizePopUp() {
+		return popUps;
+	}
+	
+	@FindBy(xpath = "//img[@class='close_img']")
+	WebElement popupClose;
+	
+	public WebElement popUpClose() {
+		return popupClose;
+	}
+	
+	
 }

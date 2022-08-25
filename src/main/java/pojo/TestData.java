@@ -17,6 +17,16 @@ public class TestData {
 	private String stateBill;
 	private String numberBill;
 	private String emailBill;
+	
+	private String bankNameForPaytm;
+
+	public String getbankNameForPaytm() {
+		return bankNameForPaytm;
+	}
+
+	public void setbankNameForPaytm(String bankNameForPaytm) {
+		this.bankNameForPaytm = bankNameForPaytm;
+	}
 
 	public boolean getIsUserGuest() {
 		return isUserGuest;

@@ -50,7 +50,6 @@ public class LibraryPageUtil {
 			List<WebElement> linkCourses = libraryPage_OR.libraryTitles();
 			for (int i = 0; i < linkCourses.size(); i++) {
 				String courseInLibrary = linkCourses.get(i).getText().toLowerCase();
-				Thread.sleep(1000);
 				if (courseInLibrary.contains(searchCourseName.toLowerCase())) {
 					return true;
 				}

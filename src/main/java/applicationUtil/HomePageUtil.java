@@ -273,7 +273,7 @@ public class HomePageUtil {
 			List<WebElement> links = homePageORObj.searchElements();
 
 			for (int i = 0; i < links.size();) {
-				links.get(0).click();
+				links.get(1).click();
 				Thread.sleep(18000);
 				break;
 			}

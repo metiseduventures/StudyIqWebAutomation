@@ -13,7 +13,7 @@ public class ConfigFileReader {
 		strRunMode = System.getProperty("runMode");
 		strRunMode = "local";
 		strUserMobileNumber = System.getProperty("userMobileNumber");
-		strUserMobileNumber = "9958544199";
+		strUserMobileNumber = "9878252339";
 	}
 
 	private Properties properties;
@@ -22,7 +22,7 @@ public class ConfigFileReader {
 		BufferedReader reader;
 		String strPropertyPath = null;
 		strEnv = System.getProperty("env");
-		strEnv = "prod";
+		strEnv = "prod";			
 		
 		try {
 			if (strEnv.equalsIgnoreCase("staging")) {
