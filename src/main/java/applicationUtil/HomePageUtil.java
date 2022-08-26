@@ -216,6 +216,51 @@ public class HomePageUtil {
 		return result;
 	}
 	
+	public boolean verifyMyLibrary(WebDriver driver) {
+		boolean result = true;
+		try {
+
+			// click on DropDown button
+			result = clickOnDropDown(driver);
+			if (!result) {
+				homePageMsgList.add(result+"DropDown is not working");
+			}
+
+			// click on My Library button
+			result = clickOnMyLibrary(driver);
+			if (result) {
+				homePageMsgList.add(result+"My Library Button is not working");
+			}
+
+		} catch (Exception e) {
+			result = false;
+			homePageMsgList.add("verifyLogin_Exception: " + e.getMessage());
+		}
+
+		return result;
+	}
+	
+	public boolean clickOnMyLibrary(WebDriver driver) {
+		boolean result = true;
+		try {
+             
+			boolean b1=homePageORObj.getMyLibrary_Button().isDisplayed();
+			if (b1==true) {
+				homePageORObj.getMyLibrary_Button().click();
+			}
+			else {
+				result=false;
+				homePageMsgList.add("My Library Button is not Working");
+			}
+
+		} catch (Exception e) {
+			result = false;
+			homePageMsgList.add("clickOnVerifyButton_Exception: " + e.getMessage());
+		}
+
+		return result;
+	}
+	
 	
 	
 
