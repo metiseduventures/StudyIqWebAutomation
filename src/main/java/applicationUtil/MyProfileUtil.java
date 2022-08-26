@@ -29,13 +29,10 @@ public class MyProfileUtil {
 				MyProfileORobjMsgList.add(result+" Fail to Login/Register");
 			}
 			
-			
 			result=homeUtilObj.verifyMyProfile(driver);
 			if (!result) { 
 				MyProfileORobjMsgList.add(result+" Fail to Open My Profile");
 			}
-			
-			Thread.sleep(3000);
 			result = validateMyProfile_Page();
 			if(!result) {
 				MyProfileORobjMsgList.add(result+" My Profile Page is not Validated ");
