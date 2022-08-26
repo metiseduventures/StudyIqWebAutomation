@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 
 import apiUtil.OtpUtil;
 import pageObject.HomePage_OR;
+import pojo.TestData;
 import util.Common_Function;
+import util.ConfigFileReader;
 
 public class HomePageUtil {
 
@@ -16,6 +19,7 @@ public class HomePageUtil {
 	public List<String> homePageMsgList = new ArrayList<String>();
 	public Common_Function cfObj = new Common_Function();
 	OtpUtil otpUtilObj;
+	ConfigFileReader fileReader = new ConfigFileReader();
 
 	public HomePageUtil(WebDriver driver) {
 
@@ -28,46 +32,61 @@ public class HomePageUtil {
 		String strOtp = null;
 		try {
 
-			// click on login/register button
-			result = clickOnLoginRegisterButton(driver);
-			if (!result) {
-				return result;
-			}
-
 			// enter mobile number
 			result = enterMobileNumber(strMobileNumber);
-
 			if (result) {
 				return result;
 			}
 
 			// click on get OTP
-
 			result = clickOnContinueButton();
-
 			if (!result) {
 				return result;
 			}
+
 			otpUtilObj = new OtpUtil();
 
-			strOtp = otpUtilObj.getOtp(strMobileNumber);
+			strOtp = otpUtilObj.getOtp(strMobileNumber, false);
 
+			if (strOtp == null) {
+				homePageMsgList.add("Error in getting otp");
+				return false;
+			}
 			// enter OTP
 			result = enterOtp(strOtp);
 
 			if (!result) {
 				return result;
 			}
+			// Thread.sleep(18000);
 
 			// Click on Continue button
-
 			result = clickOnContinueButton();
+			if (!result) {
+				return result;
+			}
 
 		} catch (Exception e) {
 			result = false;
 			homePageMsgList.add("verifyLogin_Exception: " + e.getMessage());
 		}
 
+		return result;
+	}
+
+	public boolean verifySearch(WebDriver driver, TestData testData) {
+		boolean result = true;
+		try {
+			// click on search button
+			result = searchItemOption(driver, testData.getCourseName());
+			if (!result) {
+				return result;
+			}
+
+		} catch (Exception e) {
+			result = false;
+			homePageMsgList.add("verifySearch_Exception: " + e.getMessage());
+		}
 		return result;
 	}
 
@@ -181,7 +200,7 @@ public class HomePageUtil {
 			}
 			otpUtilObj = new OtpUtil();
 
-			strOtp = otpUtilObj.getOtp(strMobileNumber);
+			strOtp = otpUtilObj.getOtp(strMobileNumber, true);
 
 			// enter OTP
 			result = enterOtp(strOtp);
@@ -242,6 +261,25 @@ public class HomePageUtil {
 		} catch (Exception e) {
 			result = false;
 			homePageMsgList.add("enterEmail_Exception: " + e.getMessage());
+		}
+		return result;
+	}
+
+	public boolean searchItemOption(WebDriver driver, String strSearchItem) {
+		boolean result = true;
+		try {
+			homePageORObj.searchItem().sendKeys(strSearchItem);
+
+			List<WebElement> links = homePageORObj.searchElements();
+
+			for (int i = 0; i < links.size();) {
+				links.get(1).click();
+				Thread.sleep(18000);
+				break;
+			}
+		} catch (Exception e) {
+			result = false;
+			homePageMsgList.add("clickInputSearch_Exception: " + e.getMessage());
 		}
 		return result;
 	}
