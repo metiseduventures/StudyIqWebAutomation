@@ -32,14 +32,14 @@ public class CoursePageUtil {
 		try {
 			// for existing user
 			if (testData.getIsUserGuest() == true) {
-				
+
 				// handle the popup
 				int no = coursePageORobj.sizePopUp().size();
 				if (no > 0) {
 					coursePageORobj.popUpClose().click();
 				}
 
-				result = util.verifySearch(driver, testData);
+				result = util.clickOnCourseOnHomePage(driver);
 				if (!result) {
 					coursePageMsgList.addAll(util.homePageMsgList);
 					return result;
@@ -50,9 +50,14 @@ public class CoursePageUtil {
 					return result;
 				}
 
-				result = util.verifyLogin(driver, ConfigFileReader.strUserMobileNumber);
+				result = util.verifySignUp(driver);
 				if (!result) {
 					coursePageMsgList.addAll(util.homePageMsgList);
+					return result;
+				}
+
+				result = selectExamPrefrences(driver);
+				if (!result) {
 					return result;
 				}
 
@@ -86,7 +91,7 @@ public class CoursePageUtil {
 			// for new user
 			else {
 
-				// handle the popup
+				// handle the pop up
 				int no = coursePageORobj.sizePopUp().size();
 				if (no > 0) {
 					coursePageORobj.popUpClose().click();
@@ -98,9 +103,14 @@ public class CoursePageUtil {
 					return result;
 				}
 
-				result = util.verifySearch(driver, testData);
+				result = util.clickOnCourseOnHomePage(driver);
 				if (!result) {
 					coursePageMsgList.addAll(util.homePageMsgList);
+					return result;
+				}
+
+				result = selectExamPrefrences(driver);
+				if (!result) {
 					return result;
 				}
 
@@ -440,8 +450,37 @@ public class CoursePageUtil {
 
 		} catch (Exception e) {
 			result = false;
-			coursePageMsgList.add("Library Button not working " + e.getMessage());
+			coursePageMsgList.add("goToLibrary_Exception" + e.getMessage());
 		}
+		return result;
+	}
+
+	public boolean selectExamPrefrences(WebDriver driver) {
+		boolean result = true;
+		try {
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "cdp-exam-categories-modal", "id", 30);
+			if (result) {
+				if (cfObj.commonGetElements(driver, ".cdp-exam-category", "css").size() == 0) {
+
+				} else {
+					// Select category
+
+					cfObj.commonClick(cfObj.commonGetElements(driver, ".cdp-exam-category", "css").get(0));
+
+					// click on submit button
+
+					cfObj.commonClick(cfObj.commonGetElement(driver, "div.modal-footer>button", "css"));
+				}
+
+			} else {
+				result = true;
+			}
+
+		} catch (Exception e) {
+			result = false;
+			coursePageMsgList.add("selectExamPrefrences_Exception" + e.getMessage());
+		}
+
 		return result;
 	}
 }

@@ -187,10 +187,9 @@ public class HomePageUtil {
 			// enter mobile number
 			result = enterMobileNumber(strMobileNumber);
 
-			if (result) {
+			if (!result) {
 				return result;
 			}
-
 			// click on get OTP
 
 			result = clickOnContinueButton();
@@ -211,7 +210,7 @@ public class HomePageUtil {
 
 			// Enter name
 
-			result = enterName("Test" + strMobileNumber);
+			result = enterName("Test");
 
 			if (!result) {
 				return result;
@@ -268,18 +267,40 @@ public class HomePageUtil {
 	public boolean searchItemOption(WebDriver driver, String strSearchItem) {
 		boolean result = true;
 		try {
-			homePageORObj.searchItem().sendKeys(strSearchItem);
+			cfObj.commonSetTextTextBox(homePageORObj.searchItem(), strSearchItem);
 
 			List<WebElement> links = homePageORObj.searchElements();
 
 			for (int i = 0; i < links.size();) {
-				links.get(1).click();
-				Thread.sleep(18000);
+				links.get(i).click();
 				break;
 			}
 		} catch (Exception e) {
 			result = false;
 			homePageMsgList.add("clickInputSearch_Exception: " + e.getMessage());
+		}
+		return result;
+	}
+
+	public boolean clickOnCourseOnHomePage(WebDriver driver) {
+		boolean result = true;
+		try {
+			if (homePageORObj.getListCourse().size() == 0) {
+				homePageMsgList.add("Courses are not display on the home page");
+				return false;
+			}
+			// Select first course
+			cfObj.commonClick(homePageORObj.getListCourse().get(0));
+			// wait for course detail page to be opened
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".course_basic_info_wrapper", "css", 0);
+			if (!result) {
+				homePageMsgList.add("Course detail page not opened");
+				return result;
+			}
+
+		} catch (Exception e) {
+			result = false;
+			homePageMsgList.add("clickOnCourseOnHomePage_Exception: " + e.getMessage());
 		}
 		return result;
 	}

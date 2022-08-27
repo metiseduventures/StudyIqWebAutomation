@@ -46,7 +46,7 @@ public class HomePage_OR {
 		return listTextEmail;
 	}
 
-	@FindBy(xpath = "//input[@aria-label='name']")
+	@FindBy(xpath = "//input[@aria-label='email']")
 	private List<WebElement> listTextEmail;
 
 	@FindBy(css = "input[placeholder='What do you want to learn?']")
@@ -61,6 +61,13 @@ public class HomePage_OR {
 
 	public List<WebElement> searchElements() {
 		return itemSearch;
+	}
+	
+	@FindBy(css = ".course_details")
+	List<WebElement> listCourse;
+
+	public List<WebElement> getListCourse() {
+		return listCourse;
 	}
 
 }
