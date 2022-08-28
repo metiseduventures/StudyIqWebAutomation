@@ -46,7 +46,6 @@ public class HomePageUtil {
 			if (!result) {
 				homePageMsgList.add(result+" Continue Button is Not working");
 			}
-			Thread.sleep(30000);
 			
 			otpUtilObj = new OtpUtil();
 
@@ -61,7 +60,7 @@ public class HomePageUtil {
                 
 			// Click on Continue button
 
-			Thread.sleep(3000);
+		
 			result = clickOnContinueButton();
 			if (!result) {
 				homePageMsgList.add(result+" Verify Button is not Working");
@@ -364,7 +363,7 @@ public class HomePageUtil {
 			boolean b1=homePageORObj.getBestSelling_Button().get(index).isDisplayed();
 			if (b1==true) {
 				homePageORObj.getBestSelling_Button().get(index).click();
-				Thread.sleep(2000);
+				
 			}
 			else {
 				result=false;

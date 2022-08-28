@@ -34,7 +34,7 @@ public class MyLibraryUtil {
 				 MyLibraryMsgList.add(result+" Fail to Open My Library");
 			}
 			
-			Thread.sleep(3000);
+			
 			result = validateMyLibrary_Page(driver);
 			if(!result) {
 				 MyLibraryMsgList.add(result+" My Library Page is not Validated ");
@@ -63,7 +63,7 @@ public class MyLibraryUtil {
 				MyLibraryMsgList.add("Micro Course is Not Available");
 			}
 			  
-		  Thread.sleep(3000);		  
+			  
 			
 		} catch (Exception e) {
 			result = false;
