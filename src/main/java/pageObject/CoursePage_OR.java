@@ -292,18 +292,4 @@ public class CoursePage_OR {
 	public WebElement totalAmountCheckout() {
 		return totalAmountCheckoutElement;
 	}
-	
-	@FindBy(xpath = "(//div[@class='modal-content'])[1]")
-	List<WebElement> popupChooseExam;
-	
-	public List<WebElement> chooseExamPops(){
-		return popupChooseExam;
-	}
-	
-	@FindBy(xpath = "//button[@class='btn btn-link']//*[name()='svg']")
-	WebElement closeChooseExamPop;
-	
-	public WebElement chooseExamPopClose() {
-		return closeChooseExamPop;
-	}
 }

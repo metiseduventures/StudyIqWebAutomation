@@ -17,7 +17,7 @@ public class CoursePageUtil {
 	public List<String> coursePageMsgList = new ArrayList<String>();
 	public Common_Function cfObj = new Common_Function();
 	ConfigFileReader rConfigFileReader;
-	HomePageUtil homePageUtil;
+	HomePageUtil util;
 	LibraryPageUtil librayUtilObj;
 
 	public CoursePageUtil(WebDriver driver) {
@@ -27,7 +27,7 @@ public class CoursePageUtil {
 
 	public boolean verifyCoursePurchase(WebDriver driver, TestData testData) {
 		boolean result = true;
-		homePageUtil = new HomePageUtil(driver);
+		util = new HomePageUtil(driver);
 
 		try {
 			// for existing user
@@ -39,27 +39,26 @@ public class CoursePageUtil {
 					cfObj.commonClick(coursePageORobj.startWindowpopUpClose());
 				}
 
-				result = homePageUtil.verifySearch(driver, testData);
+				result = util.clickOnCourseOnHomePage(driver);
 				if (!result) {
-					coursePageMsgList.addAll(homePageUtil.homePageMsgList);
+					coursePageMsgList.addAll(util.homePageMsgList);
 					return result;
 				}
-
+				
 				result = verifyClickBuy(testData.getIsUserGuest(), driver);
 				if (!result) {
 					return result;
 				}
 
-				result = homePageUtil.verifyLogin(driver, ConfigFileReader.strUserMobileNumber);
+				result = util.verifySignUp(driver);
 				if (!result) {
-					coursePageMsgList.addAll(homePageUtil.homePageMsgList);
+					coursePageMsgList.addAll(util.homePageMsgList);
 					return result;
 				}
-				
-				//choose exam category pop up
-				int noChooseExamPop = coursePageORobj.chooseExamPops().size();
-				if (noChooseExamPop > 0) {
-					cfObj.commonClick(coursePageORobj.chooseExamPopClose());
+
+				result = selectExamPrefrences(driver);
+				if (!result) {
+					return result;
 				}
 
 				result = verifyClickBuy(testData.getIsUserGuest(), driver);
@@ -113,22 +112,21 @@ public class CoursePageUtil {
 					cfObj.commonClick(coursePageORobj.startWindowpopUpClose());
 				}
 
-				result = homePageUtil.verifySignUp(driver);
+				result = util.verifySignUp(driver);
 				if (!result) {
-					coursePageMsgList.addAll(homePageUtil.homePageMsgList);
+					coursePageMsgList.addAll(util.homePageMsgList);
 					return result;
 				}
 
-				result = homePageUtil.verifySearch(driver, testData);
+				result = util.clickOnCourseOnHomePage(driver);
 				if (!result) {
-					coursePageMsgList.addAll(homePageUtil.homePageMsgList);
+					coursePageMsgList.addAll(util.homePageMsgList);
 					return result;
 				}
-				
-				//choose exam category pop up
-				int noChooseExamPop = coursePageORobj.chooseExamPops().size();
-				if (noChooseExamPop > 0) {
-					cfObj.commonClick(coursePageORobj.chooseExamPopClose());
+
+				result = selectExamPrefrences(driver);
+				if (!result) {
+					return result;
 				}
 
 				result = verifyClickBuy(testData.getIsUserGuest(), driver);
@@ -543,5 +541,34 @@ public class CoursePageUtil {
 		}
 		Double amountMain = Double.parseDouble(amnt);
 		return amountMain;
+	}
+	
+	public boolean selectExamPrefrences(WebDriver driver) {
+		boolean result = true;
+		try {
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "cdp-exam-categories-modal", "id", 30);
+			if (result) {
+				if (cfObj.commonGetElements(driver, ".cdp-exam-category", "css").size() == 0) {
+
+				} else {
+					// Select category
+
+					cfObj.commonClick(cfObj.commonGetElements(driver, ".cdp-exam-category", "css").get(0));
+
+					// click on submit button
+
+					cfObj.commonClick(cfObj.commonGetElement(driver, "div.modal-footer>button", "css"));
+				}
+
+			} else {
+				result = true;
+			}
+
+		} catch (Exception e) {
+			result = false;
+			coursePageMsgList.add("selectExamPrefrences_Exception" + e.getMessage());
+		}
+
+		return result;
 	}
 }

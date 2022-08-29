@@ -62,5 +62,12 @@ public class HomePage_OR {
 	public List<WebElement> searchElements() {
 		return itemSearch;
 	}
+	
+	@FindBy(css = ".course_details")
+	List<WebElement> listCourse;
+
+	public List<WebElement> getListCourse() {
+		return listCourse;
+	}
 
 }
