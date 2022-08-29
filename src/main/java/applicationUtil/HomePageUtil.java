@@ -34,7 +34,7 @@ public class HomePageUtil {
 
 			// enter mobile number
 			result = enterMobileNumber(strMobileNumber);
-			if (result) {
+			if (!result) {
 				return result;
 			}
 
@@ -52,6 +52,7 @@ public class HomePageUtil {
 				homePageMsgList.add("Error in getting otp");
 				return false;
 			}
+			
 			// enter OTP
 			result = enterOtp(strOtp);
 
@@ -268,13 +269,14 @@ public class HomePageUtil {
 	public boolean searchItemOption(WebDriver driver, String strSearchItem) {
 		boolean result = true;
 		try {
-			homePageORObj.searchItem().sendKeys(strSearchItem);
+			cfObj.commonSetTextTextBox(homePageORObj.searchItem(), strSearchItem);
 
 			List<WebElement> links = homePageORObj.searchElements();
 
 			for (int i = 0; i < links.size();) {
-				links.get(1).click();
-				Thread.sleep(18000);
+				cfObj.commonClick(links.get(0));
+
+				Thread.sleep(20000);
 				break;
 			}
 		} catch (Exception e) {
