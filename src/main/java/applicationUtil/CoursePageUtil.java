@@ -36,7 +36,7 @@ public class CoursePageUtil {
 				// handle the popup
 				int no = coursePageORobj.startWindowPopUp().size();
 				if (no > 0) {
-					cfObj.commonClick(coursePageORobj.startWindowpopUpClose());
+					coursePageORobj.startWindowpopUpClose().click();
 				}
 
 				result = util.clickOnCourseOnHomePage(driver);
@@ -44,7 +44,7 @@ public class CoursePageUtil {
 					coursePageMsgList.addAll(util.homePageMsgList);
 					return result;
 				}
-				
+
 				result = verifyClickBuy(testData.getIsUserGuest(), driver);
 				if (!result) {
 					return result;
@@ -65,7 +65,6 @@ public class CoursePageUtil {
 				if (!result) {
 					return result;
 				}
-
 				result = verifyPackages();
 				if (!result) {
 					return result;
