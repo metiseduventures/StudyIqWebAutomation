@@ -34,9 +34,9 @@ public class CoursePageUtil {
 			if (testData.getIsUserGuest() == true) {
 
 				// handle the popup
-				int no = coursePageORobj.startWindowPopUp().size();
+				int no = coursePageORobj.sizePopUp().size();
 				if (no > 0) {
-					coursePageORobj.startWindowpopUpClose().click();
+					coursePageORobj.popUpClose().click();
 				}
 
 				result = util.clickOnCourseOnHomePage(driver);
@@ -45,7 +45,7 @@ public class CoursePageUtil {
 					return result;
 				}
 
-				result = verifyClickBuy(testData.getIsUserGuest(), driver);
+				result = verifyClickBuy();
 				if (!result) {
 					return result;
 				}
@@ -61,7 +61,7 @@ public class CoursePageUtil {
 					return result;
 				}
 
-				result = verifyClickBuy(testData.getIsUserGuest(), driver);
+				result = verifyClickBuy();
 				if (!result) {
 					return result;
 				}
@@ -106,9 +106,9 @@ public class CoursePageUtil {
 			else {
 
 				// handle the popup
-				int no = coursePageORobj.startWindowPopUp().size();
+				int no = coursePageORobj.sizePopUp().size();
 				if (no > 0) {
-					cfObj.commonClick(coursePageORobj.startWindowpopUpClose());
+					coursePageORobj.popUpClose().click();
 				}
 
 				result = util.verifySignUp(driver);
@@ -128,7 +128,7 @@ public class CoursePageUtil {
 					return result;
 				}
 
-				result = verifyClickBuy(testData.getIsUserGuest(), driver);
+				result = verifyClickBuy();
 				if (!result) {
 					return result;
 				}
@@ -199,7 +199,7 @@ public class CoursePageUtil {
 
 	}
 
-	public boolean verifyClickBuy(boolean isGuestUser, WebDriver driver) {
+	public boolean verifyClickBuy() {
 		boolean result = true;
 
 		try {
@@ -523,25 +523,6 @@ public class CoursePageUtil {
 		return result;
 	}
 
-	public Double amountCorrectFormat(String str) {
-		int index = 0;
-		for (int k = 0; k < str.length(); k++) {
-			if (str.charAt(k) >= 48 && str.charAt(k) <= 57) {
-				index = k;
-				break;
-			}
-		}
-
-		String[] arr = str.substring(index).split(",");
-		String amnt = "";
-
-		for (int m = 0; m < arr.length; m++) {
-			amnt = amnt + arr[m];
-		}
-		Double amountMain = Double.parseDouble(amnt);
-		return amountMain;
-	}
-	
 	public boolean selectExamPrefrences(WebDriver driver) {
 		boolean result = true;
 		try {
@@ -569,5 +550,24 @@ public class CoursePageUtil {
 		}
 
 		return result;
+	}
+
+	public Double amountCorrectFormat(String str) {
+		int index = 0;
+		for (int k = 0; k < str.length(); k++) {
+			if (str.charAt(k) >= 48 && str.charAt(k) <= 57) {
+				index = k;
+				break;
+			}
+		}
+
+		String[] arr = str.substring(index).split(",");
+		String amnt = "";
+
+		for (int m = 0; m < arr.length; m++) {
+			amnt = amnt + arr[m];
+		}
+		Double amountMain = Double.parseDouble(amnt);
+		return amountMain;
 	}
 }

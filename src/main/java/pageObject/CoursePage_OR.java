@@ -233,14 +233,14 @@ public class CoursePage_OR {
 	@FindBy(xpath = "//div[@class='modal-content']")
 	List<WebElement> popUps;
 	
-	public List<WebElement> startWindowPopUp() {
+	public List<WebElement> sizePopUp() {
 		return popUps;
 	}
 	
 	@FindBy(xpath = "//img[@class='close_img']")
 	WebElement startWindowpopupClose;
 	
-	public WebElement startWindowpopUpClose() {
+	public WebElement popUpClose() {
 		return startWindowpopupClose;
 	}
 	
