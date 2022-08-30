@@ -35,12 +35,14 @@ public class MyProfileUtil {
 				MyProfileORobjMsgList.add(result+" Fail to Open My Profile");
 			}
 			
-			Thread.sleep(3000);
-			result = validateMyProfile_Page();
+			result = validateMyProfile_Page(driver);
 			if(!result) {
 				MyProfileORobjMsgList.add(result+" My Profile Page is not Validated ");
 			}
-			
+			result=clickOnUpdateprofile();
+			if(!result) {
+				MyProfileORobjMsgList.add(result+" Update Profile Button is not Working");
+			}
 		} catch (Exception e) {
 			result = false;
 			MyProfileORobjMsgList.add("verifyMyProfile_Page_Exception: " + e.getMessage());
@@ -48,56 +50,69 @@ public class MyProfileUtil {
 		return result;
 	}
 	
-	public boolean validateMyProfile_Page() {
+	public boolean validateMyProfile_Page(WebDriver driver) {
 		boolean result = true;
 		try {
-			result=MyProfileORobj.getYourName_text().isDisplayed();
+			result=cfObj.commonWaitForElementToBeVisible(driver,MyProfileORobj.getYourName_text(),20);
 			if (!result) {
 				MyProfileORobjMsgList.add("Your Name Title is not Available");
 			}
-			MyProfileORobj.getYourName_input().sendKeys("Harsh Raj Sinha");
+			result = cfObj.commonSetTextTextBox(MyProfileORobj.getYourName_input(),"Harsh Raj Sinha");
+			if (!result) {
+				MyProfileORobjMsgList.add("Your_Name input is not Working");
+			}
 			
-			
-			result=MyProfileORobj.getYourCity_text().isDisplayed();
+			result=cfObj.commonWaitForElementToBeVisible(driver,MyProfileORobj.getYourCity_text(),20);
 			if (!result) {
 				MyProfileORobjMsgList.add("Your City Title is not Available");
 			}
-			MyProfileORobj.getYourCity_input().sendKeys("Gurgaon");
+			result = cfObj.commonSetTextTextBox(MyProfileORobj.getYourCity_input(),"Gurgaon");
+			if (!result) {
+				MyProfileORobjMsgList.add("Your_City input is not Working");
+			}
 			
-			
-			result=MyProfileORobj.getYourAddress_text().isDisplayed();
+			result=cfObj.commonWaitForElementToBeVisible(driver,MyProfileORobj.getYourAddress_text(),20);
 			if (!result) {
 				MyProfileORobjMsgList.add("Your Address Title is not Available");
 			}
-			MyProfileORobj.getYourAddress_input().sendKeys("Gurgaon,Haryana");;
-		
+			result = cfObj.commonSetTextTextBox(MyProfileORobj.getYourAddress_input(),"Gurgaon,Haryana");
+			if (!result) {
+				MyProfileORobjMsgList.add("Your_Address input is not Working");
+			}
 			
-			result=MyProfileORobj.getYourState_text().isDisplayed();
+			result=cfObj.commonWaitForElementToBeVisible(driver,MyProfileORobj.getYourState_text(),20);
 			if (!result) {
 				MyProfileORobjMsgList.add("Your State Title is not Available");
 			}
-			MyProfileORobj.getYourState_input().sendKeys("Haryana");
-						
-			result=MyProfileORobj.getYourPinCode_text().isDisplayed();
+			result = cfObj.commonSetTextTextBox(MyProfileORobj.getYourState_input(),"Haryana");
+			if (!result) {
+				MyProfileORobjMsgList.add("Your_State input is not Working");
+			}
+			
+			result=cfObj.commonWaitForElementToBeVisible(driver,MyProfileORobj.getYourPinCode_text(),20);
 			if (!result) {
 				MyProfileORobjMsgList.add("Your PinCode Title is not Available");
 			}
-			MyProfileORobj.getYourPinCode_input().sendKeys("12201");;
-			
-			
-			boolean b1=MyProfileORobj.getUpdateProfile_button().isDisplayed();
-			if (b1==true) {
-				MyProfileORobj.getUpdateProfile_button().click();
-				Thread.sleep(2000);
-			}
-			else {
-				result=false;
-				MyProfileORobjMsgList.add("Update Profile Button is not Working");
+			result = cfObj.commonSetTextTextBox(MyProfileORobj.getYourPinCode_input(),"122001");
+			if (!result) {
+				MyProfileORobjMsgList.add("Your_Pincode input is not Working");
 			}
 			
 		} catch (Exception e) {
 			result = false;
 			MyProfileORobjMsgList.add("validateMyProfile_Page_Exception: " + e.getMessage());
+		}
+		return result;
+	}
+	
+	public boolean clickOnUpdateprofile() {
+		boolean result = true;
+		try {
+
+			cfObj.commonClick(MyProfileORobj.getUpdateProfile_button());
+		} catch (Exception e) {
+			result = false;
+			MyProfileORobjMsgList.add("clickOnUpdateprofile_Exception: " + e.getMessage());
 		}
 		return result;
 	}

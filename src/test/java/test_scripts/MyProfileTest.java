@@ -13,7 +13,6 @@ public class MyProfileTest extends BaseTest {
 	public void MyProfilePageFlow() throws InterruptedException {
 
 		boolean result = true;
-		Thread.sleep(3000);
 		MyProfileUtilObj = new MyProfileUtil(driver);
 		result = MyProfileUtilObj.verifyMyProfile_Page(driver);
 		Assert.assertEquals(result, true, MyProfileUtilObj.MyProfileORobjMsgList.toString());

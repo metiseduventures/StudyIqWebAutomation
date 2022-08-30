@@ -76,7 +76,7 @@ public class HomePage_OR {
 		return DropDown_Button;
 	}
 	
-	@FindBy(xpath="(//a[@class='dropdown-item'])[2]")
+	@FindBy(xpath="(//a[@class='dropdown-list dropdown-item'])[2]")
 	private WebElement MyProfile_Button;
 	
 	

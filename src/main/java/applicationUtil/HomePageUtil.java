@@ -46,7 +46,6 @@ public class HomePageUtil {
 			if (!result) {
 				homePageMsgList.add(result+" Continue Button is Not working");
 			}
-			Thread.sleep(30000);
 			
 			otpUtilObj = new OtpUtil();
 
@@ -58,10 +57,9 @@ public class HomePageUtil {
 			if (!result) {
 				  homePageMsgList.add(result+" OTP Box is not taking any Number");
 			}
-                
+               
 			// Click on Continue button
 
-			Thread.sleep(3000);
 			result = clickOnContinueButton();
 			if (!result) {
 				homePageMsgList.add(result+" Verify Button is not Working");
@@ -197,16 +195,8 @@ public class HomePageUtil {
 	
 	public boolean clickOnMyProfile(WebDriver driver) {
 		boolean result = true;
-		try {
-             
-			boolean b1=homePageORObj.getMyProfile_Button().isDisplayed();
-			if (b1==true) {
-				homePageORObj.getMyProfile_Button().click();
-			}
-			else {
-				result=false;
-				homePageMsgList.add("My Profile Button is not Working");
-			}
+		try {	
+			cfObj.commonClick(homePageORObj.getMyProfile_Button());
 
 		} catch (Exception e) {
 			result = false;
@@ -364,7 +354,6 @@ public class HomePageUtil {
 			boolean b1=homePageORObj.getBestSelling_Button().get(index).isDisplayed();
 			if (b1==true) {
 				homePageORObj.getBestSelling_Button().get(index).click();
-				Thread.sleep(2000);
 			}
 			else {
 				result=false;
