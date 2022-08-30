@@ -22,7 +22,7 @@ public class ConfigFileReader {
 		BufferedReader reader;
 		String strPropertyPath = null;
 		strEnv = System.getProperty("env");
-		strEnv = "prod";			
+		strEnv = "dev";			
 		
 		try {
 			if (strEnv.equalsIgnoreCase("staging")) {

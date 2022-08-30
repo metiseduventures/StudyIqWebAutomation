@@ -6,7 +6,6 @@ public class TestData {
 	private String courseName;
 	private String courseId;
 	private String paymentMethod;
-	private String couponCode;
 	private String paymentType;
 	private String offerName;
 	// billing info
@@ -58,14 +57,6 @@ public class TestData {
 
 	public void setPaymentMethod(String paymentMethod) {
 		this.paymentMethod = paymentMethod;
-	}
-
-	public String getCouponCode() {
-		return couponCode;
-	}
-
-	public void setCouponCode(String couponCode) {
-		this.couponCode = couponCode;
 	}
 
 	public String getPaymentType() {

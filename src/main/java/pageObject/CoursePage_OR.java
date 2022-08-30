@@ -195,7 +195,7 @@ public class CoursePage_OR {
 		return payStatus;
 	}
 	
-	@FindBy(xpath = "//button[normalize-space()='Go to My Library']")
+	@FindBy(css = "button[class='libray-btn btn btn-primary']")
 	WebElement libraryBtn;
 	
 	public WebElement golibrary() {
@@ -238,11 +238,58 @@ public class CoursePage_OR {
 	}
 	
 	@FindBy(xpath = "//img[@class='close_img']")
-	WebElement popupClose;
+	WebElement startWindowpopupClose;
 	
 	public WebElement popUpClose() {
-		return popupClose;
+		return startWindowpopupClose;
 	}
 	
+	@FindBy(xpath = "(//span[@class='course-package--offer-name'])[1]")
+	WebElement couponElement;
 	
+	public WebElement couponCodeElement() {
+		return couponElement;
+	}
+	
+	@FindBy(xpath = "(//span[@class='course-package--selling-price'])")
+	List<WebElement> packageAmountElements;
+	
+	public List<WebElement> packageAmounts(){
+		return packageAmountElements;
+	}
+	
+	@FindBy(xpath = "//span[@class='course-package--offer-amount']")
+	WebElement removeCouponAmount;
+	
+	public WebElement removeAmount() {
+		return removeCouponAmount;
+	}
+	
+	@FindBy(xpath = "//b[1]")
+	WebElement amountPayCheckout;
+	
+	public WebElement amountPayableCheckout() {
+		return amountPayCheckout;
+	}
+	
+	@FindBy(xpath = "//div[@class='package-payment-details--breakdown']//div[2]")
+	WebElement amountDiscountElement;
+	
+	public WebElement amountPayDiscountElement() {
+		return amountDiscountElement;
+	}
+	
+	@FindBy(xpath = "//div[@class='package-payment-details--breakdown']//div[2]//span[2]")
+	WebElement amountDiscountPay;
+	
+	public WebElement amountDiscount() {
+		return amountDiscountPay;
+	}
+	
+	@FindBy(xpath = "//div[@class='package-payment-details--breakdown-total']//span[2]")
+	WebElement totalAmountCheckoutElement;
+	
+	public WebElement totalAmountCheckout() {
+		return totalAmountCheckoutElement;
+	}
 }
