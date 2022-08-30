@@ -85,6 +85,9 @@ public class Common_Function {
 			driver.get(configReaderObj.getBaseUrlWeb());
 			driver.manage().window().maximize();
 			driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+			if (commonGetElements(driver, ".close_img", "css").size() > 0) {
+				commonClick(commonGetElement(driver, ".close_img", "css"));
+			}
 		}
 
 		catch (
@@ -195,7 +198,7 @@ public class Common_Function {
 		try {
 			sExpectedValue = sExpectedValue.trim().toLowerCase();
 
-			sTempStr = iTextBoxInfo.getAttribute("text").trim().toLowerCase();
+			sTempStr = iTextBoxInfo.getAttribute("value").trim().toLowerCase();
 
 			if ((sTempStr.contains(sExpectedValue))) {
 				Result = true;
@@ -347,6 +350,10 @@ public class Common_Function {
 				element = driver.findElement(By.xpath(elementforWait));
 			} else if (strfindType.equalsIgnoreCase("id")) {
 				element = driver.findElement(By.id(elementforWait));
+			} else if (strfindType.equalsIgnoreCase("class")) {
+				element = driver.findElement(By.className(elementforWait));
+			} else if (strfindType.equalsIgnoreCase("css")) {
+				element = driver.findElement(By.cssSelector(elementforWait));
 			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -364,6 +371,8 @@ public class Common_Function {
 				element = driver.findElements(By.id(elementforWait));
 			} else if (strfindType.equalsIgnoreCase("class")) {
 				element = driver.findElements(By.className(elementforWait));
+			} else if (strfindType.equalsIgnoreCase("css")) {
+				element = driver.findElements(By.cssSelector(elementforWait));
 			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());

@@ -22,6 +22,16 @@ public class LoginTest extends BaseTest {
 		Assert.assertEquals(result, true, homePageUtilObj.homePageMsgList.toString());
 
 	}
+	
+	@Test
+	public void verifySignUp() {
+
+		boolean result = true;
+		homePageUtilObj = new HomePageUtil(driver);
+		result = homePageUtilObj.verifySignUp(driver);
+		Assert.assertEquals(result, true, homePageUtilObj.homePageMsgList.toString());
+
+	}
 
 
 }

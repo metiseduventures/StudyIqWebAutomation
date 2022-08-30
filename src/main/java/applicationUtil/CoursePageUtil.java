@@ -57,6 +57,7 @@ public class CoursePageUtil {
 				}
 
 				result = selectExamPrefrences(driver);
+
 				if (!result) {
 					return result;
 				}
@@ -105,7 +106,7 @@ public class CoursePageUtil {
 			// for new user
 			else {
 
-				// handle the popup
+				// handle the pop up
 				int no = coursePageORobj.sizePopUp().size();
 				if (no > 0) {
 					coursePageORobj.popUpClose().click();
@@ -124,9 +125,12 @@ public class CoursePageUtil {
 				}
 
 				result = selectExamPrefrences(driver);
+
 				if (!result) {
 					return result;
 				}
+
+				
 
 				result = verifyClickBuy();
 				if (!result) {
@@ -518,7 +522,7 @@ public class CoursePageUtil {
 
 		} catch (Exception e) {
 			result = false;
-			coursePageMsgList.add("Library Button not working " + e.getMessage());
+			coursePageMsgList.add("goToLibrary_Exception" + e.getMessage());
 		}
 		return result;
 	}
