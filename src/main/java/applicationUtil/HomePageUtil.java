@@ -37,7 +37,7 @@ public class HomePageUtil {
 			// enter mobile number
 			result = enterMobileNumber(strMobileNumber);
 			if (result) { 
-				homePageMsgList.add(result+" Mobile Number Box is Not Working");
+				homePageMsgList.add(result+" Mobile No. Box is Not Working");
 			}
 
 			// click on get OTP
@@ -163,13 +163,13 @@ public class HomePageUtil {
 			// click on DropDown button
 			result = clickOnDropDown(driver);
 			if (!result) {
-				homePageMsgList.add(result+"DropDown is not working");
+				homePageMsgList.add("DropDown is not working");
 			}
 
 			// click on My Profile button
 			result = clickOnMyProfile(driver);
 			if (result) {
-				homePageMsgList.add(result+"My Profile Button is not working");
+				homePageMsgList.add("My Profile Button is not working");
 			}
 
 		} catch (Exception e) {

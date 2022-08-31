@@ -85,11 +85,11 @@ public class HomePage_OR {
 	}
 	
 	@FindBy(xpath="(//a[@class='dropdown-item'])[1]")
-	private WebElement MyLibrary_Button;
+	private WebElement MyLibraryButton;
 	
 	
 	public  WebElement getMyLibrary_Button() {
-		return MyLibrary_Button;
+		return MyLibraryButton;
 	}
 	
 	

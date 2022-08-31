@@ -53,7 +53,7 @@ public class MyProfileUtil {
 	public boolean validateMyProfile_Page(WebDriver driver) {
 		boolean result = true;
 		try {
-			result=cfObj.commonWaitForElementToBeVisible(driver,MyProfileORobj.getYourName_text(),20);
+			result=cfObj.commonWaitForElementToBeVisible(driver,MyProfileORobj.getYourName_text(),10);
 			if (!result) {
 				MyProfileORobjMsgList.add("Your Name Title is not Available");
 			}
@@ -62,7 +62,7 @@ public class MyProfileUtil {
 				MyProfileORobjMsgList.add("Your_Name input is not Working");
 			}
 			
-			result=cfObj.commonWaitForElementToBeVisible(driver,MyProfileORobj.getYourCity_text(),20);
+			result=cfObj.commonWaitForElementToBeVisible(driver,MyProfileORobj.getYourCity_text(),10);
 			if (!result) {
 				MyProfileORobjMsgList.add("Your City Title is not Available");
 			}
@@ -71,7 +71,7 @@ public class MyProfileUtil {
 				MyProfileORobjMsgList.add("Your_City input is not Working");
 			}
 			
-			result=cfObj.commonWaitForElementToBeVisible(driver,MyProfileORobj.getYourAddress_text(),20);
+			result=cfObj.commonWaitForElementToBeVisible(driver,MyProfileORobj.getYourAddress_text(),10);
 			if (!result) {
 				MyProfileORobjMsgList.add("Your Address Title is not Available");
 			}
@@ -80,7 +80,7 @@ public class MyProfileUtil {
 				MyProfileORobjMsgList.add("Your_Address input is not Working");
 			}
 			
-			result=cfObj.commonWaitForElementToBeVisible(driver,MyProfileORobj.getYourState_text(),20);
+			result=cfObj.commonWaitForElementToBeVisible(driver,MyProfileORobj.getYourState_text(),10);
 			if (!result) {
 				MyProfileORobjMsgList.add("Your State Title is not Available");
 			}
@@ -89,7 +89,7 @@ public class MyProfileUtil {
 				MyProfileORobjMsgList.add("Your_State input is not Working");
 			}
 			
-			result=cfObj.commonWaitForElementToBeVisible(driver,MyProfileORobj.getYourPinCode_text(),20);
+			result=cfObj.commonWaitForElementToBeVisible(driver,MyProfileORobj.getYourPinCode_text(),10);
 			if (!result) {
 				MyProfileORobjMsgList.add("Your PinCode Title is not Available");
 			}

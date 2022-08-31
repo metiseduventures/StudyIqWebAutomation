@@ -12,6 +12,7 @@ public class MyProfileTest extends BaseTest {
 	@Test
 	public void MyProfilePageFlow() throws InterruptedException {
 
+		
 		boolean result = true;
 		MyProfileUtilObj = new MyProfileUtil(driver);
 		result = MyProfileUtilObj.verifyMyProfile_Page(driver);

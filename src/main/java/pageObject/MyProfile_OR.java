@@ -6,11 +6,11 @@ import org.openqa.selenium.support.FindBy;
 public class MyProfile_OR {
 
 	@FindBy(xpath = "(//label[@class='form-label'])[1]")
-	private WebElement YourName_text;
+	private WebElement Name_text;
 	
 	
 	public WebElement getYourName_text() {
-		return YourName_text;
+		return Name_text;
 	}
 	
 	@FindBy(xpath = "(//input[@class='form-control'])[1]")
@@ -22,11 +22,11 @@ public class MyProfile_OR {
 	}
 	
 	@FindBy(xpath = "(//label[@class='form-label'])[2]")
-	private WebElement YourCity_text;
+	private WebElement City_text;
 	
 	
 	public WebElement getYourCity_text() {
-		return YourCity_text;
+		return City_text;
 	}
 	
 	@FindBy(xpath = "(//input[@class='form-control'])[2]")
@@ -38,11 +38,11 @@ public class MyProfile_OR {
 	}
 	
 	@FindBy(xpath = "(//label[@class='form-label'])[3]")
-	private WebElement YourAddress_text;
+	private WebElement Address_text;
 	
 	
 	public WebElement getYourAddress_text() {
-		return YourAddress_text;
+		return Address_text;
 	}
 	
 	@FindBy(xpath = "(//input[@class='form-control'])[3]")
@@ -54,11 +54,11 @@ public class MyProfile_OR {
 	}
 	
 	@FindBy(xpath = "(//label[@class='form-label'])[4]")
-	private WebElement YourState_text;
+	private WebElement State_text;
 	
 	
 	public WebElement getYourState_text() {
-		return YourState_text;
+		return State_text;
 	}
 	
 	@FindBy(xpath = "(//input[@class='form-control'])[4]")
@@ -70,11 +70,11 @@ public class MyProfile_OR {
 	}
 	
 	@FindBy(xpath = "(//label[@class='form-label'])[5]")
-	private WebElement YourPinCode_text;
+	private WebElement PinCode_text;
 	
 	
 	public WebElement getYourPinCode_text() {
-		return YourPinCode_text;
+		return PinCode_text;
 	}
 	
 	@FindBy(xpath = "(//input[@class='form-control'])[5]")
