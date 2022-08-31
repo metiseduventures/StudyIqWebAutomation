@@ -13,7 +13,6 @@ public class MyLibraryTest extends BaseTest {
 	public void MyLibraryPageFlow() throws InterruptedException {
 
 		boolean result = true;
-		Thread.sleep(3000);
 		MyLibraryUtilObj = new MyLibraryUtil(driver);
 		result = MyLibraryUtilObj.verifyMyLibrary_Page(driver);
 		Assert.assertEquals(result, true, MyLibraryUtilObj.MyLibraryMsgList.toString());

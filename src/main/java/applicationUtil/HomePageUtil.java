@@ -31,25 +31,18 @@ public class HomePageUtil {
 		boolean result = true;
 		String strOtp = null;
 		try {
-			
-			result = clickOnLoginRegisterButton(driver);
-			if(!result)
-			{
-				return result;
-			}
+
 			// enter mobile number
 			result = enterMobileNumber(strMobileNumber);
-
-			if (result) { 
-				homePageMsgList.add(result+" Mobile No. Box is Not Working");
+			if (!result) {
+				return result;
+			}
 
 			// click on get OTP
 			result = clickOnContinueButton();
 			if (!result) {
 				return result;
 			}
-
-			
 
 			otpUtilObj = new OtpUtil();
 
@@ -59,22 +52,21 @@ public class HomePageUtil {
 				homePageMsgList.add("Error in getting otp");
 				return false;
 			}
+
 			// enter OTP
 			result = enterOtp(strOtp);
 
 			if (!result) {
 				return result;
 			}
-
-               
-			// Click on Continue button
+			// Thread.sleep(18000);
 
 			// Click on Continue button
 			result = clickOnContinueButton();
 			if (!result) {
 				return result;
 			}
-			}
+
 		} catch (Exception e) {
 			result = false;
 			homePageMsgList.add("verifyLogin_Exception: " + e.getMessage());
@@ -180,105 +172,6 @@ public class HomePageUtil {
 
 		return result;
 	}
-	
-	public boolean verifyMyProfile(WebDriver driver) {
-		boolean result = true;
-		try {
-
-			// click on DropDown button
-			result = clickOnDropDown(driver);
-			if (!result) {
-				homePageMsgList.add("DropDown is not working");
-			}
-
-			// click on My Profile button
-			result = clickOnMyProfile(driver);
-			if (result) {
-				homePageMsgList.add("My Profile Button is not working");
-			}
-
-		} catch (Exception e) {
-			result = false;
-			homePageMsgList.add("verifyLogin_Exception: " + e.getMessage());
-		}
-
-		return result;
-	}
-	
-	public boolean clickOnDropDown(WebDriver driver) {
-		boolean result = true;
-		try {
-			cfObj.commonClick(homePageORObj.getDropDown_Button());
-
-		} catch (Exception e) {
-			result = false;
-			homePageMsgList.add("clickOnDropDown_Exception: " + e.getMessage());
-		}
-
-		return result;
-	}
-	
-	public boolean clickOnMyProfile(WebDriver driver) {
-		boolean result = true;
-		try {	
-			cfObj.commonClick(homePageORObj.getMyProfile_Button());
-
-		} catch (Exception e) {
-			result = false;
-			homePageMsgList.add("clickOnVerifyButton_Exception: " + e.getMessage());
-		}
-
-		return result;
-	}
-	
-	public boolean verifyMyLibrary(WebDriver driver) {
-		boolean result = true;
-		try {
-
-			// click on DropDown button
-			result = clickOnDropDown(driver);
-			if (!result) {
-				homePageMsgList.add(result+"DropDown is not working");
-			}
-
-			// click on My Library button
-			result = clickOnMyLibrary(driver);
-			if (result) {
-				homePageMsgList.add(result+"My Library Button is not working");
-			}
-
-		} catch (Exception e) {
-			result = false;
-			homePageMsgList.add("verifyLogin_Exception: " + e.getMessage());
-		}
-
-		return result;
-	}
-	
-	public boolean clickOnMyLibrary(WebDriver driver) {
-		boolean result = true;
-		try {
-             
-			boolean b1=homePageORObj.getMyLibrary_Button().isDisplayed();
-			if (b1==true) {
-				homePageORObj.getMyLibrary_Button().click();
-			}
-			else {
-				result=false;
-				homePageMsgList.add("My Library Button is not Working");
-				homePageMsgList.add("My Profile menu is not Working");
-			}
-
-		} catch (Exception e) {
-			result = false;
-			homePageMsgList.add("clickOnMyProfile_Exception: " + e.getMessage());
-		}
-
-		return result;
-	}
-	
-	
-	
 
 	public boolean verifySignUp(WebDriver driver) {
 		boolean result = true;
@@ -295,10 +188,9 @@ public class HomePageUtil {
 			// enter mobile number
 			result = enterMobileNumber(strMobileNumber);
 
-			if (result) {
+			if (!result) {
 				return result;
 			}
-
 			// click on get OTP
 
 			result = clickOnContinueButton();
@@ -319,7 +211,7 @@ public class HomePageUtil {
 
 			// Enter name
 
-			result = enterName("Test" + strMobileNumber);
+			result = enterName("Test");
 
 			if (!result) {
 				return result;
@@ -372,20 +264,89 @@ public class HomePageUtil {
 		}
 		return result;
 	}
-	
-	public boolean clickOnBestSelling_Button(int index) {
+
+	public boolean searchItemOption(WebDriver driver, String strSearchItem) {
 		boolean result = true;
 		try {
-	
-			boolean b1=homePageORObj.getBestSelling_Button().get(index).isDisplayed();
-			if (b1==true) {
-				homePageORObj.getBestSelling_Button().get(index).click();
+			cfObj.commonSetTextTextBox(homePageORObj.searchItem(), strSearchItem);
+
+			List<WebElement> links = homePageORObj.searchElements();
+
+			for (int i = 0; i < links.size();) {
+				links.get(i).click();
+				break;
 			}
-			else {
-				result=false;
-				homePageMsgList.add("BestSelling Button is not working");
+		} catch (Exception e) {
+			result = false;
+			homePageMsgList.add("clickInputSearch_Exception: " + e.getMessage());
+		}
+		return result;
+	}
+
+	public boolean clickOnCourseOnHomePage(WebDriver driver) {
+		boolean result = true;
+		try {
+			if (homePageORObj.getListCourse().size() == 0) {
+				homePageMsgList.add("Courses are not display on the home page");
+				return false;
 			}
-			
+			// Select first course
+			cfObj.commonClick(homePageORObj.getListCourse().get(0));
+			// wait for course detail page to be opened
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".course_basic_info_wrapper", "css", 0);
+			if (!result) {
+				homePageMsgList.add("Course detail page not opened");
+				return result;
+			}
+
+		} catch (Exception e) {
+			result = false;
+			homePageMsgList.add("clickOnCourseOnHomePage_Exception: " + e.getMessage());
+		}
+		return result;
+	}
+
+	public boolean verifyMyProfile(WebDriver driver) {
+		boolean result = true;
+		try {
+
+			// click on DropDown button
+			result = clickOnDropDown(driver);
+			if (!result) {
+				homePageMsgList.add("DropDown is not working");
+			}
+
+			// click on My Profile button
+			result = clickOnMyProfile(driver);
+			if (result) {
+				homePageMsgList.add("My Profile Button is not working");
+			}
+
+		} catch (Exception e) {
+			result = false;
+			homePageMsgList.add("verifyLogin_Exception: " + e.getMessage());
+		}
+
+		return result;
+	}
+
+	public boolean clickOnDropDown(WebDriver driver) {
+		boolean result = true;
+		try {
+			cfObj.commonClick(homePageORObj.getDropDown_Button());
+
+		} catch (Exception e) {
+			result = false;
+			homePageMsgList.add("clickOnDropDown_Exception: " + e.getMessage());
+		}
+
+		return result;
+	}
+
+	public boolean clickOnMyProfile(WebDriver driver) {
+		boolean result = true;
+		try {
+			cfObj.commonClick(homePageORObj.getMyProfile_Button());
 
 		} catch (Exception e) {
 			result = false;
@@ -394,24 +355,69 @@ public class HomePageUtil {
 
 		return result;
 	}
-	
 
-	public boolean searchItemOption(WebDriver driver, String strSearchItem) {
+	public boolean verifyMyLibrary(WebDriver driver) {
 		boolean result = true;
 		try {
-			homePageORObj.searchItem().sendKeys(strSearchItem);
 
-			List<WebElement> links = homePageORObj.searchElements();
-
-			for (int i = 0; i < links.size();) {
-				links.get(1).click();
-				Thread.sleep(18000);
-				break;
+			// click on DropDown button
+			result = clickOnDropDown(driver);
+			if (!result) {
+				homePageMsgList.add(result + "DropDown is not working");
 			}
+
+			// click on My Library button
+			result = clickOnMyLibrary(driver);
+			if (result) {
+				homePageMsgList.add(result + "My Library Button is not working");
+			}
+
 		} catch (Exception e) {
 			result = false;
-			homePageMsgList.add("clickInputSearch_Exception: " + e.getMessage());
+			homePageMsgList.add("verifyLogin_Exception: " + e.getMessage());
 		}
+
+		return result;
+	}
+
+	public boolean clickOnMyLibrary(WebDriver driver) {
+		boolean result = true;
+		try {
+
+			boolean b1 = homePageORObj.getMyLibrary_Button().isDisplayed();
+			if (b1 == true) {
+				homePageORObj.getMyLibrary_Button().click();
+			} else {
+				result = false;
+				homePageMsgList.add("My Library Button is not Working");
+				homePageMsgList.add("My Profile menu is not Working");
+			}
+
+		} catch (Exception e) {
+			result = false;
+			homePageMsgList.add("clickOnMyProfile_Exception: " + e.getMessage());
+		}
+
+		return result;
+	}
+
+	public boolean clickOnBestSelling_Button(int index) {
+		boolean result = true;
+		try {
+
+			boolean b1 = homePageORObj.getBestSelling_Button().get(index).isDisplayed();
+			if (b1 == true) {
+				homePageORObj.getBestSelling_Button().get(index).click();
+			} else {
+				result = false;
+				homePageMsgList.add("BestSelling Button is not working");
+			}
+
+		} catch (Exception e) {
+			result = false;
+			homePageMsgList.add("clickOnVerifyButton_Exception: " + e.getMessage());
+		}
+
 		return result;
 	}
 

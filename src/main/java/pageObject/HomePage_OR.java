@@ -48,39 +48,41 @@ public class HomePage_OR {
 
 	@FindBy(xpath = "//input[@aria-label='name']")
 	private List<WebElement> listTextEmail;
-	
-	@FindBy(xpath="(//div[@class='slick-list'])[2]/div/div/div/div/img")
+
+	@FindBy(xpath = "(//div[@class='slick-list'])[2]/div/div/div/div/img")
 	private List<WebElement> BestSelling_Button;
-	
-	
-	public  List<WebElement> getBestSelling_Button() {
+
+	public List<WebElement> getBestSelling_Button() {
 		return BestSelling_Button;
 	}
-	
-	@FindBy(xpath="//button[@id='dropdown-basic-button']")
+
+	@FindBy(xpath = "//button[@id='dropdown-basic-button']")
 	private WebElement DropDown_Button;
-	
-	
-	public  WebElement getDropDown_Button() {
+
+	public WebElement getDropDown_Button() {
 		return DropDown_Button;
 	}
-	
-	@FindBy(xpath="(//a[@class='dropdown-list dropdown-item'])[2]")
+
+	@FindBy(xpath = "(//a[@class='dropdown-list dropdown-item'])[2]")
 	private WebElement MyProfile_Button;
-	
-	
-	public  WebElement getMyProfile_Button() {
+
+	public WebElement getMyProfile_Button() {
 		return MyProfile_Button;
 	}
-	
-	@FindBy(xpath="(//a[@class='dropdown-item'])[1]")
+
+	@FindBy(xpath = "(//a[@class='dropdown-item'])[1]")
 	private WebElement MyLibraryButton;
-	
-	
-	public  WebElement getMyLibrary_Button() {
+
+	public WebElement getMyLibrary_Button() {
 		return MyLibraryButton;
 	}
-	
+
+	@FindBy(css = "div[class='search_r_item list-group-item']")
+	List<WebElement> itemSearch;
+
+	public List<WebElement> searchElements() {
+		return itemSearch;
+	}
 
 	@FindBy(css = "input[placeholder='What do you want to learn?']")
 	WebElement inputSearchElement;
@@ -89,10 +91,10 @@ public class HomePage_OR {
 		return inputSearchElement;
 	}
 
-	@FindBy(css = "div[class='search_r_item list-group-item']")
-	List<WebElement> itemSearch;
+	@FindBy(css = ".course_details")
+	List<WebElement> listCourse;
 
-	public List<WebElement> searchElements() {
-		return itemSearch;
+	public List<WebElement> getListCourse() {
+		return listCourse;
 	}
 }

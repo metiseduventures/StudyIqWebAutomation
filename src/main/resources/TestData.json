@@ -4,17 +4,6 @@
     "isUserGuest":true,
     "courseName": "west bengal",
     "courseId" : "",
-<<<<<<< HEAD
-    "paymentMethod" : "",
-    "couponCode" : "",
-    "YourName" :"",
-    "YourCity" :"",
-    "YourAddress" :"",
-    "YourState" :"",
-    "YourPinCode" :""
-  } ]
-}
-=======
     "paymentMethod" : "NetBank",
     "couponCode": "MaggieMasala",
     "offerName" : "Platinum",
@@ -61,4 +50,4 @@
   }
   ]
 }
->>>>>>> a3b9d3e9862a6fe2c410ad6af3027ad0c5ddb419
+

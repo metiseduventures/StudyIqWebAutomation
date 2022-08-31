@@ -28,7 +28,6 @@ public class CourseDetailsPageUtil {
 		try {
 			
 			// click on Courses Info
-			Thread.sleep(20000);
 			result = OnCoursesInfo(driver);
 			if (!result) {
 				return result;
@@ -141,7 +140,6 @@ public class CourseDetailsPageUtil {
 	        boolean b1=CourseDetailsPageORObj.getBuyNow_Button().isDisplayed();
 			if (b1==true) {
 				CourseDetailsPageORObj.getBuyNow_Button().click();
-				Thread.sleep(2000);
 			}
 			else {
 				result=false;
@@ -192,7 +190,6 @@ public class CourseDetailsPageUtil {
 			boolean b1=CourseDetailsPageORObj.getExamsCovered_TextButton().isDisplayed();
 			if (b1==true) {
 				CourseDetailsPageORObj.getExamsCovered_TextButton().click();
-				Thread.sleep(2000);
 			}
 			else {
 				result=false;
@@ -228,7 +225,6 @@ public class CourseDetailsPageUtil {
 			boolean b1=CourseDetailsPageORObj.getAboutAuthors_Button().isDisplayed();
 			if (b1==true) {
 				CourseDetailsPageORObj.getAboutAuthors_Button().click();
-				Thread.sleep(2000);
 			}
 			else {
 				result=false;
@@ -279,7 +275,6 @@ public class CourseDetailsPageUtil {
 			boolean b1=CourseDetailsPageORObj.getDemo_Videos_Button().isDisplayed();
 			if (b1==true) {
 				CourseDetailsPageORObj.getDemo_Videos_Button().click();
-				Thread.sleep(2000);
 			}
 			else {
 				result=false;
@@ -301,7 +296,6 @@ public class CourseDetailsPageUtil {
 		        	CourseDetailsPageMsgList.add("Course Content is not Available");
 		        }
 	        	
-	        	Thread.sleep(10000);
 	        }
 
 		} catch (Exception e) {
@@ -348,7 +342,6 @@ public class CourseDetailsPageUtil {
 			boolean b1=CourseDetailsPageORObj.getCourseContent_Button().isDisplayed();
 			if (b1==true) {
 				CourseDetailsPageORObj.getCourseContent_Button().click();
-				Thread.sleep(2000);
 			}
 			else {
 				result=false;
@@ -365,7 +358,6 @@ public class CourseDetailsPageUtil {
 			boolean b2=CourseDetailsPageORObj.getCourseContent_viewAll().isDisplayed();
 			if (b2==true) {
 				CourseDetailsPageORObj.getCourseContent_viewAll().click();
-				Thread.sleep(2000);
 			}
 			else {
 				result=false;
@@ -505,7 +497,6 @@ public class CourseDetailsPageUtil {
 			boolean b2=CourseDetailsPageORObj.getFAQ_Button().isDisplayed();
 			if (b2==true) {
 				CourseDetailsPageORObj.getFAQ_Button().click();
-				Thread.sleep(2000);
 			}
 			else {
 				result=false;
@@ -521,7 +512,6 @@ public class CourseDetailsPageUtil {
 			boolean b=CourseDetailsPageORObj.getFAQ_ViewAllButton().isDisplayed();
 			if (b==true) {
 				CourseDetailsPageORObj.getFAQ_ViewAllButton().click();
-				Thread.sleep(2000);
 			}
 			else {
 				result=false;
@@ -575,7 +565,6 @@ public class CourseDetailsPageUtil {
 			boolean b=CourseDetailsPageORObj.getPricing_Button().isDisplayed();
 			if (b==true) {
 				CourseDetailsPageORObj.getPricing_Button().click();
-				Thread.sleep(2000);
 			}
 			else {
 				result=false;
