@@ -1,7 +1,10 @@
 {
-  "dataSet" : [{
-    "courseName": "",
+  "dataSet" : [
+  {
+    "isUserGuest":true,
+    "courseName": "west bengal",
     "courseId" : "",
+<<<<<<< HEAD
     "paymentMethod" : "",
     "couponCode" : "",
     "YourName" :"",
@@ -11,3 +14,51 @@
     "YourPinCode" :""
   } ]
 }
+=======
+    "paymentMethod" : "NetBank",
+    "couponCode": "MaggieMasala",
+    "offerName" : "Platinum",
+    "bankNameForPaytm": "SBI",
+    "nameBill" : "Shubham",
+    "addressBill": "Mohan nagar",
+    "zipBill": "189331",
+    "cityBill": "noida",
+    "stateBill":"up",
+    "numberBill": "9872613831",
+    "emailBill": "shubh123@gmail.com"
+  },
+  {
+    "isUserGuest":true,
+    "courseName": "madhya",
+    "courseId" : "",
+    "paymentMethod" : "Paytm",
+    "couponCode": "MaggieMasala",
+    "offerName" : "Platinum",
+    "bankNameForPaytm": "SBI",
+    "nameBill" : "Sahil",
+    "addressBill": "adarsh",
+    "zipBill": "3241123",
+    "cityBill": "barwala",
+    "stateBill":"indore",
+    "numberBill": "9872613831",
+    "emailBill": "sahil123@gmail.com"
+  },
+  {
+    "isUserGuest":false,
+    "courseName": "Jammu & Kashmir GK",
+    "courseId" : "",
+    "paymentMethod" : "NetBank",
+    "couponCode": "MaggieMasala",
+    "offerName" : "Silver",
+    "bankNameForPaytm": "SBI",
+    "nameBill" : "rohit",
+    "addressBill": "Mohali",
+    "zipBill": "894372",
+    "cityBill": "moahli",
+    "stateBill":"punjab",
+    "numberBill": "9872613831",
+    "emailBill": "rohit123@gmail.com"
+  }
+  ]
+}
+>>>>>>> a3b9d3e9862a6fe2c410ad6af3027ad0c5ddb419

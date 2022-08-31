@@ -10,12 +10,10 @@ public class ConfigFileReader {
 	public static String strEnv,strRunMode,strUserMobileNumber;
 	
 	static {
-		strEnv = System.getProperty("env");
-		strEnv = "dev";
 		strRunMode = System.getProperty("runMode");
 		strRunMode = "local";
-		strEnv = System.getProperty("env");
 		strUserMobileNumber = System.getProperty("userMobileNumber");
+		strUserMobileNumber = "9878252339";
 	}
 
 	private Properties properties;
@@ -23,6 +21,9 @@ public class ConfigFileReader {
 	public ConfigFileReader() {
 		BufferedReader reader;
 		String strPropertyPath = null;
+		strEnv = System.getProperty("env");
+		strEnv = "prod";			
+		
 		try {
 			if (strEnv.equalsIgnoreCase("staging")) {
 				strPropertyPath = "src/main/resources/config/staging.properties";

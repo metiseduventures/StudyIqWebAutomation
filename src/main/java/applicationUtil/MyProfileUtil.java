@@ -29,7 +29,6 @@ public class MyProfileUtil {
 				MyProfileORobjMsgList.add(result+" Fail to Login/Register");
 			}
 			
-			
 			result=homeUtilObj.verifyMyProfile(driver);
 			if (!result) { 
 				MyProfileORobjMsgList.add(result+" Fail to Open My Profile");
