@@ -361,5 +361,17 @@ public class HomePageUtil {
 
 		return result;
 	}
-
+	
+	public boolean clickOnBestSelling_Button(int index) {
+		boolean result = true;
+		try {
+			
+			cfObj.commonClick(homePageORObj.getBestSelling_Button().get(index));
+			
+		} catch (Exception e) {
+			result = false;
+			homePageMsgList.add("clickOnVerifyButton_Exception: " + e.getMessage());
+		}
+		return result;
+	}
 }
