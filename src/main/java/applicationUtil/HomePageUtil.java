@@ -31,7 +31,12 @@ public class HomePageUtil {
 		boolean result = true;
 		String strOtp = null;
 		try {
-
+			// click on login/register button
+			result = clickOnLoginRegisterButton(driver);
+			if (!result) { 
+			homePageMsgList.add(result+" Login/Register Button is not working");
+			}
+			
 			// enter mobile number
 			result = enterMobileNumber(strMobileNumber);
 			if (!result) {
@@ -59,7 +64,7 @@ public class HomePageUtil {
 			if (!result) {
 				return result;
 			}
-			// Thread.sleep(18000);
+			 //Thread.sleep(18000);
 
 			// Click on Continue button
 			result = clickOnContinueButton();
@@ -303,6 +308,57 @@ public class HomePageUtil {
 			result = false;
 			homePageMsgList.add("clickOnCourseOnHomePage_Exception: " + e.getMessage());
 		}
+		return result;
+	}
+	public boolean verifyMyProfile(WebDriver driver) {
+		boolean result = true;
+		try {
+
+			// click on DropDown button
+			result = clickOnDropDown(driver);
+			if (!result) {
+				homePageMsgList.add("DropDown is not working");
+				return result;
+			}
+
+			// click on My Profile button
+			result = clickOnMyProfile(driver);
+			if (result) {
+				homePageMsgList.add("My Profile Button is not working");
+				return result;
+			}
+
+		} catch (Exception e) {
+			result = false;
+			homePageMsgList.add("verifyMyProfile_Exception: " + e.getMessage());
+		}
+
+		return result;
+	}
+	
+	public boolean clickOnDropDown(WebDriver driver) {
+		boolean result = true;
+		try {
+			cfObj.commonClick(homePageORObj.getDropDown_Button());
+
+		} catch (Exception e) {
+			result = false;
+			homePageMsgList.add("clickOnDropDown_Exception: " + e.getMessage());
+		}
+
+		return result;
+	}
+	
+	public boolean clickOnMyProfile(WebDriver driver) {
+		boolean result = true;
+		try {			
+			cfObj.commonClick(homePageORObj.getMyProfile_Button());
+
+		} catch (Exception e) {
+			result = false;
+			homePageMsgList.add("clickOnVerifyButton_Exception: " + e.getMessage());
+		}
+
 		return result;
 	}
 

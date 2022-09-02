@@ -69,5 +69,37 @@ public class HomePage_OR {
 	public List<WebElement> getListCourse() {
 		return listCourse;
 	}
+	
+	@FindBy(xpath="(//div[@class='slick-list'])[2]/div/div/div/div/img")
+	private List<WebElement> BestSelling_Button;
+	
+	
+	public  List<WebElement> getBestSelling_Button() {
+		return BestSelling_Button;
+	}
+	
+	@FindBy(xpath="//button[@id='dropdown-basic-button']")
+	private WebElement DropDown_Button;
+	
+	
+	public  WebElement getDropDown_Button() {
+		return DropDown_Button;
+	}
+	
+	@FindBy(xpath="(//a[@role='button'])[2]")
+	private WebElement MyProfile_Button;
+	
+	
+	public  WebElement getMyProfile_Button() {
+		return MyProfile_Button;
+	}
+	
+	@FindBy(xpath="(//a[@class='dropdown-item'])[1]")
+	private WebElement MyLibrary_Button;
+	
+	
+	public  WebElement getMyLibrary_Button() {
+		return MyLibrary_Button;
+	}
 
 }
