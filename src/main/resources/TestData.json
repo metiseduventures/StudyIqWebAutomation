@@ -1,7 +1,8 @@
 {
   "dataSet" : [
-  {
+{
     "isUserGuest":true,
+    "courseType":"smart",
     "courseName": "west bengal",
     "courseId" : "",
     "paymentMethod" : "NetBank",
@@ -11,11 +12,42 @@
     "addressBill": "Mohan nagar",
     "zipBill": "189331",
     "cityBill": "noida",
-    "stateBill":"up",
+    "stateBill":"uttar pradesh",
     "numberBill": "9872613831",
     "emailBill": "shubh123@gmail.com"
   },
   {
+    "isUserGuest":true,
+    "courseType":"micro",
+    "courseName": "west bengal",
+    "courseId" : "",
+    "paymentMethod" : "NetBank",
+    "offerName" : "Platinum",
+    "bankNameForPaytm": "SBI",
+    "nameBill" : "Shubham",
+    "addressBill": "Mohan nagar",
+    "zipBill": "189331",
+    "cityBill": "noida",
+    "stateBill":"uttar pradesh",
+    "numberBill": "9872613831",
+    "emailBill": "shubh123@gmail.com"
+  },
+  {
+    "isUserGuest":true,
+    "courseType":"books",
+    "courseName": "west bengal",
+    "courseId" : "",
+    "paymentMethod" : "NetBank",
+    "bankNameForPaytm": "SBI",
+    "nameBill" : "Shubham",
+    "addressBill": "Mohan nagar",
+    "zipBill": "189331",
+    "cityBill": "noida",
+    "stateBill":"uttar pradesh",
+    "numberBill": "9872613831",
+    "emailBill": "shubh123@gmail.com"
+  },
+    {
     "isUserGuest":true,
     "courseName": "jammu",
     "courseId" : "",
@@ -29,7 +61,7 @@
     "stateBill":"indore",
     "numberBill": "9872613831",
     "emailBill": "sahil123@gmail.com"
-  },
+ },
   {
     "isUserGuest":false,
     "courseName": "Jammu & Kashmir GK",

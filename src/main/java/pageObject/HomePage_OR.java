@@ -70,6 +70,13 @@ public class HomePage_OR {
 		return listCourse;
 	}
 	
+	@FindBy(xpath = "(//div[@class='slick-track'])[25]/div/div/div/img")
+	List<WebElement> listOfBook;
+
+	public List<WebElement> getlistOfBook() {
+		return listOfBook;
+	}
+	
 	@FindBy(xpath="(//div[@class='slick-list'])[2]/div/div/div/div/img")
 	private List<WebElement> BestSelling_Button;
 	
@@ -77,7 +84,7 @@ public class HomePage_OR {
 	public  List<WebElement> getBestSelling_Button() {
 		return BestSelling_Button;
 	}
-	
+
 	@FindBy(xpath="//button[@id='dropdown-basic-button']")
 	private WebElement DropDown_Button;
 	
@@ -94,12 +101,19 @@ public class HomePage_OR {
 		return MyProfile_Button;
 	}
 	
-	@FindBy(xpath="(//a[@class='dropdown-item'])[1]")
-	private WebElement MyLibrary_Button;
+	@FindBy(xpath="//input[@placeholder='What do you want to learn?']")
+	private WebElement searchBar;
 	
+	public WebElement getsearchBar() {
+		return searchBar;
+	}
 	
-	public  WebElement getMyLibrary_Button() {
-		return MyLibrary_Button;
+	@FindBy(xpath="//span[@class='navbar-brand']")
+	private WebElement HomePage;
+	
+	public WebElement getHomePage()
+	{
+		return HomePage;
 	}
 
 }

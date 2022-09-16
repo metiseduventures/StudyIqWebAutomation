@@ -257,6 +257,14 @@ public class CoursePage_OR {
 	public List<WebElement> packageAmounts(){
 		return packageAmountElements;
 	}
+	@FindBy(xpath = "//span[@class='book-detail--selling-price']")
+	 WebElement BookpackageAmountElements;
+	
+	public WebElement getBookpackageAmountElements(){
+		return BookpackageAmountElements;
+	}
+
+	
 	
 	@FindBy(xpath = "//span[@class='course-package--offer-amount']")
 	WebElement removeCouponAmount;
@@ -292,4 +300,60 @@ public class CoursePage_OR {
 	public WebElement totalAmountCheckout() {
 		return totalAmountCheckoutElement;
 	}
+	
+	@FindBy(xpath = "(//input[@class='form-control'])[1]")
+	WebElement InputName;
+	
+	public WebElement getInputName() {
+		return InputName;
+	}
+	
+	@FindBy(xpath = "(//input[@class='form-control'])[2]")
+	WebElement InputPhone_Number;
+	
+	public WebElement getInputPhone_Number() {
+		return InputPhone_Number;
+	}
+	
+	@FindBy(xpath = "(//input[@class='form-control'])[3]")
+	WebElement InputEmail;
+	
+	public WebElement getInputEmail() {
+		return InputEmail;
+	}
+	
+	@FindBy(xpath = "(//input[@class='form-control'])[4]")
+	WebElement InputAddress;
+	
+	public WebElement getInputAddress() {
+		return InputAddress;
+	}
+	
+	@FindBy(xpath = "(//input[@class='form-control'])[5]")
+	WebElement InputCity;
+	
+	public WebElement getInputCity() {
+		return InputCity;
+	}
+	
+	@FindBy(xpath = "(//input[@class='form-control'])[6]")
+	WebElement InputState;
+	
+	public WebElement getInputState() {
+		return InputState;
+	}
+	
+	@FindBy(xpath = "(//input[@class='form-control'])[7]")
+	WebElement InputPincode;
+	
+	public WebElement getInputPincode() {
+		return InputPincode;
+	}
+	@FindBy(xpath = "//button[@class='mt-auto btn btn-brand btn-block']")
+     WebElement BookBuyNow;
+	
+	public WebElement getBookBuyNow() {
+		return BookBuyNow;
+	}
+	
 }
