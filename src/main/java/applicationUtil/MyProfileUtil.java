@@ -29,21 +29,32 @@ public class MyProfileUtil {
 			result=homeUtilObj.verifyLogin(driver, ConfigFileReader.strUserMobileNumber);
 			if (!result) { 
 				MyProfileORobjMsgList.add("Fail to Login/Register");
+				return result;
 			}
 				
 			result=homeUtilObj.verifyMyProfile(driver);
 			if (!result) { 
 				MyProfileORobjMsgList.add("Fail to Open My Profile");
+				return result;
 			}
 			result = validateMyProfile_Page(driver);
 			if(!result) {
 				MyProfileORobjMsgList.add(" My Profile Page is not Validated ");
+				return result;
 			}
 		
 			result = clickOnUpdateProfile_button();
 			if (!result) {
 				MyProfileORobjMsgList.add(result+" Update Profile Button is not Working");
+				return result;
 			}
+			
+			result=verifyInputDetails();
+			if (!result) {
+				MyProfileORobjMsgList.add("Not Verify Input data");
+				return result;
+			}
+		
 		} catch (Exception e) {
 			result = false;
 			MyProfileORobjMsgList.add("verifyMyProfile_Page_Exception: " + e.getMessage());
@@ -58,7 +69,7 @@ public class MyProfileUtil {
 			if (!result) {
 				MyProfileORobjMsgList.add("Your Name Title is not Available");
 			}
-			result = cfObj.commonSetTextTextBox(MyProfileORobj.getYourName_input(),"Harsh");
+			result = cfObj.commonSetTextTextBox(MyProfileORobj.getYourName_input(),"Harsh Raj");
 			if (!result) {
 				MyProfileORobjMsgList.add("Your Name is not Available");
 			}
@@ -67,7 +78,7 @@ public class MyProfileUtil {
 			if (!result) {
 				MyProfileORobjMsgList.add("Your City Title is not Available");
 			}
-			result = cfObj.commonSetTextTextBox(MyProfileORobj.getYourCity_input(), "Gurgaon");
+			result = cfObj.commonSetTextTextBox(MyProfileORobj.getYourPinCode_input(), "122001");
 			if (!result) {
 				MyProfileORobjMsgList.add("Your City is not Available");
 			}
@@ -85,7 +96,7 @@ public class MyProfileUtil {
 			if (!result) {
 				MyProfileORobjMsgList.add("Your State Title is not Available");
 			}
-			result = cfObj.commonSetTextTextBox(MyProfileORobj.getYourState_input(), "Haryana");
+			result = cfObj.commonSetTextTextBox(MyProfileORobj.getYourCity_input(), "Gurgaon");
 			if (!result) {
 				MyProfileORobjMsgList.add("Your State is not Available");
 			}	
@@ -94,7 +105,7 @@ public class MyProfileUtil {
 			if (!result) {
 				MyProfileORobjMsgList.add("Your PinCode Title is not Available");
 			}
-			result = cfObj.commonSetTextTextBox(MyProfileORobj.getYourPinCode_input(),"122001");
+			result = cfObj.commonSetTextTextBox(MyProfileORobj.getYourState_input(),"Haryana");
 			if (!result) {
 				MyProfileORobjMsgList.add("Your PinCode is not Available");
 			}
@@ -102,6 +113,66 @@ public class MyProfileUtil {
 		} catch (Exception e) {
 			result = false;
 			MyProfileORobjMsgList.add("validateMyProfile_Page_Exception: " + e.getMessage());
+		}
+		return result;
+	}
+	
+	public boolean verifyInputDetails() {
+		boolean result = true;
+		try {
+			String verifyName=MyProfileORobj.getYourName_input().getAttribute("value");
+			result=verifyName.equals("Harsh Raj");
+			if(result==true) {
+				MyProfileORobjMsgList.add("Your Name is Equal");
+			}
+			else {
+				MyProfileORobjMsgList.add("Your Name is not Equal");
+				return result;
+			}
+			
+			String verifyCity=MyProfileORobj.getYourCity_input().getAttribute("value");
+			result=verifyCity.equals("Gurgaon");
+			if(result==true) {
+				MyProfileORobjMsgList.add("Your City is Equal");
+			}
+			else {
+				MyProfileORobjMsgList.add("Your City is not Equal");
+				return result;
+			}
+			
+			String verifyAddress=MyProfileORobj.getYourAddress_input().getAttribute("value");
+			result=verifyAddress.equals("Gurgaon,Haryana");
+			if(result==true) {
+				MyProfileORobjMsgList.add("Your Address is Equal");
+			}
+			else {
+				MyProfileORobjMsgList.add("Your Address is not Equal");
+				return result;
+			}
+			
+			String verifyState=MyProfileORobj.getYourState_input().getAttribute("value");
+			result=verifyState.equals("Haryana");
+			if(result==true) {
+				MyProfileORobjMsgList.add("Your State is Equal");
+			}
+			else {
+				MyProfileORobjMsgList.add("Your State is not Equal");
+				return result;
+			}			
+			
+			String verifyPinCode=MyProfileORobj.getYourPinCode_input().getAttribute("value");
+			result=verifyPinCode.equals("122001");
+			if(result==true) {
+				MyProfileORobjMsgList.add("Your PinCode is Equal");
+			}
+			else {
+				MyProfileORobjMsgList.add("Your PinCode is not Equal");
+				return result;
+			}
+			
+		} catch (Exception e) {
+			result = false;
+			MyProfileORobjMsgList.add("verifyInputDetails_Exception: " + e.getMessage());
 		}
 		return result;
 	}
@@ -114,10 +185,10 @@ public class MyProfileUtil {
 
 		} catch (Exception e) {
 			result = false;
-			MyProfileORobjMsgList.add("clickOnUpdateProfile_Exception: " + e.getMessage());
+			MyProfileORobjMsgList.add("clickOnUpdateProfile_button_Exception: " + e.getMessage());
 		}
 		return result;
 	}
-	
+		
 	
 }

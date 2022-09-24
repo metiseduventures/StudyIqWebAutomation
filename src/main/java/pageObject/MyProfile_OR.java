@@ -21,7 +21,7 @@ public class MyProfile_OR {
 		return YourName_input;
 	}
 	
-	@FindBy(xpath = "(//label[@class='form-label'])[2]")
+	@FindBy(xpath = "(//label[@class='form-label'])[4]")
 	private WebElement YourCity_text;
 	
 	
@@ -29,7 +29,7 @@ public class MyProfile_OR {
 		return YourCity_text;
 	}
 	
-	@FindBy(xpath = "(//input[@type='text'])[3]")
+	@FindBy(xpath = "(//input[@type='text'])[4]")
 	private WebElement YourCity_input;
 	
 	
@@ -45,7 +45,7 @@ public class MyProfile_OR {
 		return YourAddress_text;
 	}
 	
-	@FindBy(xpath = "(//input[@type='text'])[4]")
+	@FindBy(xpath = "(//input[@type='text'])[3]")
 	private WebElement YourAddress_input;
 	
 	
@@ -53,7 +53,7 @@ public class MyProfile_OR {
 		return YourAddress_input;
 	}
 	
-	@FindBy(xpath = "(//label[@class='form-label'])[4]")
+	@FindBy(xpath = "(//label[@class='form-label'])[5]")
 	private WebElement YourState_text;
 	
 	
@@ -69,7 +69,7 @@ public class MyProfile_OR {
 		return YourState_input;
 	}
 	
-	@FindBy(xpath = "(//label[@class='form-label'])[5]")
+	@FindBy(xpath = "(//label[@class='form-label'])[2]")
 	private WebElement YourPinCode_text;
 	
 	
@@ -77,7 +77,7 @@ public class MyProfile_OR {
 		return YourPinCode_text;
 	}
 	
-	@FindBy(xpath = "(//input[@class='form-control'])[5]")
+	@FindBy(xpath = "(//input[@class='form-control'])[2]")
 	private WebElement YourPinCode_input;
 	
 	
