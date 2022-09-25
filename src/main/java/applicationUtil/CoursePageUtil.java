@@ -6,10 +6,13 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
+
+import apiUtil.CourseApiUtil;
 import pageObject.CoursePage_OR;
 import pageObject.HomePage_OR;
 import pageObject.LibraryPage_OR;
 import pojo.TestData;
+import pojo.courseView.CourseView;
 import util.Common_Function;
 import util.ConfigFileReader;
 
@@ -32,163 +35,55 @@ public class CoursePageUtil {
 	public boolean verifyCoursePurchase(WebDriver driver, TestData testData) {
 		boolean result = true;
 		util = new HomePageUtil(driver);
-		librayUtilObj=new LibraryPageUtil(driver);
+		librayUtilObj = new LibraryPageUtil(driver);
+		int no;
+		String strCourseSlug = null;
 		try {
-			// for existing user
-			if (testData.getIsUserGuest() == true) {
-				if(testData.getCourseType().contains("smart")) {
-					
-					result=librayUtilObj.firstLibraryCheck(driver);
-					if(!result)
-					{
-						coursePageMsgList.add("Library is not Working");
-						return result;
-					}					
-					// handle the popup
-					int no = coursePageORobj.sizePopUp().size();
-					if (no > 0) {
-						coursePageORobj.popUpClose().click();
-					}
+			// for guest user
+			if (testData.getIsUserGuest()) {
+				if (testData.getCourseType().contains("smart")) {
 					result = util.clickOnSmartCourseOnHomePage(driver);
 					if (!result) {
 						coursePageMsgList.addAll(util.homePageMsgList);
 						return result;
 					}
-					result = verifyClickBuy();
-					if (!result) {
-						return result;
-					}
-					result = selectExamPrefrences(driver);
-					if (!result) {
-						return result;
-					}
-					result = verifyPackages();
-					if (!result) {
-						return result;
-					}
-					result = verifyClickOfferPromo(testData.getOfferName());
-					if (!result) {
-						return result;
-					}
-					result = verifyPayCheckout();
-					if (!result) {
-						return result;
-					}
-					if ((ConfigFileReader.strEnv).equalsIgnoreCase("dev")) {
-
-						result = verifyClickPay(testData.getPaymentMethod(), driver, testData,
-								testData.getbankNameForPaytm());
-						if (!result) {
-							return result;
-						}
-
-						result = verifyLibraryCourse(driver, testData);
-						if (!result) {
-							return result;
-						}
-
-					} else if ((ConfigFileReader.strEnv).equalsIgnoreCase("prod")) {
-
-						System.out.println("The envirnonment is production, everything working fine");
-
-					} else {
-						coursePageMsgList.add("The envirnoment is different from dev and prod");
-						return false;
-					 }
-				}
-			else if(testData.getCourseType().contains("micro"))
-				{
-					// handle the popup
-					int no = coursePageORobj.sizePopUp().size();
-					if (no > 0) {
-						coursePageORobj.popUpClose().click();
-					}
+				} else if (testData.getCourseType().contains("micro")) {
 					result = util.clickOnMicroCourseOnHomePage(driver);
 					if (!result) {
 						coursePageMsgList.addAll(util.homePageMsgList);
 						return result;
 					}
-					result = verifyClickBuy();
+				} else if (testData.getCourseType().contains("books")) {
+					result = util.clickOnBookOnHomePage(driver);
 					if (!result) {
-						return result;
-					}					
-					result=util.verifyLogin(driver, ConfigFileReader.strUserMobileNumber);
-					if (!result) { 
-						coursePageMsgList.add("Fail to Login/Register");
+						coursePageMsgList.addAll(util.homePageMsgList);
 						return result;
 					}
-					result = selectExamPrefrences(driver);
-					if (!result) {
-						return result;
-					}
-					result = verifyClickBuy();
-					if (!result) {
-						return result;
-					}
-					result = verifyPackages();
-					if (!result) {
-						return result;
-					}
-					result = verifyClickOfferPromo(testData.getOfferName());
-					if (!result) {
-						return result;
-					}
-					result = verifyPayCheckout();
-					if (!result) {
-						return result;
-					}
-					if ((ConfigFileReader.strEnv).equalsIgnoreCase("dev")) {
-
-						result = verifyClickPay(testData.getPaymentMethod(), driver, testData,
-								testData.getbankNameForPaytm());
-						if (!result) {
-							return result;
-						}
-
-						result = verifyLibraryCourse(driver, testData);
-						if (!result) {
-							return result;
-						}
-
-					} else if ((ConfigFileReader.strEnv).equalsIgnoreCase("prod")) {
-
-						System.out.println("The envirnonment is production, everything working fine");
-
-					} else {
-						coursePageMsgList.add("The envirnoment is different from dev and prod");
-						return false;
-					 }
-					}
-			else if(testData.getCourseType().contains("books"))
-			{	
-				// handle the popup
-				int no = coursePageORobj.sizePopUp().size();
-				if (no > 0) {
-					coursePageORobj.popUpClose().click();
 				}
-				result = util.clickOnBookOnHomePage(driver);
-				if (!result) {
-					coursePageMsgList.addAll(util.homePageMsgList);
-					return result;
-				}
-				result = verifyClickBuy();
+				strCourseSlug = driver.getCurrentUrl().split("course-detail/")[1];
+				System.out.println("strCourseSlug:" + strCourseSlug);
+				result = verifyClickBuy(driver, false);
 				if (!result) {
 					return result;
 				}
-				result=util.verifyLogin(driver, ConfigFileReader.strUserMobileNumber);
-				if (!result) { 
-					coursePageMsgList.add("Fail to Login/Register");
+				result = util.doSignUp();
+				if (!result) {
+					coursePageMsgList.add("Fail Register");
 					return result;
 				}
 				result = selectExamPrefrences(driver);
 				if (!result) {
 					return result;
 				}
-				result = verifyClickBuy();
+				result = verifyClickBuy(driver, true);
 				if (!result) {
 					return result;
 				}
-				result = verifyBookClickOfferPromo(testData);
+				result = verifyPackages(strCourseSlug);
+				if (!result) {
+					return result;
+				}
+				result = verifyClickOfferPromo(testData.getOfferName());
 				if (!result) {
 					return result;
 				}
@@ -196,13 +91,14 @@ public class CoursePageUtil {
 				if (!result) {
 					return result;
 				}
-				if ((ConfigFileReader.strEnv).equalsIgnoreCase("dev")) {
+				if (!(ConfigFileReader.strEnv).equalsIgnoreCase("prod")) {
 
 					result = verifyClickPay(testData.getPaymentMethod(), driver, testData,
 							testData.getbankNameForPaytm());
 					if (!result) {
 						return result;
 					}
+
 					result = verifyLibraryCourse(driver, testData);
 					if (!result) {
 						return result;
@@ -215,18 +111,18 @@ public class CoursePageUtil {
 				} else {
 					coursePageMsgList.add("The envirnoment is different from dev and prod");
 					return false;
-				 }
-			}
+				}
+
 			}
 			// for new user
 			else {
 
 				// handle the pop up
-				int no = coursePageORobj.sizePopUp().size();
+				no = coursePageORobj.sizePopUp().size();
 				if (no > 0) {
 					coursePageORobj.popUpClose().click();
 				}
-				result = util.verifySignUp(driver);
+				result = util.doSignUp();
 				if (!result) {
 					coursePageMsgList.addAll(util.homePageMsgList);
 					return result;
@@ -240,11 +136,11 @@ public class CoursePageUtil {
 				if (!result) {
 					return result;
 				}
-				result = verifyClickBuy();
+				result = verifyClickBuy(driver, true);
 				if (!result) {
 					return result;
 				}
-				result = verifyPackages();
+				result = verifyPackages(strCourseSlug);
 				if (!result) {
 					return result;
 				}
@@ -257,7 +153,7 @@ public class CoursePageUtil {
 					return result;
 				}
 
-				if ((ConfigFileReader.strEnv).equalsIgnoreCase("dev")) {
+				if (!(ConfigFileReader.strEnv).equalsIgnoreCase("prod")) {
 					result = verifyClickPay(testData.getPaymentMethod(), driver, testData,
 							testData.getbankNameForPaytm());
 					if (!result) {
@@ -277,7 +173,7 @@ public class CoursePageUtil {
 					return false;
 				}
 			}
-			 
+
 		} catch (Exception e) {
 			result = false;
 			coursePageMsgList.add("verifyCoursePurchase_Exception: " + e.getMessage());
@@ -306,7 +202,7 @@ public class CoursePageUtil {
 
 	}
 
-	public boolean verifyClickBuy() {
+	public boolean verifyClickBuy(WebDriver driver, boolean isLoggedInUser) {
 		boolean result = true;
 
 		try {
@@ -315,8 +211,29 @@ public class CoursePageUtil {
 			if (BuyText.equalsIgnoreCase("Buy Now")) {
 				cfObj.commonClick(coursePageORobj.buyNowClick());
 			} else {
-				result = false;
+
 				coursePageMsgList.add("This is not buy now button");
+				return false;
+			}
+
+			if (isLoggedInUser) {
+
+				// wait for verify package pop up to be opened
+				result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".modal-title", "css", 30);
+				if (!result) {
+					coursePageMsgList
+							.add("Verify Choose Package pop up is not opened when click on buy now for loged in user ");
+					return result;
+				}
+
+			} else {
+				// Wait for mobile number pop up
+				result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver,
+						"//input[@placeholder='Mobile Number']", "xpath", 30);
+				if (!result) {
+					coursePageMsgList.add("Mobile number pop up is not visible when click on buy now for guest user");
+					return result;
+				}
 			}
 		} catch (Exception e) {
 			result = false;
@@ -325,28 +242,24 @@ public class CoursePageUtil {
 		return result;
 	}
 
-	public boolean verifyPackages() {
+	public boolean verifyPackages(String strCourseSlug) {
 		boolean result = true;
+		CourseView courseViewObj;
+		CourseApiUtil courseApiUtilObj;
 
 		try {
-			List<WebElement> links = coursePageORobj.verifyTitle();
-			WebElement packageTitleElement = coursePageORobj.titlePackage();
+			courseApiUtilObj = new CourseApiUtil();
+			courseViewObj = courseApiUtilObj.getCourseViewData(strCourseSlug);
+			System.out.println(courseViewObj.getData().getPriceInfo());
 
-			// It checks all the offers like premium, gold, silver
-			List<WebElement> coursePackages = coursePageORobj.packagesChooseClick();
+			result = verifyPackageType(courseViewObj);
+			if (!result) {
+				return result;
+			}
 
-			for (int i = 0; i < coursePackages.size(); i++) {
-				cfObj.commonClick(coursePackages.get(i));
-
-				String bestValueTitleString = links.get(i).getText().toLowerCase();
-				String packageTitleString = packageTitleElement.getText().toLowerCase();
-
-				if (bestValueTitleString.equalsIgnoreCase(packageTitleString)) {
-					result = true;
-				} else {
-					coursePageMsgList.add("The course offer given is not matching offer ");
-					return false;
-				}
+			result = verifyPackageFeature(courseViewObj);
+			if (!result) {
+				return result;
 			}
 		} catch (Exception e) {
 			result = false;
@@ -354,8 +267,6 @@ public class CoursePageUtil {
 		}
 		return result;
 	}
-	
-	
 
 	public boolean verifyClickOfferPromo(String offerName) {
 		boolean result = true;
@@ -368,14 +279,13 @@ public class CoursePageUtil {
 			for (int i = 0; i < coursePackages.size(); i++) {
 				String bestValueTitleString = links.get(i).getText();
 				if (bestValueTitleString.equalsIgnoreCase(offerName)) {
-                 
+
 					cfObj.commonClick(coursePackages.get(i));
 
 					String packageAmountString = coursePageORobj.packageAmounts().get(i).getText();
 					Double packageAmount = amountCorrectFormat(packageAmountString);
 
 					cfObj.commonClick(coursePageORobj.promoClick());
-				
 
 					cfObj.commonClick(coursePageORobj.applyCode());
 
@@ -388,7 +298,7 @@ public class CoursePageUtil {
 					cfObj.commonSetTextTextBox(coursePageORobj.inputCode(), "studyIQ");
 
 					cfObj.commonClick(coursePageORobj.applyCodeMain());
-					
+
 					cfObj.commonSetTextTextBox(coursePageORobj.inputCode(), couponCode);
 
 					cfObj.commonClick(coursePageORobj.applyCodeMain());
@@ -402,7 +312,7 @@ public class CoursePageUtil {
 					for (int j = 1; j < coursePackages.size(); j++) {
 						cfObj.commonClick(coursePackages.get(j));
 					}
-					
+
 					if (packageAmount == afterPackageAmount + removeCouponAmount) {
 						cfObj.commonClick(coursePageORobj.buyNowMain());
 						return true;
@@ -419,41 +329,41 @@ public class CoursePageUtil {
 		}
 		return result;
 	}
-	
+
 	public boolean verifyBookClickOfferPromo(TestData testData) {
 		boolean result = true;
 		try {
 
-			result = cfObj.commonSetTextTextBox(coursePageORobj.getInputName(),testData.getNameBill());
+			result = cfObj.commonSetTextTextBox(coursePageORobj.getInputName(), testData.getNameBill());
 			if (!result) {
 				coursePageMsgList.add("Name Input is not Working");
 			}
-			result = cfObj.commonSetTextTextBox(coursePageORobj.getInputPhone_Number(),testData.getNumberBill());
+			result = cfObj.commonSetTextTextBox(coursePageORobj.getInputPhone_Number(), testData.getNumberBill());
 			if (!result) {
 				coursePageMsgList.add("Phone_Number Input is not Working");
 			}
 
-			result = cfObj.commonSetTextTextBox(coursePageORobj.getInputEmail(),testData.getEmailBill());
+			result = cfObj.commonSetTextTextBox(coursePageORobj.getInputEmail(), testData.getEmailBill());
 			if (!result) {
 				coursePageMsgList.add("Email Input is not Working");
 			}
 
-			result = cfObj.commonSetTextTextBox(coursePageORobj.getInputAddress(),testData.getAddressBill());
+			result = cfObj.commonSetTextTextBox(coursePageORobj.getInputAddress(), testData.getAddressBill());
 			if (!result) {
 				coursePageMsgList.add("Address Input is not Working");
 			}
 
-			result = cfObj.commonSetTextTextBox(coursePageORobj.getInputCity(),testData.getCityBill());
+			result = cfObj.commonSetTextTextBox(coursePageORobj.getInputCity(), testData.getCityBill());
 			if (!result) {
 				coursePageMsgList.add("City Input is not Working");
 			}
 
-			result = cfObj.commonSetTextTextBox(coursePageORobj.getInputState(),testData.getStateBill());
+			result = cfObj.commonSetTextTextBox(coursePageORobj.getInputState(), testData.getStateBill());
 			if (!result) {
 				coursePageMsgList.add("State Input is not Working");
 			}
 
-			result = cfObj.commonSetTextTextBox(coursePageORobj.getInputPincode(),testData.getZipBill());
+			result = cfObj.commonSetTextTextBox(coursePageORobj.getInputPincode(), testData.getZipBill());
 			if (!result) {
 				coursePageMsgList.add("Pincode Input is not Working");
 			}
@@ -481,16 +391,16 @@ public class CoursePageUtil {
 			String afterpackageAmountString = coursePageORobj.getBookpackageAmountElements().getText();
 			Double afterPackageAmount = amountCorrectFormat(afterpackageAmountString);
 
-			//cfObj.commonClick(coursePageORobj.getBookBuyNow());
+			// cfObj.commonClick(coursePageORobj.getBookBuyNow());
 			if (packageAmount == afterPackageAmount + removeCouponAmount) {
-				//cfObj.commonClick(coursePageORobj.buyNowMain());
+				// cfObj.commonClick(coursePageORobj.buyNowMain());
 				cfObj.commonClick(coursePageORobj.getBookBuyNow());
 
-					return true;
-				} else {
-					coursePageMsgList.add("The amount is not same of packages before and after");
-					return false;
-					}
+				return true;
+			} else {
+				coursePageMsgList.add("The amount is not same of packages before and after");
+				return false;
+			}
 
 		} catch (Exception e) {
 			result = false;
@@ -516,7 +426,7 @@ public class CoursePageUtil {
 			Double totalAmountToPay = amountCorrectFormat(totalAmountToPayString);
 
 			if (amountPayable - amountDiscount == totalAmountToPay) {
-				
+
 				// check all payment methods are displayed
 				List<WebElement> links = coursePageORobj.payMethodClick();
 
@@ -544,24 +454,23 @@ public class CoursePageUtil {
 
 			for (int i = 0; i < links.size(); i++) {
 				String methodString = links.get(i).getText();
-				
+
 				if (methodString.equalsIgnoreCase(paymentMethod) && paymentMethod.equalsIgnoreCase("Netbank")) {
 					cfObj.commonClick(links.get(i));
-					
+
 					result = verifyNetbankMethod(driver, testData);
 					if (!result) {
 						return result;
 					}
 				} else if (methodString.equalsIgnoreCase(paymentMethod) && paymentMethod.equalsIgnoreCase("Paytm")) {
 					cfObj.commonClick(links.get(i));
-				
 
 					result = verifyPaytmMethod(driver, testData, bankName);
 					if (!result) {
 						return result;
 					}
 				} else if (methodString.equalsIgnoreCase(paymentMethod)) {
-				
+
 					cfObj.commonClick(links.get(i));
 					verifyOtherPayMethods();
 				} else {
@@ -587,7 +496,7 @@ public class CoursePageUtil {
 			if (!result) {
 				return result;
 			}
-	
+
 			result = verifyMerchantStatus();
 			if (!result) {
 				return result;
@@ -606,13 +515,13 @@ public class CoursePageUtil {
 	public boolean verifyPaytmMethod(WebDriver driver, TestData testData, String bankNameFromUser) {
 		boolean result = true;
 		try {
-		
+
 			cfObj.commonClick(coursePageORobj.netbankingInPaytm());
-			
+
 			cfObj.commonClick(coursePageORobj.payBtnClick());
-	
+
 			cfObj.commonClick(coursePageORobj.successInPaytm());
-	
+
 			result = verifyPaymentStatus();
 			if (!result) {
 				return result;
@@ -762,5 +671,63 @@ public class CoursePageUtil {
 		}
 		Double amountMain = Double.parseDouble(amnt);
 		return amountMain;
+	}
+
+	public boolean verifyPackageType(CourseView courseViewObj) {
+		boolean result = true;
+		String strPackageType, strPackageValidity, strPackagePrice;
+
+		try {
+			if (coursePageORobj.getChoosePackagelist().size() != courseViewObj.getData().getPackages().size()) {
+				coursePageMsgList.add("Mismatch in course package count with UI and API");
+				return false;
+			}
+
+			for (int i = 0; i < coursePageORobj.getChoosePackagelist().size(); i++) {
+				strPackageType = coursePageORobj.getChoosePackageTitle().get(i).getText().toString();
+				strPackageValidity = coursePageORobj.getChoosePackageValidity().get(i).getText().toString();
+				strPackagePrice = coursePageORobj.getChoosePackagePrice().get(i).getText().toString();
+				System.out.println(strPackageType + strPackageValidity + strPackagePrice);
+			}
+
+		} catch (Exception e) {
+			result = false;
+			coursePageMsgList.add("verifyPackageType_Exception" + e.getMessage());
+		}
+		return result;
+	}
+
+	public boolean verifyPackageFeature(CourseView courseViewObj) {
+		boolean result = true;
+		String strCurrentPackageTitle, strChoosePackageTitle;
+		try {
+			for (int i = 0; i < coursePageORobj.getChoosePackagelist().size(); i++) {
+
+				// click on first package
+				cfObj.commonClick(coursePageORobj.getChoosePackagelist().get(i));
+
+				// verify feature list
+
+				if (coursePageORobj.getListPackageFeature().size() == 0) {
+					coursePageMsgList.add("feature list is empty");
+					result = false;
+				}
+
+				strCurrentPackageTitle = coursePageORobj.getListCurrentPackageTitle().get(0).getText().toString();
+
+				strChoosePackageTitle = coursePageORobj.getChoosePackageTitle().get(i).getText().toString();
+
+				if (!strCurrentPackageTitle.equalsIgnoreCase(strChoosePackageTitle)) {
+					coursePageMsgList.add("Mismatch in package title: Current title: " + strCurrentPackageTitle
+							+ " ChoosePackageTitle: " + strChoosePackageTitle);
+					result = false;
+				}
+			}
+
+		} catch (Exception e) {
+			result = false;
+			coursePageMsgList.add("_Exception" + e.getMessage());
+		}
+		return result;
 	}
 }
