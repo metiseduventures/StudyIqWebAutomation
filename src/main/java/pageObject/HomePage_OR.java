@@ -70,7 +70,7 @@ public class HomePage_OR {
 		return listCourse;
 	}
 	
-	@FindBy(xpath = "(//div[@class='slick-track'])[25]/div/div/div/img")
+	@FindBy(css = ".slick-list>div>div.slick-active")
 	List<WebElement> listOfBook;
 
 	public List<WebElement> getlistOfBook() {

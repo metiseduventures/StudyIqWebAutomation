@@ -6,7 +6,7 @@ import org.openqa.selenium.support.FindBy;
 
 public class LibraryPage_OR {
 		
-	@FindBy(xpath = "//span[@class='course_title']")
+	@FindBy(css = ".library-course-item--title")
 	List<WebElement> TitlesInLibrary;
 	
 	public List<WebElement> libraryTitles(){

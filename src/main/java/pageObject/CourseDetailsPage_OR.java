@@ -10,23 +10,17 @@ public class CourseDetailsPage_OR {
 
 	public WebDriver driver;
 
-	/*public CourseDetailsPage_OR(WebDriver driver) {
-		// TODO Auto-generated constructor stub
-		this.driver=driver;
-	}*/
 
-	//About Course
-	
-	@FindBy(xpath="(//div[@class='title'])[1]")
-	private WebElement CourseName_By;
-	
-	public WebElement getCourseName_By() {
-		// TODO Auto-generated method stub
-		return CourseName_By;
-	}
+	//Course title
+	@FindBy(css=".title_wrapper>div.title")
+	private List<WebElement> listCourseTitle;
 	
 	//Course Info
 	
+	public List<WebElement> getListCourseTitle() {
+		return listCourseTitle;
+	}
+
 	@FindBy(xpath="//div[@class='courses_info_wrapper col-lg-5']/div[1]")
 	private WebElement CourseInfo_Text;
 	
@@ -35,26 +29,27 @@ public class CourseDetailsPage_OR {
 		return CourseInfo_Text;
 	}
 	
-	@FindBy(xpath=".image_price_wrapper>div.image_wrapper>img")
-	private WebElement CourseInfo_Img1;
+	@FindBy(css=".course_basic_info>div.image_price_wrapper>div>img")
+	private List<WebElement> CourseInfoImage;
 	
-	public WebElement getCourseInfo_Img1() {
-		// TODO Auto-generated method stub
-		return CourseInfo_Img1;
+	
+	
+	public List<WebElement> getCourseInfoImage() {
+		return CourseInfoImage;
 	}
+
+	@FindBy(css=".prices>span")
+	private List<WebElement> Discounted_Price;
 	
-	@FindBy(xpath="//div[@class='price_details_wrapper']/div[1]/span[1]")
-	private WebElement Discounted_Price;
-	
-	public WebElement getDiscounted_Price() {
+	public List<WebElement> getDiscounted_Price() {
 		// TODO Auto-generated method stub
 		return Discounted_Price;
 	}
 	
-	@FindBy(xpath="//div[@class='price_details_wrapper']/div[1]/span[2]")
-	private WebElement Original_Price;
+	@FindBy(css=".bp")
+	private List<WebElement> Original_Price;
 	
-	public WebElement getOriginal_Price() {
+	public List<WebElement> getOriginal_Price() {
 		// TODO Auto-generated method stub
 		return Original_Price;
 	}
@@ -67,10 +62,10 @@ public class CourseDetailsPage_OR {
 		return Discount_Date;
 	}
 	
-	@FindBy(xpath="//div[@class='price_details_wrapper']/div[3]/button")
-	private WebElement BuyNow_Button;
+	@FindBy(css=".buy_now")
+	private List<WebElement> BuyNow_Button;
 	
-	public WebElement getBuyNow_Button() {
+	public List<WebElement> getBuyNow_Button() {
 		// TODO Auto-generated method stub
 		return BuyNow_Button;
 	}
@@ -91,26 +86,15 @@ public class CourseDetailsPage_OR {
 		return Price_increase;
 	}
 	
-	
-	
-	@FindBy(xpath="//div[@class='courses_info_wrapper col-lg-5']/div[2]/div/div[1]")
-	private List<WebElement> CourseInfo_Img2;
-	
-	public List<WebElement> getCourseInfo_Img2() {
-		// TODO Auto-generated method stub
-		return CourseInfo_Img2;
-	}
-	
-	@FindBy(xpath="//div[@class='info_title']")
-	private List<WebElement> CourseInfo_ImgText;
-	
-	public List<WebElement> getCourseInfo_ImgText() {
-		// TODO Auto-generated method stub
-		return CourseInfo_ImgText;
-	}
+	@FindBy(css=".info_wrapper>div")
+	private List<WebElement> listCourseInfo;
 	
 	//Exam Cover
 	
+	public List<WebElement> getListCourseInfo() {
+		return listCourseInfo;
+	}
+
 	@FindBy(xpath="//div[@class='navigation']/button[1]")
 	private WebElement ExamsCovered_TextButton;
 	
@@ -127,16 +111,13 @@ public class CourseDetailsPage_OR {
 		return ExamsCovered_Text;
 	}
 	
-	@FindBy(xpath="//div[@class='exams_covered_wrapper only_one']/div[2]/div/div/div/div/div/div/div[2]")
+	@FindBy(css=".exam_slider_wrapper>div>div>div>div")
 	private List<WebElement> ExamsCovered_Textinside;
 	
 	public List<WebElement> getExamsCovered_Textinside() {
 		// TODO Auto-generated method stub
 		return ExamsCovered_Textinside;
 	}
-	
-
-	
 	//About Authors
 	
 	@FindBy(xpath="//div[@class='navigation']/button[2]")

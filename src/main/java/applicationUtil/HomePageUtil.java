@@ -321,12 +321,13 @@ public class HomePageUtil {
 	public boolean clickOnBookOnHomePage(WebDriver driver) {
 		boolean result = true;
 		try {
+			driver.navigate().to(fileReader.getBaseUrlWeb()+"books");
 			if (homePageORObj.getlistOfBook().size() == 0) {
 				homePageMsgList.add("Books are not display on the home page");
 				return false;
 			}
-			// Select first course
-			cfObj.commonClick(homePageORObj.getlistOfBook().get(4));
+			// Select first book course
+			cfObj.commonClick(homePageORObj.getlistOfBook().get(0));
 
 			// wait for course detail page to be opened
 			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".course_basic_info_wrapper", "css", 30);

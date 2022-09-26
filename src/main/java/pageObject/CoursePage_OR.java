@@ -90,7 +90,7 @@ public class CoursePage_OR {
 		return applycodeElement;
 	}
 
-	@FindBy(css = "button[class='btn btn-brand btn-block']")
+	@FindBy(css = ".btn-brand.btn-block")
 	WebElement buyNowButtonElement;
 
 	public WebElement buyNowMain() {
@@ -382,19 +382,88 @@ public class CoursePage_OR {
 	List<WebElement> choosePackageValidity;
 	@FindBy(css = ".course-package--price")
 	List<WebElement> choosePackagePrice;
-	
+
 	@FindBy(css = ".course-package--feature-label")
 	List<WebElement> listPackageFeature;
 
 	public List<WebElement> getListPackageFeature() {
 		return listPackageFeature;
 	}
-	
+
 	@FindBy(css = ".course-current-package--title")
 	List<WebElement> listCurrentPackageTitle;
 
 	public List<WebElement> getListCurrentPackageTitle() {
 		return listCurrentPackageTitle;
 	}
-	
+
+	@FindBy(id = "book-checkout-form")
+	List<WebElement> listBookingForm;
+
+	public List<WebElement> getListBookingForm() {
+		return listBookingForm;
+	}
+
+	public List<WebElement> getListBookingFormName() {
+		return listBookingFormName;
+	}
+
+	public List<WebElement> getListBookingFormPhoneNo() {
+		return listBookingFormPhoneNo;
+	}
+
+	public List<WebElement> getListBookingFormEmail() {
+		return listBookingFormEmail;
+	}
+
+	public List<WebElement> getListBookingFormAddress() {
+		return listBookingFormAddress;
+	}
+
+	public List<WebElement> getListBookingFormPinCode() {
+		return listBookingFormPinCode;
+	}
+
+	public List<WebElement> getListBookingFormCity() {
+		return listBookingFormCity;
+	}
+
+	public List<WebElement> getListBookingFormState() {
+		return listBookingFormState;
+	}
+
+	@FindBy(name = "name")
+	List<WebElement> listBookingFormName;
+
+	@FindBy(name = "phone")
+	List<WebElement> listBookingFormPhoneNo;
+
+	@FindBy(name = "email")
+	List<WebElement> listBookingFormEmail;
+
+	@FindBy(name = "address")
+	List<WebElement> listBookingFormAddress;
+
+	@FindBy(name = "pin_code")
+	List<WebElement> listBookingFormPinCode;
+
+	@FindBy(name = "city")
+	List<WebElement> listBookingFormCity;
+
+	@FindBy(name = "state")
+	List<WebElement> listBookingFormState;
+
+	@FindBy(css = ".package-payment-details--breakdown-item")
+	List<WebElement> listBreakDownItem;
+
+	public List<WebElement> getListBreakDownItem() {
+		return listBreakDownItem;
+	}
+
+	@FindBy(css = ".book-details")
+	List<WebElement> listBookDetailOnPackagePopUp;
+
+	public List<WebElement> getListBookDetailOnPackagePopUp() {
+		return listBookDetailOnPackagePopUp;
+	}
 }

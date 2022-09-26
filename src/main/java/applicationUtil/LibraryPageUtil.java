@@ -104,11 +104,14 @@ public class LibraryPageUtil {
 	public boolean verifyPuchasedCourseOnMyLibrary(WebDriver driver, TestData testData) {
 		boolean result = true;
 		try {
-			Thread.sleep(5000);
-
-			result = verifyBoughtCourse(testData.getCourseName());
-			if (!result) {
-				return result;
+			
+			
+			if(!testData.getCourseType().equalsIgnoreCase("books"))
+			{
+				result = verifyBoughtCourse(testData.getCourseName());
+				if (!result) {
+					return result;
+				}
 			}
 
 		} catch (Exception e) {

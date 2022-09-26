@@ -21,5 +21,4 @@ public class CourseDetailPageTest extends BaseTest {
 		Assert.assertEquals(result, true, CourseDetailsUtilObj.CourseDetailsPageMsgList.toString());
 		
 	}
-	
 }
