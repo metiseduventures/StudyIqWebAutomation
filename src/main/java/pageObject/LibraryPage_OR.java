@@ -89,7 +89,8 @@ public class LibraryPage_OR {
 		return DotMicro;
 	}
 	
-	@FindBy(xpath="(//div[@class='dropdown-item dropdown-sublist'])[3]")
+
+	@FindBy(xpath="(//*[contains(text(),'Books')])[1]")
 	private WebElement DotBook;
 	
 	public WebElement getDotBook()
@@ -97,7 +98,8 @@ public class LibraryPage_OR {
 		return DotBook;
 	}
 	
-	@FindBy(xpath="(//div[@class='dropdown-item dropdown-sublist'])[4]")
+
+	@FindBy(xpath="(//div[contains(text(),'Test Series')])[1]")
 	private WebElement DotTestSeries;
 	
 	public WebElement getDotTestSeries()

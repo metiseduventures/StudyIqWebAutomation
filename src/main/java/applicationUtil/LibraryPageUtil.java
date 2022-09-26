@@ -191,7 +191,7 @@ public class LibraryPageUtil {
 
 		} catch (Exception e) {
 			result = false;
-			libraryPageMsgList.add("Verify_Books_Exception: " + e.getMessage());
+			libraryPageMsgList.add("VerifyMicro_Course_Exception: " + e.getMessage());
 		}
 		return result;
 	}
@@ -260,7 +260,7 @@ public class LibraryPageUtil {
 			if (result == true) {
 				cfObj.commonClick(libraryPage_OR.getDotSmart());
 			} else {
-				libraryPageMsgList.add("Smart Courses is Not Available");
+				libraryPageMsgList.add("TestSeries is Not Available");
 			}
 
 		} catch (Exception e) {
@@ -285,7 +285,7 @@ public class LibraryPageUtil {
 			if (result == true) {
 				cfObj.commonClick(libraryPage_OR.getDotMicro());
 			} else {
-				libraryPageMsgList.add("Micro courses is Not Available");
+				libraryPageMsgList.add("TestSeries is Not Available");
 			}
 
 		} catch (Exception e) {
@@ -309,7 +309,7 @@ public class LibraryPageUtil {
 			if (result == true) {
 				cfObj.commonClick(libraryPage_OR.getDotBook());
 			} else {
-				libraryPageMsgList.add("Books is Not Available");
+				libraryPageMsgList.add("TestSeries is Not Available");
 			}
 
 		} catch (Exception e) {
@@ -365,7 +365,7 @@ public class LibraryPageUtil {
 
 		} catch (Exception e) {
 			result = false;
-			libraryPageMsgList.add("Check_Library_Exception: " + e.getMessage());
+			libraryPageMsgList.add("verifyMyLibrary_Exception: " + e.getMessage());
 		}
 
 		return result;
@@ -401,7 +401,7 @@ public class LibraryPageUtil {
 				cfObj.commonClick(myCourse_OR.getClickOn_HomePage());
 			} catch (Exception e) {
 				result = false;
-				libraryPageMsgList.add("ClickOnHomePage_Exception: " + e.getMessage());
+				libraryPageMsgList.add("VerifySmart_Course_Exception: " + e.getMessage());
 			}
 			return result;
 		}

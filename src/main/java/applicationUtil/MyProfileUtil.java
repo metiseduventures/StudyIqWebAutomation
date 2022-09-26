@@ -185,7 +185,7 @@ public class MyProfileUtil {
 
 		} catch (Exception e) {
 			result = false;
-			MyProfileORobjMsgList.add("clickOnUpdateProfile_button_Exception: " + e.getMessage());
+			MyProfileORobjMsgList.add("verifyInputDetails_Exception: " + e.getMessage());
 		}
 		return result;
 	}

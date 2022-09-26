@@ -9,6 +9,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import apiUtil.OtpUtil;
 import pageObject.HomePage_OR;
+import pageObject.LibraryPage_OR;
 import pojo.TestData;
 import util.Common_Function;
 import util.ConfigFileReader;
@@ -19,6 +20,7 @@ public class HomePageUtil {
 	MyProfileUtil myProfileUtilObj;
 	LibraryPageUtil librayUtilObj;
 	CoursePageUtil coursePageUtilObj;
+	LibraryPage_OR LibraryORobj;
 	public List<String> homePageMsgList = new ArrayList<String>();
 	public Common_Function cfObj = new Common_Function();
 	OtpUtil otpUtilObj;
@@ -154,11 +156,12 @@ public class HomePageUtil {
 		try {
 			// click on login/register button
 			result = clickOnLoginRegisterButton(driver);
-			if (!result) { 
-			homePageMsgList.add(result+" Login/Register Button is not working");
-			return result;
+
+			if (!result) {
+				homePageMsgList.add(result + " Login/Register Button is not working");
+				return result;
 			}
-			
+
 			// enter mobile number
 			result = enterMobileNumber(strMobileNumber);
 			if (!result) {
@@ -172,12 +175,12 @@ public class HomePageUtil {
 			}
 
 			otpUtilObj = new OtpUtil();
-			strOtp = otpUtilObj.getOtp(strMobileNumber, true);
+			strOtp = otpUtilObj.getOtp(strMobileNumber, false);
 			if (strOtp == null) {
 				homePageMsgList.add("Error in getting otp");
 				return false;
 			}
-			
+
 			// enter OTP
 			result = enterOtp(strOtp);
 			if (!result) {
@@ -297,19 +300,19 @@ public class HomePageUtil {
 
 	public boolean verifySignUp(WebDriver driver) {
 		boolean result = true;
-		String strOtp = null;
-		String strMobileNumber = null;
+		String strOtp=null;
+		String strMobileNumber=null;
 		try {
 			strMobileNumber = Common_Function.randomPhoneNumber(10, "9");
+
 
 			// click on login/register button
 			result = clickOnLoginRegisterButton(driver);
 			if (!result) {
 				return result;
 			}
-			// enter mobile number
-			result = enterMobileNumber(strMobileNumber);
 
+			result = doSignUp();
 			if (!result) {
 				return result;
 			}
@@ -346,6 +349,7 @@ public class HomePageUtil {
 			if (!result) {
 				return result;
 			}
+
 
 		} catch (Exception e) {
 			result = false;
@@ -403,7 +407,31 @@ public class HomePageUtil {
 		}
 		return result;
 	}
-	
+
+	public boolean clickOnSmartCourseOnHomePage(WebDriver driver) {
+		boolean result = true;
+		try {
+			if (homePageORObj.getListCourse().size() == 0) {
+				homePageMsgList.add("Courses are not display on the home page");
+				return false;
+			}
+			// Select first course
+			cfObj.commonClick(homePageORObj.getListCourse().get(0));
+
+			// wait for course detail page to be opened
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".course_basic_info_wrapper", "css", 30);
+			if (!result) {
+				homePageMsgList.add("Course detail page not opened");
+				return result;
+			}
+
+		} catch (Exception e) {
+			result = false;
+			homePageMsgList.add("clickOnSmartCourseOnHomePage_Exception: " + e.getMessage());
+		}
+		return result;
+	}
+
 	public boolean clickOnCourseOnHomePage(WebDriver driver) {
 		boolean result = true;
 		try {
@@ -427,31 +455,7 @@ public class HomePageUtil {
 		}
 		return result;
 	}
-	
-	public boolean clickOnSmartCourseOnHomePage(WebDriver driver) {
-		boolean result = true;
-		try {
-			if (homePageORObj.getListCourse().size() == 0) {
-				homePageMsgList.add("Courses are not display on the home page");
-				return false;
-			}
-			// Select first course
-			cfObj.commonClick(homePageORObj.getListCourse().get(0));
-			
-			// wait for course detail page to be opened
-			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".course_basic_info_wrapper", "css", 30);
-			if (!result) {
-				homePageMsgList.add("Course detail page not opened");
-				return result;
-			}
 
-		} catch (Exception e) {
-			result = false;
-			homePageMsgList.add("clickOnSmartCourseOnHomePage_Exception: " + e.getMessage());
-		}
-		return result;
-	}
-	
 	public boolean clickOnMicroCourseOnHomePage(WebDriver driver) {
 		boolean result = true;
 		try {
@@ -461,7 +465,7 @@ public class HomePageUtil {
 			}
 			// Select first course
 			cfObj.commonClick(homePageORObj.getListCourse().get(42));
-			
+
 			// wait for course detail page to be opened
 			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".course_basic_info_wrapper", "css", 30);
 			if (!result) {
@@ -475,7 +479,7 @@ public class HomePageUtil {
 		}
 		return result;
 	}
-	
+
 	public boolean clickOnBookOnHomePage(WebDriver driver) {
 		boolean result = true;
 		try {
@@ -485,7 +489,7 @@ public class HomePageUtil {
 			}
 			// Select first course
 			cfObj.commonClick(homePageORObj.getlistOfBook().get(4));
-			
+
 			// wait for course detail page to be opened
 			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".course_basic_info_wrapper", "css", 30);
 			if (!result) {
@@ -499,8 +503,9 @@ public class HomePageUtil {
 		}
 		return result;
 	}
-	
-		public boolean verifyMyProfile(WebDriver driver) {
+
+
+	public boolean verifyMyProfile(WebDriver driver) {
 		boolean result = true;
 		try {
 
@@ -524,7 +529,7 @@ public class HomePageUtil {
 		}
 		return result;
 	}
-	
+
 	public boolean clickOnDropDown(WebDriver driver) {
 		boolean result = true;
 		try {
@@ -536,28 +541,15 @@ public class HomePageUtil {
 		}
 		return result;
 	}
-	
+
 	public boolean clickOnMyProfile(WebDriver driver) {
 		boolean result = true;
-		try {			
+		try {
 			cfObj.commonClick(homePageORObj.getMyProfile_Button());
 
 		} catch (Exception e) {
 			result = false;
 			homePageMsgList.add("clickOnMyProfile_Exception: " + e.getMessage());
-		}
-		return result;
-	}
-	
-	public boolean clickOnBestSelling_Button(int index) {
-		boolean result = true;
-		try {
-			
-			cfObj.commonClick(homePageORObj.getBestSelling_Button().get(index));
-			
-		} catch (Exception e) {
-			result = false;
-			homePageMsgList.add("clickOnBestSelling_Exception: " + e.getMessage());
 		}
 		return result;
 	}
@@ -951,7 +943,71 @@ public class HomePageUtil {
 			result = false;
 			homePageMsgList.add("clickOnYoutube_Exception: " + e.getMessage());
 		}
+		return result;
+	}
 
+	public boolean clickOnBestSelling_Button(int index) {
+		boolean result = true;
+		try {
+
+			cfObj.commonClick(homePageORObj.getBestSelling_Button().get(index));
+
+		} catch (Exception e) {
+			result = false;
+			homePageMsgList.add("clickOnBestSelling_Exception: " + e.getMessage());
+		}
+		return result;
+	}
+
+	public boolean doSignUp() {
+		boolean result = true;
+		String strOtp = null;
+		String strMobileNumber = null;
+		try {
+			strMobileNumber = Common_Function.randomPhoneNumber(10, "3");
+			// enter mobile number
+			result = enterMobileNumber(strMobileNumber);
+
+			if (!result) {
+				return result;
+			}
+			// click on get OTP
+
+			result = clickOnContinueButton();
+			if (!result) {
+				return result;
+			}
+			otpUtilObj = new OtpUtil();
+
+			strOtp = otpUtilObj.getOtp(strMobileNumber, true);
+
+			// enter OTP
+			result = enterOtp(strOtp);
+			if (!result) {
+				return result;
+			}
+			// Enter name
+
+			result = enterName("Test");
+			if (!result) {
+				return result;
+			}
+
+			// Enter Email
+			result = enterEmail("Test" + strMobileNumber + "@gmail.com");
+			if (!result) {
+				return result;
+			}
+			// Click on Continue button
+
+			result = clickOnContinueButton();
+			if (!result) {
+				return result;
+			}
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		return result;
 	}
 	

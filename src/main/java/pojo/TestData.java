@@ -16,6 +16,8 @@ public class TestData {
 	private String stateBill;
 	private String numberBill;
 	private String emailBill;
+	private String courseType;
+	
 	
 	private String bankNameForPaytm;
 
@@ -138,5 +140,14 @@ public class TestData {
 	public void setEmailBill(String emailBill) {
 		this.emailBill = emailBill;
 	}
+
+
+	public String getCourseType() {
+		return courseType;
+	}
+
+	public void setCourseType(String courseType) {
+		this.courseType = courseType;
+	}	
 
 }
