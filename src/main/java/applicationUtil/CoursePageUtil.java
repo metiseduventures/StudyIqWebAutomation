@@ -780,4 +780,53 @@ public class CoursePageUtil {
 		}
 		return result;
 	}
+	
+	public boolean clickOnBuyNow() {
+		boolean result = true;
+
+		try {
+			String BuyText = coursePageORobj.buyNowClick().getText();
+
+			if (BuyText.equalsIgnoreCase("Buy Now")) {
+				cfObj.commonClick(coursePageORobj.buyNowClick());
+			} else {
+				result = false;
+				coursePageMsgList.add("This is not buy now button");
+			}
+		} catch (Exception e) {
+			result = false;
+			coursePageMsgList.add("click&VerifyBuyBtn_Exception: " + e.getMessage());
+		}
+		return result;
+	}
+	
+	public boolean PackageVerification() {
+		boolean result = true;
+
+		try {
+			List<WebElement> links = coursePageORobj.verifyTitle();
+			WebElement packageTitleElement = coursePageORobj.titlePackage();
+
+			// It checks all the offers like premium, gold, silver
+			List<WebElement> coursePackages = coursePageORobj.packagesChooseClick();
+
+			for (int i = 0; i < coursePackages.size(); i++) {
+				cfObj.commonClick(coursePackages.get(i));
+
+				String bestValueTitleString = links.get(i).getText().toLowerCase();
+				String packageTitleString = packageTitleElement.getText().toLowerCase();
+
+				if (bestValueTitleString.equalsIgnoreCase(packageTitleString)) {
+					result = true;
+				} else {
+					coursePageMsgList.add("The course offer given is not matching offer ");
+					return false;
+				}
+			}
+		} catch (Exception e) {
+			result = false;
+			coursePageMsgList.add("PackageVerification_Exception: " + e.getMessage());
+		}
+		return result;
+	}
 }

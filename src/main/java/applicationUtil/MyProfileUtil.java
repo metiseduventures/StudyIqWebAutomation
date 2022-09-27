@@ -189,6 +189,61 @@ public class MyProfileUtil {
 		}
 		return result;
 	}
+	
+	public boolean verifyProfileInput(WebDriver driver) {
+		boolean result = true;
+		try {
+			result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "(//label[@class='form-label'])[1]", "xpath", 1);
+			if (!result) {
+				MyProfileORobjMsgList.add("Your Name Title is not Available");
+			}
+			result = cfObj.commonSetTextTextBox(MyProfileORobj.getYourName_input(),"Harsh Raj");
+			if (!result) {
+				MyProfileORobjMsgList.add("Your Name is not Available");
+			}
+             
+			result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "(//label[@class='form-label'])[2]", "xpath", 1);
+			if (!result) {
+				MyProfileORobjMsgList.add("Your PinCode Title is not Available");
+			}
+			result = cfObj.commonSetTextTextBox(MyProfileORobj.getPinCode_input(), "122001");
+			if (!result) {
+				MyProfileORobjMsgList.add("Your City is not Available");
+			}
+			
+			result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "(//label[@class='form-label'])[3]", "xpath", 1);
+			if (!result) {
+				MyProfileORobjMsgList.add("Your Address Title is not Available");
+			}
+			result = cfObj.commonSetTextTextBox(MyProfileORobj.getAddress_input(), "Gurgaon,Haryana");
+			if (!result) {
+				MyProfileORobjMsgList.add("Your Address is not Available");
+			}
+			
+			result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "(//label[@class='form-label'])[4]", "xpath", 1);
+			if (!result) {
+				MyProfileORobjMsgList.add("Your State Title is not Available");
+			}
+			result = cfObj.commonSetTextTextBox(MyProfileORobj.getCity_input(), "Gurgaon");
+			if (!result) {
+				MyProfileORobjMsgList.add("Your State is not Available");
+			}	
+			
+			result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "(//label[@class='form-label'])[5]", "xpath", 1);
+			if (!result) {
+				MyProfileORobjMsgList.add("Your PinCode Title is not Available");
+			}
+			result = cfObj.commonSetTextTextBox(MyProfileORobj.getState_input(),"Haryana");
+			if (!result) {
+				MyProfileORobjMsgList.add("Your PinCode is not Available");
+			}
+						
+		} catch (Exception e) {
+			result = false;
+			MyProfileORobjMsgList.add("verifyProfileInput_Exception: " + e.getMessage());
+		}
+		return result;
+	}
 		
 	
 }
