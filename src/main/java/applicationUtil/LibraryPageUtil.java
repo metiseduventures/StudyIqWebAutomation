@@ -33,7 +33,7 @@ public class LibraryPageUtil {
 		libraryPage_OR = new LibraryPage_OR();
 		PageFactory.initElements(driver, libraryPage_OR);
 	}
-	
+
 	public boolean verifyMyLibrary(WebDriver driver) {
 		boolean result = true;
 		coursePageUtil = new CoursePageUtil(driver);
@@ -71,30 +71,28 @@ public class LibraryPageUtil {
 		}
 		return result;
 	}
-	
+
 	public boolean firstLibraryCheck(WebDriver driver) {
 		boolean result = true;
 		homPageUtilObj = new HomePageUtil(driver);
 		try {
-		result = homPageUtilObj.verifyLogin(driver, ConfigFileReader.strUserMobileNumber);
-		if (!result) {
-			libraryPageMsgList.add("Fail to Login/Register");
-		}
-		
-		  result = Check_Library(driver); 
-		  if (!result) {
-		  libraryPageMsgList.add("Fail to validateMyLibrary"); 
-		}
-		  
-		  result=cfObj.commonWaitForElementToBeVisible(driver,libraryPage_OR.getExplore_Courses(), 2);
-			if (result==true) {
-				cfObj.commonClick(libraryPage_OR.getExplore_Courses());
+			result = homPageUtilObj.verifyLogin(driver, ConfigFileReader.strUserMobileNumber);
+			if (!result) {
+				libraryPageMsgList.add("Fail to Login/Register");
 			}
-			else {
+
+			result = Check_Library(driver);
+			if (!result) {
+				libraryPageMsgList.add("Fail to validateMyLibrary");
+			}
+
+			result = cfObj.commonWaitForElementToBeVisible(driver, libraryPage_OR.getExplore_Courses(), 2);
+			if (result == true) {
+				cfObj.commonClick(libraryPage_OR.getExplore_Courses());
+			} else {
 				libraryPageMsgList.add("No new Login");
 			}
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			result = false;
 			libraryPageMsgList.add("firstLibraryCheck_Exception: " + e.getMessage());
 		}
@@ -104,13 +102,30 @@ public class LibraryPageUtil {
 	public boolean verifyPuchasedCourseOnMyLibrary(WebDriver driver, TestData testData) {
 		boolean result = true;
 		try {
-			
-			
-			if(!testData.getCourseType().equalsIgnoreCase("books"))
-			{
-				result = verifyBoughtCourse(testData.getCourseName());
-				if (!result) {
-					return result;
+
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//span[@class='title']", "xpath", 10);
+			if (!result) {
+				libraryPageMsgList.add("This is not a library page");
+				return result;
+			}
+
+			List<WebElement> linkCourses = libraryPage_OR.libraryTitles();
+
+			int noOfCourses = linkCourses.size();
+
+			if (noOfCourses == 0) {
+
+				libraryPageMsgList.add("The course is bought but there is no course present");
+				return false;
+
+			} else {
+
+				if (!testData.getCourseType().equalsIgnoreCase("books")) {
+					
+					result = verifyBoughtCourse(testData.getCourseName());
+					if (!result) {
+						return result;
+					}
 				}
 			}
 
@@ -123,12 +138,14 @@ public class LibraryPageUtil {
 
 	public boolean verifyBoughtCourse(String searchCourseName) {
 		boolean result = true;
-		coursePage_OR = new CoursePage_OR();
 		try {
 			List<WebElement> linkCourses = libraryPage_OR.libraryTitles();
+
+			String[] arr = searchCourseName.split(" ");
+
 			for (int i = 0; i < linkCourses.size(); i++) {
 				String courseInLibrary = linkCourses.get(i).getText().toLowerCase();
-				if (courseInLibrary.contains(searchCourseName.toLowerCase())) {
+				if (courseInLibrary.contains(arr[0].toLowerCase())) {
 					return true;
 				}
 			}
@@ -143,15 +160,15 @@ public class LibraryPageUtil {
 
 	public boolean VerifySmart_Course(WebDriver driver) {
 		boolean result = true;
-		myCoursePageUtil=new MyCourseUtil(driver);
+		myCoursePageUtil = new MyCourseUtil(driver);
 		try {
 			cfObj.commonClick(libraryPage_OR.getSmart_Courses());
 			cfObj.commonClick(libraryPage_OR.getStart_MyCourse());
-			result=myCoursePageUtil.validateFirst_SmartCourse(driver);
-			if(!result) {
+			result = myCoursePageUtil.validateFirst_SmartCourse(driver);
+			if (!result) {
 				libraryPageMsgList.add("Not Validate First Course of Smart Courses");
 				return result;
-			    }
+			}
 
 		} catch (Exception e) {
 			result = false;
@@ -162,16 +179,16 @@ public class LibraryPageUtil {
 
 	public boolean VerifyMicro_Course(WebDriver driver) {
 		boolean result = true;
-	    myCoursePageUtil=new MyCourseUtil(driver);
+		myCoursePageUtil = new MyCourseUtil(driver);
 		try {
-			
+
 			cfObj.commonClick(libraryPage_OR.getMicro_Courses());
 			cfObj.commonClick(libraryPage_OR.getStart_MyCourse());
-			result=myCoursePageUtil.validateFirst_MicroCourse(driver);
-			if(!result) {
+			result = myCoursePageUtil.validateFirst_MicroCourse(driver);
+			if (!result) {
 				libraryPageMsgList.add("Not Validate First Course of Micro Courses");
 				return result;
-			    }
+			}
 		} catch (Exception e) {
 			result = false;
 			libraryPageMsgList.add("VerifyMicro_Course_Exception: " + e.getMessage());
@@ -181,16 +198,16 @@ public class LibraryPageUtil {
 
 	public boolean Verify_Books(WebDriver driver) {
 		boolean result = true;
-	    myCoursePageUtil=new MyCourseUtil(driver);
+		myCoursePageUtil = new MyCourseUtil(driver);
 		try {
 
 			cfObj.commonClick(libraryPage_OR.getBooks());
 			cfObj.commonClick(libraryPage_OR.getStart_MyCourse());
-			result=myCoursePageUtil.validateFirst_Books(driver);
-			if(!result) {
+			result = myCoursePageUtil.validateFirst_Books(driver);
+			if (!result) {
 				libraryPageMsgList.add("Not Validate First Books Page");
 				return result;
-			    }
+			}
 
 		} catch (Exception e) {
 			result = false;
@@ -199,7 +216,6 @@ public class LibraryPageUtil {
 		return result;
 	}
 
-		
 	public boolean DropDownLibrary_Course(WebDriver driver) {
 		boolean result = true;
 		homeUtilObj = new HomePageUtil(driver);
@@ -385,28 +401,27 @@ public class LibraryPageUtil {
 		return result;
 	}
 
-	
-	  public boolean clickOnExploreCourses(WebDriver driver) { 
-		  boolean result =true; 
-		  try {	  
-	  cfObj.commonClick(libraryPage_OR.getExplore_Courses());
-	  
-	  } catch (Exception e) { 
-		result = false;
-	    libraryPageMsgList.add("clickOnExploreCourses_Exception: " + e.getMessage());
-	     } 
-	       return result; 
-	  }
-	  
-	  public boolean ClickOnHomePage(WebDriver driver) {
-			boolean result = true;
-			try {
-				cfObj.commonClick(myCourse_OR.getClickOn_HomePage());
-			} catch (Exception e) {
-				result = false;
-				libraryPageMsgList.add("VerifySmart_Course_Exception: " + e.getMessage());
-			}
-			return result;
+	public boolean clickOnExploreCourses(WebDriver driver) {
+		boolean result = true;
+		try {
+			cfObj.commonClick(libraryPage_OR.getExplore_Courses());
+
+		} catch (Exception e) {
+			result = false;
+			libraryPageMsgList.add("clickOnExploreCourses_Exception: " + e.getMessage());
 		}
-	 
+		return result;
+	}
+
+	public boolean ClickOnHomePage(WebDriver driver) {
+		boolean result = true;
+		try {
+			cfObj.commonClick(myCourse_OR.getClickOn_HomePage());
+		} catch (Exception e) {
+			result = false;
+			libraryPageMsgList.add("VerifySmart_Course_Exception: " + e.getMessage());
+		}
+		return result;
+	}
+
 }
