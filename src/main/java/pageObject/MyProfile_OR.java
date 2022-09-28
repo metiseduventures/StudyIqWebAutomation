@@ -93,4 +93,36 @@ public class MyProfile_OR {
 		return UpdateProfile_button;
 	}
 	
+	@FindBy(xpath = "(//input[@class='form-control'])[2]")
+	private WebElement PinCode_input;
+	
+	
+	public WebElement getPinCode_input() {
+		return PinCode_input;
+	}
+	
+	@FindBy(xpath = "(//input[@type='text'])[3]")
+	private WebElement Address_input;
+	
+	
+	public WebElement getAddress_input() {
+		return Address_input;
+	}
+	
+	@FindBy(xpath = "(//input[@type='text'])[4]")
+	private WebElement City_input;
+	
+	
+	public WebElement getCity_input() {
+		return City_input;
+	}
+	
+	@FindBy(xpath = "(//input[@type='text'])[5]")
+	private WebElement State_input;
+	
+	
+	public WebElement getState_input() {
+		return State_input;
+	}
+	
 }

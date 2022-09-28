@@ -115,5 +115,197 @@ public class HomePage_OR {
 	{
 		return HomePage;
 	}
+	
+	@FindBy(xpath="(//button[@class='btn btn-dark btn-lg'])[1]")
+	private WebElement StudyIQ_Poket_NewsApp;
+	
+	public WebElement getStudyIQ_Poket_NewsApp(){
+		return StudyIQ_Poket_NewsApp;
+	}
+	
+	@FindBy(xpath="(//span[@class='whatsapp'])[1]")
+	private WebElement whatsapp_SocialIcon;
+	
+	public WebElement getwhatsapp_SocialIcon(){
+		return whatsapp_SocialIcon;
+	}
+	
+	@FindBy(xpath="(//div[@class='social-icons']/span)[1]")
+	private WebElement StudyIQ_Youtube_SocialIcon;
+	
+	public WebElement getStudyIQ_Youtube_SocialIcon(){
+		return StudyIQ_Youtube_SocialIcon;
+	}
+	
+	@FindBy(xpath="(//div[@class='social-icons']/span)[2]")
+	private WebElement StudyIQ_Facebook_SocialIcon;
+	
+	public WebElement getStudyIQ_Facebook_SocialIcon(){
+		return StudyIQ_Facebook_SocialIcon;
+	}
+
+	@FindBy(xpath="(//div[@class='social-icons']/span)[3]")
+	private WebElement StudyIQ_Telegram_SocialIcon;
+	
+	public WebElement getStudyIQ_Telegram_SocialIcon(){
+		return StudyIQ_Telegram_SocialIcon;
+	}
+	
+	@FindBy(xpath="(//div[@class='social-icons']/span)[4]")
+	private WebElement StudyIQ_Instagram_SocialIcon;
+	
+	public WebElement getStudyIQ_Instagram_SocialIcon(){
+		return StudyIQ_Instagram_SocialIcon;
+	}
+	
+	@FindBy(xpath="(//div[@class='social-icons']/span)[5]")
+	private WebElement StudyIQ_Twitter_SocialIcon;
+	
+	public WebElement getStudyIQ_Twitter_SocialIcon(){
+		return StudyIQ_Twitter_SocialIcon;
+	}
+	
+	@FindBy(xpath="(//div[@class='social-icons']/span)[6]")
+	private WebElement StudyIQ_LinkedIn_SocialIcon;
+	
+	public WebElement getStudyIQ_LinkedIn_SocialIcon(){
+		return StudyIQ_LinkedIn_SocialIcon;
+	}
+	
+	@FindBy(xpath="(//div[@class='social-icons']/span)[7]")
+	private WebElement StudyIQ_Tumblr_SocialIcon;
+	
+	public WebElement getStudyIQ_Tumblr_SocialIcon(){
+		return StudyIQ_Tumblr_SocialIcon;
+	}
+	
+	@FindBy(css="div[class='h_t_view_all_wrapper'] span")
+	private WebElement ViewAllButton_ofTestimonial;
+	
+	public WebElement getViewAllButton_ofTestimonial(){
+		return ViewAllButton_ofTestimonial;
+	}
+	
+	@FindBy(xpath="//div[@class='dtlv_img']")
+	private List<WebElement> TestimonialVideo;
+	
+	public List<WebElement> getTestimonialVideo(){
+		return TestimonialVideo;
+	}
+	
+	@FindBy(xpath="//div[@class='shaka-scrim-container']")
+	private WebElement Video;
+	
+	public WebElement getVideo(){
+		return Video;
+	}
+	
+	@FindBy(xpath="(//a[@class='dropdown-list dropdown-item'])[3]")
+	private WebElement LogOutButton;
+	
+	public WebElement getLogOutButton(){
+		return LogOutButton;
+	}
+	
+	@FindBy(xpath="(//a[@class='dropdown-list dropdown-item'])[1]")
+	private WebElement MyOfferButton;
+	
+	public WebElement getMyOfferButton(){
+		return MyOfferButton;
+	}
+	
+	@FindBy(xpath="(//div[contains(text(),'My Library')])[1]")
+	private WebElement MyLibraryButton;
+	
+	public WebElement getMyLibraryButton(){
+		return MyLibraryButton;
+	}
+	
+	@FindBy(xpath="//h3[contains(text(),'Your library is empty')]")
+	private WebElement LibraryEmptyText;
+	
+	public WebElement getLibraryEmptyText()
+	{
+		return LibraryEmptyText;
+	}
+	
+	@FindBy(xpath="(//button[contains(text(),'Explore Courses')])[2]")
+	private WebElement LibraryExplore_Courses;
+	
+	public WebElement getLibraryExplore_Courses()
+	{
+		return LibraryExplore_Courses;
+	}
+	
+	@FindBy(css="button[class='ant-btn ant-btn-default expl_crs_btn']")
+	private WebElement ExploreCourses;
+	
+	public WebElement getExploreCourses(){
+		return ExploreCourses;
+	}
+	
+	@FindBy(xpath="//img[@src='/src/client/assets/homepage/left-arrow.svg']")
+	private WebElement BackwardArrow;
+	
+	public WebElement getBackwardArrow(){
+		return BackwardArrow;
+	}
+	
+	@FindBy(xpath="//div[@class='slick-slide slick-active slick-center slick-current']//div//img")
+	private WebElement SlideCoursesOne;
+	
+	public WebElement getSlideCoursesOne(){
+		return SlideCoursesOne;
+	}
+	
+	@FindBy(xpath="//img[@src='/src/client/assets/homepage/right-arrow.svg']")
+	private WebElement FarwardArrow;
+	
+	public WebElement getFarwardArrow(){
+		return FarwardArrow;
+	}
+	
+	@FindBy(xpath="//button[@class='not-found--button']")
+	private WebElement BackToHome;
+	
+	public WebElement getBackToHome(){
+		return BackToHome;
+	}
+	
+	@FindBy(xpath="//div[@class='courses navbar-nav']")
+	private WebElement CourseButton;
+	
+	public WebElement getCourseButton(){
+		return CourseButton;
+	}
+	
+	@FindBy(xpath="//div[@class='h_menu_items']")
+	private List<WebElement> NavBar_Item;
+	
+	public List<WebElement> getNavBar_Item(){
+		return NavBar_Item;
+	}
+	
+	@FindBy(css=".close_img")
+	private WebElement Close_Notification;
+	
+	public WebElement getClose_Notification(){
+		return Close_Notification;
+	}
+	
+	@FindBy(xpath="//button[@class='btn btn-primary btn-sm']")
+	private WebElement ClickhereButton;
+	
+	public WebElement getContactClickHereButton(){
+		return ClickhereButton;
+	}
+	
+	@FindBy(xpath="//button[@class='btn btn-link']")
+	private WebElement CloseButton;
+	
+	public WebElement getCloseButton(){
+		return CloseButton;
+	}
+	
 
 }
