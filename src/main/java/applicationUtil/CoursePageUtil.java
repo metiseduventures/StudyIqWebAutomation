@@ -70,6 +70,7 @@ public class CoursePageUtil {
 				if (!result) {
 					return result;
 				}
+
 				result = util.doSignUp();
 				if (!result) {
 					coursePageMsgList.add("Fail Register");
@@ -84,7 +85,7 @@ public class CoursePageUtil {
 					return result;
 				}
 
-				result = verifyPackages(strCourseSlug, strCourseType);
+				result = verifyPackages(strCourseSlug, strCourseType, driver);
 				if (!result) {
 					return result;
 				}
@@ -93,11 +94,12 @@ public class CoursePageUtil {
 				if (!result) {
 					return result;
 				}
-				result = verifyPayCheckout();
+				result = verifyPayCheckout(driver);
 				if (!result) {
 					return result;
 				}
-				if (!(ConfigFileReader.strEnv).equalsIgnoreCase("prod")) {
+				if ((ConfigFileReader.strEnv).equalsIgnoreCase("staging")
+						|| (ConfigFileReader.strEnv).equalsIgnoreCase("dev")) {
 
 					result = verifyClickPay(testData.getPaymentMethod(), driver, testData,
 							testData.getbankNameForPaytm());
@@ -146,7 +148,7 @@ public class CoursePageUtil {
 				if (!result) {
 					return result;
 				}
-				result = verifyPackages(strCourseSlug, strCourseType);
+				result = verifyPackages(strCourseSlug, strCourseType, driver);
 				if (!result) {
 					return result;
 				}
@@ -154,12 +156,14 @@ public class CoursePageUtil {
 				if (!result) {
 					return result;
 				}
-				result = verifyPayCheckout();
+				result = verifyPayCheckout(driver);
 				if (!result) {
 					return result;
 				}
 
-				if (!(ConfigFileReader.strEnv).equalsIgnoreCase("prod")) {
+				if ((ConfigFileReader.strEnv).equalsIgnoreCase("staging")
+						|| (ConfigFileReader.strEnv).equalsIgnoreCase("dev")) {
+
 					result = verifyClickPay(testData.getPaymentMethod(), driver, testData,
 							testData.getbankNameForPaytm());
 					if (!result) {
@@ -191,7 +195,7 @@ public class CoursePageUtil {
 		boolean result = true;
 
 		// call goLibaray function
-		result = goToLibrary();
+		result = goToLibrary(driver);
 		if (!result) {
 			return result;
 		}
@@ -247,7 +251,7 @@ public class CoursePageUtil {
 		return result;
 	}
 
-	public boolean verifyPackages(String strCourseSlug, String strCourseType) {
+	public boolean verifyPackages(String strCourseSlug, String strCourseType, WebDriver driver) {
 		boolean result = true;
 		CourseView courseViewObj;
 		CourseApiUtil courseApiUtilObj;
@@ -271,7 +275,7 @@ public class CoursePageUtil {
 
 			} else {
 
-				result = verifyPackageFeature(courseViewObj);
+				result = verifyPackageFeature(courseViewObj, driver);
 				if (!result) {
 					return result;
 				}
@@ -290,63 +294,171 @@ public class CoursePageUtil {
 			List<WebElement> links = coursePageORobj.verifyTitle();
 			List<WebElement> coursePackages = coursePageORobj.packagesChooseClick();
 
-			// It clicks on the offer desired and checks
-			for (int i = 0; i < coursePackages.size(); i++) {
-				String bestValueTitleString = links.get(i).getText();
-				if (bestValueTitleString.equalsIgnoreCase(offerName)) {
+			String noOfOfferText = coursePageORobj.noOfOfferText().getText();
+			String[] arr = noOfOfferText.split(" ");
+			int countOfOffers = Integer.parseInt(arr[0]);
 
-					cfObj.commonClick(coursePackages.get(i));
+			if (countOfOffers == 0) {
 
-					String packageAmountString = coursePageORobj.packageAmounts().get(i).getText();
-					Double packageAmount = amountCorrectFormat(packageAmountString);
+				result = cfObj.commonWaitForElementToBeVisible(driver, coursePageORobj.buyNowMain(), 10);
+				if (!result) {
+					coursePageMsgList.add("The buy now btn is not visible");
+					return result;
+				}
 
-					cfObj.commonClick(coursePageORobj.promoClick());
+				cfObj.commonClick(coursePageORobj.buyNowMain());
 
-					cfObj.commonClick(coursePageORobj.applyCode());
+				// wait for payment detail page to be opned
+				result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".package-payment-details", "css", 30);
+				if (!result) {
+					coursePageMsgList.add("Payment page not opned after click on buy now button");
+					return result;
+				}
 
-					String couponCode = coursePageORobj.couponCodeElement().getText();
+				return true;
+			} else {
 
-					cfObj.commonClick(coursePageORobj.RApplyCodeClick());
+				// It clicks on the offer desired and checks
+				for (int i = 0; i < coursePackages.size(); i++) {
+					String bestValueTitleString = links.get(i).getText();
+					if (bestValueTitleString.equalsIgnoreCase(offerName)) {
 
-					cfObj.commonClick(coursePageORobj.promoClick());
+						result = cfObj.commonWaitForElementToBeVisible(driver, links.get(i), 10);
+						if (!result) {
+							coursePageMsgList.add("The course package is not visible");
+							return result;
+						}
 
-					cfObj.commonSetTextTextBox(coursePageORobj.inputCode(), "studyIQ");
+						cfObj.commonClick(coursePackages.get(i));
 
-					cfObj.commonClick(coursePageORobj.applyCodeMain());
+						String packageAmountString = coursePageORobj.packageAmounts().get(i).getText();
+						Double packageAmount = amountCorrectFormat(packageAmountString);
 
-					cfObj.commonSetTextTextBox(coursePageORobj.inputCode(), couponCode);
+						result = cfObj.commonWaitForElementToBeVisible(driver, coursePageORobj.promoClick(), 10);
+						if (!result) {
+							coursePageMsgList.add("The course available btn is not visible");
+							return result;
+						}
 
-					cfObj.commonClick(coursePageORobj.applyCodeMain());
+						cfObj.commonClick(coursePageORobj.promoClick());
 
-					String removeCouponAmountString = coursePageORobj.removeAmount().getText();
-					Double removeCouponAmount = amountCorrectFormat(removeCouponAmountString);
+						result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".card-title.h5", "css", 10);
+						if (!result) {
+							coursePageMsgList.add("The avaiable offers section is not visible");
+							return result;
+						}
 
-					String afterpackageAmountString = coursePageORobj.packageAmounts().get(i).getText();
-					Double afterPackageAmount = amountCorrectFormat(afterpackageAmountString);
+						result = cfObj.commonWaitForElementToBeVisible(driver, coursePageORobj.applyCode().get(0), 10);
+						if (!result) {
+							coursePageMsgList.add("The apply btn is not visible");
+							return result;
+						}
 
-					for (int j = 1; j < coursePackages.size(); j++) {
-						cfObj.commonClick(coursePackages.get(j));
-					}
+						cfObj.commonClick(coursePageORobj.applyCode().get(0));
 
-					if (packageAmount == afterPackageAmount + removeCouponAmount) {
-						cfObj.commonClick(coursePageORobj.buyNowMain());
-					} else {
-						coursePageMsgList.add("The amount is not same of packages before and after");
-						return false;
+						result = cfObj.commonWaitForElementToBeVisible(driver, coursePageORobj.couponCodeElement(), 10);
+						if (!result) {
+							coursePageMsgList.add("The coupon code is not visible after applying");
+							return result;
+						}
+
+						String couponCode = coursePageORobj.couponCodeElement().getText();
+
+						result = cfObj.commonWaitForElementToBeVisible(driver, coursePageORobj.RApplyCodeClick(), 10);
+						if (!result) {
+							coursePageMsgList.add("The remove btn is not visible after applying");
+							return result;
+						}
+
+						cfObj.commonClick(coursePageORobj.RApplyCodeClick());
+
+						cfObj.commonClick(coursePageORobj.promoClick());
+
+						String invalidPromo = "INVALID123";
+
+						result = cfObj.commonWaitForElementToBeVisible(driver, coursePageORobj.inputCode(), 10);
+						if (!result) {
+							coursePageMsgList.add("The input box for coupon is not visible");
+							return result;
+						}
+
+						result = cfObj.commonSetTextTextBox(coursePageORobj.inputCode(), invalidPromo);
+						if (!result) {
+							coursePageMsgList.add("The input is not working");
+							return result;
+						}
+
+						cfObj.commonClick(coursePageORobj.applyCodeMain());
+
+						result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "coupon-error", "class", 10);
+						if (!result) {
+							coursePageMsgList.add("The coupon is wrong but error msg not visible");
+							return result;
+						}
+
+						result = cfObj.commonSetTextTextBox(coursePageORobj.inputCode(), couponCode);
+						if (!result) {
+							coursePageMsgList.add("The input is not working");
+							return result;
+						}
+
+						cfObj.commonClick(coursePageORobj.applyCodeMain());
+
+						result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "coupon-error", "class", 10);
+						if (!result) {
+
+							result = cfObj.commonWaitForElementToBeVisible(driver, coursePageORobj.couponCodeElement(),
+									10);
+							if (!result) {
+								coursePageMsgList.add("The coupon code is not visible after applying");
+								return result;
+							}
+
+							String removeCouponAmountString = coursePageORobj.removeAmount().getText();
+							Double removeCouponAmount = amountCorrectFormat(removeCouponAmountString);
+
+							String afterpackageAmountString = coursePageORobj.packageAmounts().get(i).getText();
+							Double afterPackageAmount = amountCorrectFormat(afterpackageAmountString);
+
+							for (int j = 1; j < coursePackages.size(); j++) {
+								cfObj.commonClick(coursePackages.get(j));
+							}
+
+							if (packageAmount == afterPackageAmount + removeCouponAmount) {
+								cfObj.commonClick(coursePageORobj.buyNowMain());
+							} else {
+								coursePageMsgList.add("The amount is not same of packages before and after");
+								return false;
+							}
+
+							// wait for payment detail page to be opened
+							result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".package-payment-details",
+									"css", 30);
+							if (!result) {
+								coursePageMsgList.add("Payment page not opned after click on buy now button");
+								return result;
+							}
+
+							return true;
+
+						} else {
+							System.out.println("The coupon is correct but it is not valid msg is not visible");
+
+							cfObj.commonClick(coursePageORobj.buyNowMain());
+
+							// wait for payment detail page to be opned
+							result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".package-payment-details",
+									"css", 30);
+							if (!result) {
+								coursePageMsgList.add("Payment page not opned after click on buy now button");
+								return result;
+							}
+
+							return true;
+						}
+
 					}
 				}
-			}
-
-			if (coursePackages.size() == 0) {
-				cfObj.commonClick(coursePageORobj.buyNowMain());
-			}
-
-			// wait for payment detail page to be opned
-
-			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".package-payment-details", "css", 30);
-			if (!result) {
-				coursePageMsgList.add("Payment page not opned after click on buy now button");
-				return result;
 			}
 
 		} catch (Exception e) {
@@ -356,11 +468,35 @@ public class CoursePageUtil {
 		return result;
 	}
 
-	public boolean verifyPayCheckout() {
+	public boolean verifyPayCheckout(WebDriver driver) {
 		boolean result = true;
 		try {
+
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".modal-title.h4", "css", 10);
+			if (!result) {
+				coursePageMsgList.add("The checkout page is not open or the title is not visible");
+				return result;
+			}
+
+			result = cfObj.commonWaitForElementToBeVisible(driver, coursePageORobj.viewDetails(), 10);
+			if (!result) {
+				coursePageMsgList.add("The view details btn is not visible");
+				return result;
+			}
+
 			cfObj.commonClick(coursePageORobj.viewDetails());
-			Thread.sleep(5000);
+
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".label", "css", 10);
+			if (!result) {
+				coursePageMsgList.add("The Amount payable text is not visible");
+				return result;
+			}
+
+			result = cfObj.commonWaitForElementToBeVisible(driver, coursePageORobj.amountPayableCheckout(), 10);
+			if (!result) {
+				coursePageMsgList.add("The Amount payable amount is not visible");
+				return result;
+			}
 
 			String amountPayableString = coursePageORobj.amountPayableCheckout().getText();
 			Double amountPayable = amountCorrectFormat(amountPayableString);
@@ -380,7 +516,12 @@ public class CoursePageUtil {
 					List<WebElement> links = coursePageORobj.payMethodClick();
 
 					for (int i = 0; i < links.size(); i++) {
-						links.get(i).isDisplayed();
+
+						result = links.get(i).isDisplayed();
+						if (!result) {
+							coursePageMsgList.add("The payment method is not visible");
+							return result;
+						}
 					}
 					return true;
 
@@ -403,30 +544,63 @@ public class CoursePageUtil {
 			List<WebElement> links = coursePageORobj.payMethodClick();
 
 			for (int i = 0; i < links.size(); i++) {
+
+				result = cfObj.commonWaitForElementToBeVisible(driver, links.get(i), 10);
+				if (!result) {
+					coursePageMsgList.add("The pay method is not visible");
+					return result;
+				}
+
 				String methodString = links.get(i).getText();
 
 				if (methodString.equalsIgnoreCase(paymentMethod) && paymentMethod.equalsIgnoreCase("Netbank")) {
+
 					cfObj.commonClick(links.get(i));
+
+					result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".oops", "css", 10);
+					if (result) {
+
+						coursePageMsgList.add("The method is not working, some error " + methodString + " failure.");
+						return false;
+
+					}
 
 					result = verifyNetbankMethod(driver, testData);
 					if (!result) {
 						return result;
 					}
+
 				} else if (methodString.equalsIgnoreCase(paymentMethod) && paymentMethod.equalsIgnoreCase("Paytm")) {
+
 					cfObj.commonClick(links.get(i));
+
+					result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".oops", "css", 10);
+					if (result) {
+
+						coursePageMsgList.add("The method is not working, some error " + methodString + " failure.");
+						return false;
+
+					}
 
 					result = verifyPaytmMethod(driver, testData, bankName);
 					if (!result) {
 						return result;
-					}else
-					{
-						break;
 					}
-						
+
 				} else if (methodString.equalsIgnoreCase(paymentMethod)) {
 
 					cfObj.commonClick(links.get(i));
-					verifyOtherPayMethods();
+
+					result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".oops", "css", 10);
+					if (result) {
+
+						coursePageMsgList.add("The method is not working, some error " + methodString + " failure.");
+						return false;
+
+					}
+
+					verifyOtherPayMethods(driver);
+
 				} else {
 					result = false;
 				}
@@ -445,20 +619,24 @@ public class CoursePageUtil {
 	public boolean verifyNetbankMethod(WebDriver driver, TestData testData) {
 		boolean result = true;
 		try {
+
 			result = verifyBillingInfo(testData.getNameBill(), testData.getAddressBill(), testData.getZipBill(),
-					testData.getCityBill(), testData.getStateBill(), testData.getNumberBill(), testData.getEmailBill());
+					testData.getCityBill(), testData.getStateBill(), testData.getNumberBill(), testData.getEmailBill(),
+					driver);
 			if (!result) {
 				return result;
 			}
 
-			result = verifyMerchantStatus();
+			result = verifyMerchantStatus(driver);
 			if (!result) {
 				return result;
 			}
-			result = verifyPaymentStatus();
+
+			result = verifyPaymentStatus(driver);
 			if (!result) {
 				return result;
 			}
+
 		} catch (Exception e) {
 			result = false;
 			coursePageMsgList.add("verifyNetbankMethod_Exception: " + e.getMessage());
@@ -470,13 +648,56 @@ public class CoursePageUtil {
 		boolean result = true;
 		try {
 
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver,
+					"//img[@src='https://static-staging.paytm.in/pgp/web/assets/paytm-pg-blue.svg']", "xpath", 10);
+			if (!result) {
+				coursePageMsgList.add("The payment page is not of paytm");
+				return result;
+			}
+
+			result = cfObj.commonWaitForElementToBeVisible(driver, coursePageORobj.netbankingInPaytm(), 10);
+			if (!result) {
+				coursePageMsgList.add("The netbank btn is not visible in paytm method");
+				return result;
+			}
+
 			cfObj.commonClick(coursePageORobj.netbankingInPaytm());
+
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".pu-title", "css", 10);
+			if (!result) {
+				coursePageMsgList.add("Select bank pop up is not visible");
+				return result;
+			}
+
+			result = cfObj.commonWaitForElementToBeVisible(driver, coursePageORobj.payBtnClick(), 10);
+			if (!result) {
+				coursePageMsgList.add("The netbank btn is not visible in paytm method");
+				return result;
+			}
 
 			cfObj.commonClick(coursePageORobj.payBtnClick());
 
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "div[class='midCont'] h1", "css", 10);
+			if (!result) {
+				coursePageMsgList.add("bank demo page is not visible or open");
+				return result;
+			}
+
+			result = cfObj.commonWaitForElementToBeVisible(driver, coursePageORobj.successInPaytm(), 10);
+			if (!result) {
+				coursePageMsgList.add("The successful btn is not visible in paytm method");
+				return result;
+			}
+
+			result = cfObj.commonWaitForElementToBeVisible(driver, coursePageORobj.failureInPaytm(), 10);
+			if (!result) {
+				coursePageMsgList.add("The failure btn is not visible in paytm method");
+				return result;
+			}
+
 			cfObj.commonClick(coursePageORobj.successInPaytm());
 
-			result = verifyPaymentStatus();
+			result = verifyPaymentStatus(driver);
 			if (!result) {
 				return result;
 			}
@@ -488,10 +709,11 @@ public class CoursePageUtil {
 		return result;
 	}
 
-	public boolean verifyOtherPayMethods() {
+	public boolean verifyOtherPayMethods(WebDriver driver) {
 		boolean result = true;
 		try {
-			coursePageMsgList.add("The payment method is not working");
+
+			System.out.println("The pay method is working but no page is open");
 			return false;
 
 		} catch (Exception e) {
@@ -502,26 +724,75 @@ public class CoursePageUtil {
 	}
 
 	public boolean verifyBillingInfo(String name, String address, String zip, String city, String state, String number,
-			String email) {
+			String email, WebDriver driver) {
 		boolean result = true;
 		try {
+
+			result = cfObj.commonWaitForElementToBeVisible(driver, coursePageORobj.nameInfo(), 10);
+			if (!result) {
+				coursePageMsgList.add("The name input box is not visible");
+				return result;
+			}
+
 			cfObj.commonSetTextTextBox(coursePageORobj.nameInfo(), name);
+
+			result = cfObj.commonWaitForElementToBeVisible(driver, coursePageORobj.addressInfo(), 10);
+			if (!result) {
+				coursePageMsgList.add("The address input box is not visible");
+				return result;
+			}
 
 			cfObj.commonSetTextTextBox(coursePageORobj.addressInfo(), address);
 
+			result = cfObj.commonWaitForElementToBeVisible(driver, coursePageORobj.pincodeInfo(), 10);
+			if (!result) {
+				coursePageMsgList.add("The pincode input box is not visible");
+				return result;
+			}
+
 			cfObj.commonSetTextTextBox(coursePageORobj.pincodeInfo(), zip);
+
+			result = cfObj.commonWaitForElementToBeVisible(driver, coursePageORobj.cityInfo(), 10);
+			if (!result) {
+				coursePageMsgList.add("The city input box is not visible");
+				return result;
+			}
 
 			cfObj.commonSetTextTextBox(coursePageORobj.cityInfo(), city);
 
+			result = cfObj.commonWaitForElementToBeVisible(driver, coursePageORobj.stateInfo(), 10);
+			if (!result) {
+				coursePageMsgList.add("The state input box is not visible");
+				return result;
+			}
+
 			cfObj.commonSetTextTextBox(coursePageORobj.stateInfo(), state);
 
+			result = cfObj.commonWaitForElementToBeVisible(driver, coursePageORobj.numberInfo(), 10);
+			if (!result) {
+				coursePageMsgList.add("The number input box is not visible");
+				return result;
+			}
+
 			cfObj.commonSetTextTextBox(coursePageORobj.numberInfo(), number);
+
+			result = cfObj.commonWaitForElementToBeVisible(driver, coursePageORobj.emailInfo(), 10);
+			if (!result) {
+				coursePageMsgList.add("The email input box is not visible");
+				return result;
+			}
 
 			cfObj.commonSetTextTextBox(coursePageORobj.emailInfo(), email);
 
 			WebElement methods = coursePageORobj.bankMethods();
 			Select select = new Select(methods);
 			select.selectByIndex(1);
+
+			result = cfObj.commonWaitForElementToBeVisible(driver, coursePageORobj.payClick(), 10);
+			if (!result) {
+				coursePageMsgList.add("The pay btn is not visible");
+				return result;
+			}
 
 			cfObj.commonClick(coursePageORobj.payClick());
 
@@ -532,13 +803,22 @@ public class CoursePageUtil {
 		return result;
 	}
 
-	public boolean verifyMerchantStatus() {
+	public boolean verifyMerchantStatus(WebDriver driver) {
 		boolean result = true;
 		try {
+
 			WebElement method = coursePageORobj.transactionStatusCheck();
 			Select select = new Select(method);
 			String status = select.getFirstSelectedOption().getText();
+
 			if (status.equalsIgnoreCase("Y")) {
+
+				result = cfObj.commonWaitForElementToBeVisible(driver, coursePageORobj.merchantClick(), 10);
+				if (!result) {
+					coursePageMsgList.add("The merchant click is not visible");
+					return result;
+				}
+
 				cfObj.commonClick(coursePageORobj.merchantClick());
 			} else {
 				return false;
@@ -550,15 +830,23 @@ public class CoursePageUtil {
 		return result;
 	}
 
-	public boolean verifyPaymentStatus() {
+	public boolean verifyPaymentStatus(WebDriver driver) {
 		boolean result = true;
 		try {
+
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".payment-h", "css", 10);
+			if (!result) {
+				coursePageMsgList.add("The status of course purchase is not visible or wrong page");
+				return result;
+			}
+
 			String expectedPayStatus = "Payment Successful";
 			String actualPayStatus = coursePageORobj.statusPay().getText();
 
 			if (expectedPayStatus.equalsIgnoreCase(actualPayStatus)) {
 				return true;
 			} else {
+				coursePageMsgList.add("Payment Unsuccessful");
 				return false;
 			}
 
@@ -569,9 +857,16 @@ public class CoursePageUtil {
 		return result;
 	}
 
-	public boolean goToLibrary() {
+	public boolean goToLibrary(WebDriver driver) {
 		boolean result = true;
 		try {
+
+			result = cfObj.commonWaitForElementToBeVisible(driver, coursePageORobj.golibrary(), 10);
+			if (!result) {
+				coursePageMsgList.add("The library btn is not visible");
+				return result;
+			}
+
 			cfObj.commonClick(coursePageORobj.golibrary());
 
 		} catch (Exception e) {
@@ -660,17 +955,23 @@ public class CoursePageUtil {
 		return result;
 	}
 
-	public boolean verifyPackageFeature(CourseView courseViewObj) {
+	public boolean verifyPackageFeature(CourseView courseViewObj, WebDriver driver) {
 		boolean result = true;
 		String strCurrentPackageTitle, strChoosePackageTitle;
 		try {
 			for (int i = 0; i < coursePageORobj.getChoosePackagelist().size(); i++) {
 
+				result = cfObj.commonWaitForElementToBeVisible(driver, coursePageORobj.getChoosePackagelist().get(i),
+						10);
+				if (!result) {
+					coursePageMsgList.add("The pacakge is not visible");
+					return result;
+				}
+
 				// click on first package
 				cfObj.commonClick(coursePageORobj.getChoosePackagelist().get(i));
 
 				// verify feature list
-
 				if (coursePageORobj.getListPackageFeature().size() == 0) {
 					coursePageMsgList.add("feature list is empty");
 					result = false;

@@ -176,5 +176,12 @@ public class LibraryPage_OR {
 	{
 		return contant_OfSingle_Course;
 	}
+	
+	@FindBy(id = "(//div[@class='library-course-item type-video'])")
+	private List<WebElement> courseBoxInLibraryList;
+	
+	public List<WebElement> listOfCourseBoxInLibrary(){
+		return courseBoxInLibraryList;
+	}
 
 }

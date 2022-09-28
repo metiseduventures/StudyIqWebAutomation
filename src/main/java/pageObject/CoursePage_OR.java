@@ -62,11 +62,11 @@ public class CoursePage_OR {
 		return promocodeElement;
 	}
 
-	@FindBy(xpath = "(//button[@type='button'][text()='APPLY'])[1]")
-	WebElement codeApply;
+	@FindBy(xpath = "(//button[@type='button'][text()='APPLY'])")
+	List<WebElement> codeApplyList;
 
-	public WebElement applyCode() {
-		return codeApply;
+	public List<WebElement> applyCode() {
+		return codeApplyList;
 	}
 
 	@FindBy(xpath = "//a[normalize-space()='Remove']")
@@ -188,7 +188,7 @@ public class CoursePage_OR {
 		return returnMerchantSite;
 	}
 
-	@FindBy(xpath = "//h6[normalize-space()='Payment Successful']")
+	@FindBy(css = ".payment-h")
 	WebElement payStatus;
 
 	public WebElement statusPay() {
@@ -228,6 +228,13 @@ public class CoursePage_OR {
 
 	public WebElement successInPaytm() {
 		return successBtnInPaytm;
+	}
+	
+	@FindBy(xpath = "//button[@class='btn btnl']")
+	WebElement failureBtnInPaytm;
+
+	public WebElement failureInPaytm() {
+		return failureBtnInPaytm;
 	}
 
 	@FindBy(xpath = "//div[@class='modal-content']")
@@ -466,4 +473,12 @@ public class CoursePage_OR {
 	public List<WebElement> getListBookDetailOnPackagePopUp() {
 		return listBookDetailOnPackagePopUp;
 	}
+
+	@FindBy(xpath = "//span[@class='course-package--offers-title']")
+	WebElement noOfOfferTextElement;
+
+	public WebElement noOfOfferText() {
+		return noOfOfferTextElement;
+	}
+
 }
