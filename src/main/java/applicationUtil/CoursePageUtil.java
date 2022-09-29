@@ -107,9 +107,17 @@ public class CoursePageUtil {
 						return result;
 					}
 
-					result = verifyLibraryCourse(driver, testData);
-					if (!result) {
-						return result;
+					if (testData.getIsKey().equalsIgnoreCase("pass")) {
+
+						result = verifyLibraryCourse(driver, testData);
+						if (!result) {
+							return result;
+						}
+
+					} else {
+
+						System.out.println("User on course page - the payment is failed");
+
 					}
 
 				} else if ((ConfigFileReader.strEnv).equalsIgnoreCase("prod")) {
@@ -559,16 +567,16 @@ public class CoursePageUtil {
 
 					result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".oops", "css", 10);
 					if (result) {
-
 						coursePageMsgList.add("The method is not working, some error " + methodString + " failure.");
 						return false;
-
 					}
 
 					result = verifyNetbankMethod(driver, testData);
 					if (!result) {
 						return result;
 					}
+
+					return result;
 
 				} else if (methodString.equalsIgnoreCase(paymentMethod) && paymentMethod.equalsIgnoreCase("Paytm")) {
 
@@ -587,6 +595,8 @@ public class CoursePageUtil {
 						return result;
 					}
 
+					return result;
+
 				} else if (methodString.equalsIgnoreCase(paymentMethod)) {
 
 					cfObj.commonClick(links.get(i));
@@ -599,7 +609,12 @@ public class CoursePageUtil {
 
 					}
 
-					verifyOtherPayMethods(driver);
+					result = verifyOtherPayMethods(driver);
+					if (!result) {
+						return result;
+					}
+
+					return result;
 
 				} else {
 					result = false;
@@ -695,11 +710,98 @@ public class CoursePageUtil {
 				return result;
 			}
 
-			cfObj.commonClick(coursePageORobj.successInPaytm());
+			if (testData.getIsKey().equalsIgnoreCase("pass")) {
 
-			result = verifyPaymentStatus(driver);
-			if (!result) {
-				return result;
+				cfObj.commonClick(coursePageORobj.successInPaytm());
+
+				result = verifyPaymentStatus(driver);
+				if (!result) {
+					return result;
+				}
+
+			} else if (testData.getIsKey().equalsIgnoreCase("fail")) {
+
+				boolean bool = true;
+
+				while (bool) {
+
+					cfObj.commonClick(coursePageORobj.failureInPaytm());
+
+					result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".failure-heading", "css", 10);
+					if (result) {
+
+						result = cfObj.commonWaitForElementToBeVisible(driver, coursePageORobj.retryPaymentStatusBtn(),
+								10);
+						if (!result) {
+							coursePageMsgList.add("The retry btn is not visible");
+							return result;
+						}
+
+						result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".back-to-home-link", "css",
+								10);
+						if (!result) {
+							coursePageMsgList.add("Back to home btn is not visible");
+							return result;
+						}
+
+						cfObj.commonClick(coursePageORobj.retryPaymentStatusBtn());
+
+						result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".modal-title.h4", "css", 10);
+						if (!result) {
+							coursePageMsgList.add("The checkout page is not visible");
+							return result;
+						}
+
+						result = cfObj.commonWaitForElementToBeVisible(driver, coursePageORobj.closeCheckoutBox(), 30);
+						if (!result) {
+							coursePageMsgList.add("The close btn is not visible in checkout");
+							return result;
+						}
+
+						cfObj.commonClick(coursePageORobj.closeCheckoutBox());
+
+						cfObj.commonWaitForElementToBeLocatedAndVisible(driver,
+								"div[class='title_wrapper'] div[class='title']", "css", 10);
+						if (!result) {
+							coursePageMsgList.add("After closing the checkout page, course page not visible");
+							return result;
+						}
+
+						bool = false;
+						break;
+					}
+
+					result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".pu-title.sub-txt-global", "css",
+							11);
+					if (!result) {
+						coursePageMsgList.add("Your transaction has failed pop up not visible");
+						return result;
+					}
+
+					result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".fs14.sub-txt-global", "css", 10);
+					if (!result) {
+						coursePageMsgList.add("Try again with another bank text is not visible");
+						return result;
+					}
+
+					result = cfObj.commonWaitForElementToBeVisible(driver, coursePageORobj.retryPaymentBtn(), 10);
+					if (!result) {
+						coursePageMsgList.add("The retry btn on payment failure is not visible");
+						return result;
+					}
+
+					cfObj.commonClick(coursePageORobj.retryPaymentBtn());
+
+					result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".pu-title", "css", 10);
+					if (!result) {
+						coursePageMsgList.add("Select bank pop up is not visible");
+						return result;
+					}
+
+					cfObj.commonClick(coursePageORobj.payBtnClick());
+
+				}
+
 			}
 
 		} catch (Exception e) {
@@ -1081,7 +1183,7 @@ public class CoursePageUtil {
 		}
 		return result;
 	}
-	
+
 	public boolean clickOnBuyNow() {
 		boolean result = true;
 
@@ -1100,7 +1202,7 @@ public class CoursePageUtil {
 		}
 		return result;
 	}
-	
+
 	public boolean PackageVerification() {
 		boolean result = true;
 

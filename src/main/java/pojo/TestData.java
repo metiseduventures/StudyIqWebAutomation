@@ -17,8 +17,8 @@ public class TestData {
 	private String numberBill;
 	private String emailBill;
 	private String courseType;
-	
-	
+
+	private String isKey;
 	private String bankNameForPaytm;
 
 	public String getbankNameForPaytm() {
@@ -141,13 +141,20 @@ public class TestData {
 		this.emailBill = emailBill;
 	}
 
-
 	public String getCourseType() {
 		return courseType;
 	}
 
 	public void setCourseType(String courseType) {
 		this.courseType = courseType;
-	}	
+	}
+
+	public String getIsKey() {
+		return isKey;
+	}
+
+	public void setIsKey(String isKey) {
+		this.isKey = isKey;
+	}
 
 }

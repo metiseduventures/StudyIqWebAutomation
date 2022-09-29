@@ -229,7 +229,7 @@ public class CoursePage_OR {
 	public WebElement successInPaytm() {
 		return successBtnInPaytm;
 	}
-	
+
 	@FindBy(xpath = "//button[@class='btn btnl']")
 	WebElement failureBtnInPaytm;
 
@@ -479,6 +479,27 @@ public class CoursePage_OR {
 
 	public WebElement noOfOfferText() {
 		return noOfOfferTextElement;
+	}
+
+	@FindBy(css = ".btn.btn-primary.w100.pos-r._2fNU")
+	WebElement retryPaymentBtnElement;
+
+	public WebElement retryPaymentBtn() {
+		return retryPaymentBtnElement;
+	}
+	
+	@FindBy(css = "button[class='retry-payment-btn btn btn-primary']")
+	WebElement retryPaymentStatusBtnElement;
+
+	public WebElement retryPaymentStatusBtn() {
+		return retryPaymentStatusBtnElement;
+	}
+	
+	@FindBy(css = "button[class='btn btn-link']")
+	WebElement closeCheckoutBoxElement;
+	
+	public WebElement closeCheckoutBox() {
+		return closeCheckoutBoxElement;
 	}
 
 }
