@@ -95,6 +95,10 @@ public class CourseDetailsPageUtil {
 			// Click on Features
 
 			result = clickOnFeatures(driver);
+			
+			if (!result) {
+				return result;
+			}
 
 			// click on Frequently Asked Questions
 
