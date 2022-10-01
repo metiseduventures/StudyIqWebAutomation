@@ -73,15 +73,6 @@ public class MyProfileUtil {
 			if (!result) {
 				MyProfileORobjMsgList.add("Your Name is not Available");
 			}
-             
-			result=cfObj.commonWaitForElementToBeVisible(driver,MyProfileORobj.getYourCity_text(),20);
-			if (!result) {
-				MyProfileORobjMsgList.add("Your City Title is not Available");
-			}
-			result = cfObj.commonSetTextTextBox(MyProfileORobj.getYourCity_input(), "Gurgaon");
-			if (!result) {
-				MyProfileORobjMsgList.add("Your City is not Available");
-			}
 			
 			result=cfObj.commonWaitForElementToBeVisible(driver,MyProfileORobj.getYourAddress_text(),20);
 			if (!result) {
@@ -90,15 +81,6 @@ public class MyProfileUtil {
 			result = cfObj.commonSetTextTextBox(MyProfileORobj.getYourAddress_input(), "Gurgaon,Haryana");
 			if (!result) {
 				MyProfileORobjMsgList.add("Your Address is not Available");
-			}
-			
-			result=cfObj.commonWaitForElementToBeVisible(driver,MyProfileORobj.getYourState_text(),20);
-			if (!result) {
-				MyProfileORobjMsgList.add("Your State Title is not Available");
-			}
-			result = cfObj.commonSetTextTextBox(MyProfileORobj.getYourState_input(), "Haryana");
-			if (!result) {
-				MyProfileORobjMsgList.add("Your State is not Available");
 			}	
 			
 			result=cfObj.commonWaitForElementToBeVisible(driver,MyProfileORobj.getYourPinCode_text(),20);
@@ -131,7 +113,7 @@ public class MyProfileUtil {
 			}
 			
 			String verifyCity=MyProfileORobj.getYourCity_input().getAttribute("value");
-			result=verifyCity.equals("Gurgaon");
+			result=verifyCity.equals("GURUGRAM");
 			if(result==true) {
 				MyProfileORobjMsgList.add("Your City is Equal");
 			}
@@ -151,7 +133,7 @@ public class MyProfileUtil {
 			}
 			
 			String verifyState=MyProfileORobj.getYourState_input().getAttribute("value");
-			result=verifyState.equals("Haryana");
+			result=verifyState.equals("HARYANA");
 			if(result==true) {
 				MyProfileORobjMsgList.add("Your State is Equal");
 			}
