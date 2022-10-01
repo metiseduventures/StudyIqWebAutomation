@@ -183,5 +183,15 @@ public class LibraryPage_OR {
 	public List<WebElement> listOfCourseBoxInLibrary(){
 		return courseBoxInLibraryList;
 	}
+	
+	@FindBy(css=".nav-item.active>span")
+	private List<WebElement> courseTypeMenu;
+
+	public List<WebElement> getCourseTypeMenu() {
+		return courseTypeMenu;
+	}
+	
+	
+	
 
 }

@@ -33,6 +33,40 @@
     "stateBill":"delhi",
     "numberBill": "9975251338",
     "emailBill": "harsh123@gmail.com"
+  },
+  {
+    "isUserGuest":false,
+    "isKey":"pass",
+    "courseType":"book",
+    "courseName": "punjab",
+    "courseId" : "",
+    "paymentMethod" : "Paytm",
+    "offerName" : "Platinum",
+    "bankNameForPaytm": "SBI",
+    "nameBill" : "Harsh",
+    "addressBill": "area main",
+    "zipBill": "237981",
+    "cityBill": "noida",
+    "stateBill":"delhi",
+    "numberBill": "9975251338",
+    "emailBill": "harsh123@gmail.com"
+  },
+  {
+    "isUserGuest":true,
+    "isKey":"pass",
+    "courseType":"smart",
+    "courseName": "west bengal",
+    "courseId" : "",
+    "paymentMethod" : "Paytm",
+    "offerName" : "Premium",
+    "bankNameForPaytm": "SBI",
+    "nameBill" : "Shubham",
+    "addressBill": "Mohan nagar",
+    "zipBill": "189331",
+    "cityBill": "noida",
+    "stateBill":"uttar pradesh",
+    "numberBill": "9872613831",
+    "emailBill": "shubh123@gmail.com"
   }
   ]
 }

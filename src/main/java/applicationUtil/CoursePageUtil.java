@@ -26,6 +26,7 @@ public class CoursePageUtil {
 	ConfigFileReader rConfigFileReader;
 	HomePageUtil util;
 	LibraryPageUtil librayUtilObj;
+	public String strCourseType;
 
 	public CoursePageUtil(WebDriver driver) {
 		coursePageORobj = new CoursePage_OR();
@@ -38,7 +39,7 @@ public class CoursePageUtil {
 		librayUtilObj = new LibraryPageUtil(driver);
 		int no;
 		String strCourseSlug = null;
-		String strCourseType;
+		
 		try {
 
 			strCourseType = testData.getCourseType().toString();
@@ -84,7 +85,7 @@ public class CoursePageUtil {
 				if (!result) {
 					return result;
 				}
-
+				testData.setCourseType(strCourseType);
 				result = verifyPackages(strCourseSlug, strCourseType, driver);
 				if (!result) {
 					return result;
@@ -268,8 +269,8 @@ public class CoursePageUtil {
 			courseApiUtilObj = new CourseApiUtil();
 			courseViewObj = courseApiUtilObj.getCourseViewData(strCourseSlug);
 			System.out.println(courseViewObj.getData().getPriceInfo());
-
 			result = verifyPackageType(courseViewObj);
+			strCourseType = courseViewObj.getData().getCourseType().getCourseTypeName();
 			if (!result) {
 				return result;
 			}
@@ -965,7 +966,7 @@ public class CoursePageUtil {
 
 			result = cfObj.commonWaitForElementToBeVisible(driver, coursePageORobj.golibrary(), 10);
 			if (!result) {
-				coursePageMsgList.add("The library btn is not visible");
+				coursePageMsgList.add("Go to my libabry button is not visible on payment successful screen");
 				return result;
 			}
 
@@ -1161,7 +1162,7 @@ public class CoursePageUtil {
 
 			result = cfObj.commonSetTextTextBox(coursePageORobj.getListBookingFormPinCode().get(0), "122003");
 			if (!result) {
-				coursePageMsgList.add("not able to add address");
+				coursePageMsgList.add("not able add to pin code");
 				return result;
 			}
 
@@ -1229,6 +1230,19 @@ public class CoursePageUtil {
 		} catch (Exception e) {
 			result = false;
 			coursePageMsgList.add("PackageVerification_Exception: " + e.getMessage());
+		}
+		return result;
+	}
+	
+	public boolean verifyCourseContent(WebDriver driver)
+	{
+		boolean result = true;
+		try
+		{
+			
+		}catch (Exception e) {
+			result = false;
+			coursePageMsgList.add("verifyCourseContent_Exception: " + e.getMessage());
 		}
 		return result;
 	}

@@ -101,6 +101,7 @@ public class LibraryPageUtil {
 
 	public boolean verifyPuchasedCourseOnMyLibrary(WebDriver driver, TestData testData) {
 		boolean result = true;
+		String strActualCourseType;
 		try {
 
 			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//span[@class='title']", "xpath", 10);
@@ -109,23 +110,47 @@ public class LibraryPageUtil {
 				return result;
 			}
 
+			if (libraryPage_OR.getCourseTypeMenu().size() == 0) {
+				libraryPageMsgList.add("Course type menu is not display after purchase course in library");
+				return false;
+			}
+
+			strActualCourseType = libraryPage_OR.getCourseTypeMenu().get(0).getText().toString();
+			if (!strActualCourseType.equalsIgnoreCase(testData.getCourseType().toString())) {
+				libraryPageMsgList.add("Course type is different: Expected course type in library should be :"
+						+ testData.getCourseType().toString());
+				result = false;
+			}
 			List<WebElement> linkCourses = libraryPage_OR.libraryTitles();
 
 			int noOfCourses = linkCourses.size();
 
-			if (noOfCourses == 0) {
+			if (!testData.getCourseType().equalsIgnoreCase("books")) {
+				if (noOfCourses == 0) {
 
-				libraryPageMsgList.add("The course is bought but there is no course present");
-				return false;
+					libraryPageMsgList.add("The course is bought but there is no course present");
+					return false;
 
-			} else {
-
-				if (!testData.getCourseType().equalsIgnoreCase("books")) {
-					
+				} else {
 					result = verifyBoughtCourse(testData.getCourseName());
 					if (!result) {
 						return result;
 					}
+				}
+			} else {
+				if (noOfCourses != 0) {
+					libraryPageMsgList.add("Purchased books course display in the library");
+					return false;
+				}
+				// Click on course from library page
+				cfObj.commonClick(libraryPage_OR.libraryTitles().get(0));
+				// wait for course Content page to be opened
+
+				result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".course_dashboard_content_wrapper",
+						"css", 30);
+				if (!result) {
+					libraryPageMsgList.add("Course Content page is not opened");
+					return result;
 				}
 			}
 
@@ -141,15 +166,14 @@ public class LibraryPageUtil {
 		try {
 			List<WebElement> linkCourses = libraryPage_OR.libraryTitles();
 
-			String[] arr = searchCourseName.split(" ");
-
 			for (int i = 0; i < linkCourses.size(); i++) {
 				String courseInLibrary = linkCourses.get(i).getText().toLowerCase();
-				if (courseInLibrary.contains(arr[0].toLowerCase())) {
-					return true;
+				if (!courseInLibrary.contains(searchCourseName)) {
+					libraryPageMsgList.add("Mismatch in purchase course in libabry : Expected Name : "
+							+ searchCourseName + ": Actaul: " + courseInLibrary);
+					result = false;
 				}
 			}
-			result = false;
 
 		} catch (Exception e) {
 			result = false;
