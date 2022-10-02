@@ -8,6 +8,7 @@ import org.openqa.selenium.support.PageFactory;
 
 import apiUtil.CourseApiUtil;
 import pageObject.CourseDetailsPage_OR;
+import pojo.TestData;
 import pojo.courseView.CourseView;
 import util.Common_Function;
 
@@ -24,7 +25,7 @@ public class CourseDetailsPageUtil {
 		PageFactory.initElements(driver, CourseDetailsPageORObj);
 	}
 
-	public boolean verifyCourseDetailsPage(WebDriver driver) {
+	public boolean verifyCourseDetailsPage(WebDriver driver, TestData testData) {
 		boolean result = true;
 		CourseApiUtil courseApiUtilObj;
 		CourseView courseViewObj;
@@ -32,9 +33,30 @@ public class CourseDetailsPageUtil {
 
 		try {
 			homeUtilObj = new HomePageUtil(driver);
-			result = homeUtilObj.clickOnBestSelling_Button(0);
-			if (!result) {
-				CourseDetailsPageMsgList.add("Fail to BestSelling Courses");
+			if (testData.getCourseType().contains("smart")) {
+				result = homeUtilObj.clickOnSmartCourseOnHomePage(driver);
+				if (!result) {
+					CourseDetailsPageMsgList.addAll(homeUtilObj.homePageMsgList);
+					return result;
+				}
+			} else if (testData.getCourseType().contains("micro")) {
+				result = homeUtilObj.clickOnMicroCourseOnHomePage(driver);
+				if (!result) {
+					CourseDetailsPageMsgList.addAll(homeUtilObj.homePageMsgList);
+					return result;
+				}
+			} else if (testData.getCourseType().contains("books")) {
+				result = homeUtilObj.clickOnBookOnHomePage(driver);
+				if (!result) {
+					CourseDetailsPageMsgList.addAll(homeUtilObj.homePageMsgList);
+					return result;
+				}
+			} else if (testData.getCourseType().contains("test-series")) {
+				result = homeUtilObj.clickOnTestSeriesOnHomePage(driver);
+				if (!result) {
+					CourseDetailsPageMsgList.addAll(homeUtilObj.homePageMsgList);
+					return result;
+				}
 			}
 			// click on Courses Info
 			Thread.sleep(20000);
@@ -56,32 +78,35 @@ public class CourseDetailsPageUtil {
 			}
 
 			// click on About Authors
-			result = verifyAboutAuthor(driver);
+			result = verifyAboutAuthor(driver, courseViewObj);
 
 			if (!result) {
 				return result;
 			}
 
 			// click on Demo Videos
-			result = veirfyDemoVideos(driver);
+			result = veirfyDemoVideos(driver, courseViewObj);
 
 			if (!result) {
 				return result;
 			}
 
-			// click on Get Free With This Course
-			result = clickOnThisCourse(driver);
+			if (!courseViewObj.getData().getCourseType().getCourseTypeName().equalsIgnoreCase("Testseries")) {
 
-			if (!result) {
-				return result;
-			}
+				// click on Get Free With This Course
+				result = clickOnThisCourse(driver);
 
-			// click on Course Content
+				if (!result) {
+					return result;
+				}
 
-			result = clickOnCourseContent(driver);
+				// click on Course Content
 
-			if (!result) {
-				return result;
+				result = clickOnCourseContent(driver);
+
+				if (!result) {
+					return result;
+				}
 			}
 
 			// click on Our Packages
@@ -94,15 +119,15 @@ public class CourseDetailsPageUtil {
 
 			// Click on Features
 
-			result = clickOnFeatures(driver);
-			
+			result = clickOnFeatures(driver, courseViewObj);
+
 			if (!result) {
 				return result;
 			}
 
 			// click on Frequently Asked Questions
 
-			result = clickFAQ(driver);
+			result = clickFAQ(driver,courseViewObj);
 
 			if (!result) {
 				return result;
@@ -159,11 +184,22 @@ public class CourseDetailsPageUtil {
 				result = false;
 			}
 
-			if (CourseDetailsPageORObj.getListCourseInfo().size() == 0) {
-				CourseDetailsPageMsgList.add("Course info is not display in course detail page");
-				result = false;
-			} else {
+			if (courseViewObj.getData().getCourseType().getCourseTypeName().equalsIgnoreCase("Testseries")) {
 
+				if (CourseDetailsPageORObj.getListTestSeriesCourseInfo().size() == 0) {
+					CourseDetailsPageMsgList.add("Test series Course info is not display in course detail page");
+					result = false;
+				} else {
+
+				}
+
+			} else {
+				if (CourseDetailsPageORObj.getListCourseInfo().size() == 0) {
+					CourseDetailsPageMsgList.add("Course info is not display in course detail page");
+					result = false;
+				} else {
+
+				}
 			}
 
 		} catch (Exception e) {
@@ -183,20 +219,20 @@ public class CourseDetailsPageUtil {
 			if (result) {
 				cfObj.commonClick(CourseDetailsPageORObj.getExamsCovered_TextButton());
 			} else {
-				
+
 				CourseDetailsPageMsgList.add("Exam covered navigation is not display on course detail page");
 				return result;
-				
+
 			}
-			
-			if(CourseDetailsPageORObj.getExamsCovered_Textinside().size() == 0)
-			{
-				CourseDetailsPageMsgList.add("Exam covered list is not display on course detail page when click on exam covered");
+
+			if (CourseDetailsPageORObj.getExamsCovered_Textinside().size() == 0) {
+				CourseDetailsPageMsgList
+						.add("Exam covered list is not display on course detail page when click on exam covered");
 				return false;
 			}
-			
-			if(CourseDetailsPageORObj.getExamsCovered_Textinside().size() != courseViewObj.getData().getExamCovered().size())
-			{
+
+			if (CourseDetailsPageORObj.getExamsCovered_Textinside().size() != courseViewObj.getData().getExamCovered()
+					.size()) {
 				CourseDetailsPageMsgList.add("Mismatch in exam covered list in api and UI");
 				return false;
 			}
@@ -209,31 +245,47 @@ public class CourseDetailsPageUtil {
 		return result;
 	}
 
-	public boolean verifyAboutAuthor(WebDriver driver) {
+	public boolean verifyAboutAuthor(WebDriver driver, CourseView courseViewObj) {
 		boolean result = true;
 		try {
 
-			result = cfObj.commonWaitForElementToBeVisible(driver, CourseDetailsPageORObj.getAboutAuthors_Button(), 2);
-			if (result) {
-				cfObj.commonClick(CourseDetailsPageORObj.getAboutAuthors_Button());
+			if (courseViewObj.getData().getAuthors().size() != 0) {
+
+				result = cfObj.commonWaitForElementToBeVisible(driver, CourseDetailsPageORObj.getAboutAuthors_Button(),
+						2);
+				if (result) {
+					cfObj.commonClick(CourseDetailsPageORObj.getAboutAuthors_Button());
+				} else {
+					CourseDetailsPageMsgList.add("About Author naviagtion is not display on the list");
+					return result;
+				}
+
+				result = cfObj.commonWaitForElementToBeVisible(driver, CourseDetailsPageORObj.getAboutAuthors_Title(),
+						2);
+				if (!result) {
+					CourseDetailsPageMsgList.add("Title of About Authors is not Present ");
+				}
+
+				result = cfObj.commonWaitForElementToBeVisible(driver, CourseDetailsPageORObj.getAboutAuthors_img(), 2);
+				if (!result) {
+					CourseDetailsPageMsgList.add("Image of Autor is Not Present");
+				}
+
+				result = cfObj.commonWaitForElementToBeVisible(driver, CourseDetailsPageORObj.getAboutAuthors_Name(),
+						2);
+				if (!result) {
+					CourseDetailsPageMsgList.add("Name of The Autor is not Present");
+				}
 			} else {
-				CourseDetailsPageMsgList.add("About Author naviagtion is not display on the list");
-				return result;
-			}
 
-			result = cfObj.commonWaitForElementToBeVisible(driver, CourseDetailsPageORObj.getAboutAuthors_Title(), 2);
-			if (!result) {
-				CourseDetailsPageMsgList.add("Title of About Authors is not Present ");
-			}
-
-			result = cfObj.commonWaitForElementToBeVisible(driver, CourseDetailsPageORObj.getAboutAuthors_img(), 2);
-			if (!result) {
-				CourseDetailsPageMsgList.add("Image of Autor is Not Present");
-			}
-
-			result = cfObj.commonWaitForElementToBeVisible(driver, CourseDetailsPageORObj.getAboutAuthors_Name(), 2);
-			if (!result) {
-				CourseDetailsPageMsgList.add("Name of The Autor is not Present");
+				result = cfObj.commonWaitForElementToBeVisible(driver, CourseDetailsPageORObj.getAboutAuthors_Button(),
+						2);
+				if (result) {
+					CourseDetailsPageMsgList.add("Author should not be display in course detail page");
+					result = false;
+				} else {
+					result = true;
+				}
 			}
 
 		} catch (Exception e) {
@@ -243,30 +295,40 @@ public class CourseDetailsPageUtil {
 		return result;
 	}
 
-	public boolean veirfyDemoVideos(WebDriver driver) {
+	public boolean veirfyDemoVideos(WebDriver driver, CourseView courseViewObj) {
 		boolean result = true;
 		try {
 
 			result = cfObj.commonWaitForElementToBeVisible(driver, CourseDetailsPageORObj.getDemo_Videos_Button(), 2);
-			if (result) {
-				cfObj.commonClick(CourseDetailsPageORObj.getDemo_Videos_Button());
-			} else {
-				
-				CourseDetailsPageMsgList.add("Demo video not present navigation menu");
-				return result;
-			}
+			if (courseViewObj.getData().getDemoUrls().size() > 0) {
+				if (result) {
+					cfObj.commonClick(CourseDetailsPageORObj.getDemo_Videos_Button());
+				} else {
 
-			result = cfObj.commonWaitForElementToBeVisible(driver, CourseDetailsPageORObj.getDemoVideos_Text(), 2);
-			if (!result) {
-				CourseDetailsPageMsgList.add("Title of Demo video is not Available");
-			}
+					CourseDetailsPageMsgList.add("Demo video not present navigation menu");
+					return result;
+				}
 
-			List<WebElement> tx3 = CourseDetailsPageORObj.getListOf_Videos();
-			for (int i = 0; i < tx3.size(); i++) {
-				cfObj.commonClick(tx3.get(i));
-				result = cfObj.commonWaitForElementToBeVisible(driver, tx3.get(i), 2);
+				result = cfObj.commonWaitForElementToBeVisible(driver, CourseDetailsPageORObj.getDemoVideos_Text(), 2);
 				if (!result) {
-					CourseDetailsPageMsgList.add("Course Content is not Available");
+					CourseDetailsPageMsgList.add("Title of Demo video is not Available");
+				}
+
+				List<WebElement> tx3 = CourseDetailsPageORObj.getListOf_Videos();
+				for (int i = 0; i < tx3.size(); i++) {
+					cfObj.commonClick(tx3.get(i));
+					result = cfObj.commonWaitForElementToBeVisible(driver, tx3.get(i), 2);
+					if (!result) {
+						CourseDetailsPageMsgList.add("Course Content is not Available");
+					}
+				}
+			} else {
+				if (result) {
+					CourseDetailsPageMsgList.add("Demo video should not be display for course name: "
+							+ courseViewObj.getData().getCourseDetail().getCourseTitle().toString());
+					result = false;
+				} else {
+					result = true;
 				}
 			}
 
@@ -414,31 +476,44 @@ public class CourseDetailsPageUtil {
 		return result;
 	}
 
-	public boolean clickOnFeatures(WebDriver driver) {
+	public boolean clickOnFeatures(WebDriver driver, CourseView courseViewObj) {
 		boolean result = true;
 		try {
 
-			result = cfObj.commonWaitForElementToBeVisible(driver, CourseDetailsPageORObj.getFeatures_Text(), 2);
-			if (!result) {
-				CourseDetailsPageMsgList.add("Title of Features is not Available");
-			}
+			if (courseViewObj.getData().getPackages().get(0).getPackages().get(0).getFeatures().size() > 0) {
 
-			cfObj.commonClick(CourseDetailsPageORObj.getexpand_featurest());
-
-			List<WebElement> tx5 = CourseDetailsPageORObj.getFeatures_TextElement();
-			for (int i = 0; i < tx5.size(); i++) {
-				result = cfObj.commonWaitForElementToBeVisible(driver, tx5.get(i), 1);
+				result = cfObj.commonWaitForElementToBeVisible(driver, CourseDetailsPageORObj.getFeatures_Text(), 2);
 				if (!result) {
-					CourseDetailsPageMsgList.add("Features Content is not Available");
+					CourseDetailsPageMsgList.add("Title of Features is not Available");
 				}
-			}
 
-			List<WebElement> tx6 = CourseDetailsPageORObj.getFeatures_TextElement1();
-			for (int i = 0; i < tx6.size(); i++) {
-				result = cfObj.commonWaitForElementToBeVisible(driver, tx6.get(i), 1);
-				if (!result) {
-					CourseDetailsPageMsgList.add("inside Features Content is not Available");
+				cfObj.commonClick(CourseDetailsPageORObj.getexpand_featurest());
+
+				List<WebElement> tx5 = CourseDetailsPageORObj.getFeatures_TextElement();
+				for (int i = 0; i < tx5.size(); i++) {
+					result = cfObj.commonWaitForElementToBeVisible(driver, tx5.get(i), 1);
+					if (!result) {
+						CourseDetailsPageMsgList.add("Features Content is not Available");
+					}
 				}
+
+				List<WebElement> tx6 = CourseDetailsPageORObj.getFeatures_TextElement1();
+				for (int i = 0; i < tx6.size(); i++) {
+					result = cfObj.commonWaitForElementToBeVisible(driver, tx6.get(i), 1);
+					if (!result) {
+						CourseDetailsPageMsgList.add("inside Features Content is not Available");
+					}
+				}
+			} else {
+				result = cfObj.commonWaitForElementToBeVisible(driver, CourseDetailsPageORObj.getFeatures_Text(), 2);
+				if (result) {
+					CourseDetailsPageMsgList.add("Title of Features should not be Available for course: "
+							+ courseViewObj.getData().getCourseDetail().getCourseTitle());
+					result = false;
+				} else {
+					result = true;
+				}
+
 			}
 
 		} catch (Exception e) {
@@ -449,54 +524,67 @@ public class CourseDetailsPageUtil {
 		return result;
 	}
 
-	public boolean clickFAQ(WebDriver driver) {
+	public boolean clickFAQ(WebDriver driver, CourseView courseViewObj) {
 		boolean result = true;
 		try {
 
-			result = cfObj.commonWaitForElementToBeVisible(driver, CourseDetailsPageORObj.getFAQ_Button(), 2);
-			if (result == true) {
-				cfObj.commonClick(CourseDetailsPageORObj.getFAQ_Button());
-			} else {
-				result = false;
-				CourseDetailsPageMsgList.add("FAQ button is not Working");
-			}
+			if (courseViewObj.getData().getCourseFaqs().size() > 0) {
 
-			result = cfObj.commonWaitForElementToBeVisible(driver, CourseDetailsPageORObj.getFAQ_Text(), 2);
-			if (!result) {
-				CourseDetailsPageMsgList.add("Title of FAQ is not Available");
-			}
-
-			result = cfObj.commonWaitForElementToBeVisible(driver, CourseDetailsPageORObj.getFAQ_ViewAllButton(), 2);
-			if (result == true) {
-				cfObj.commonClick(CourseDetailsPageORObj.getFAQ_ViewAllButton());
-			} else {
-				result = false;
-				CourseDetailsPageMsgList.add("FAQ ViewAll button is not Working");
-			}
-
-			List<WebElement> tx7 = CourseDetailsPageORObj.getFAQ_Question();
-			List<WebElement> tx8 = CourseDetailsPageORObj.getFAQ_TextInside();
-			for (int i = 0; i < tx7.size(); i++) {
-				cfObj.commonClick(tx7.get(i));
-				result = cfObj.commonWaitForElementToBeVisible(driver, tx7.get(i), 2);
-				if (!result) {
-					CourseDetailsPageMsgList.add("Question Content is not Available");
+				result = cfObj.commonWaitForElementToBeVisible(driver, CourseDetailsPageORObj.getFAQ_Button(), 2);
+				if (result == true) {
+					cfObj.commonClick(CourseDetailsPageORObj.getFAQ_Button());
+				} else {
+					result = false;
+					CourseDetailsPageMsgList.add("FAQ button is not Working");
 				}
 
-				for (int j = 0; j < tx8.size(); j++) {
-					result = cfObj.commonWaitForElementToBeVisible(driver, tx8.get(i), 2);
+				result = cfObj.commonWaitForElementToBeVisible(driver, CourseDetailsPageORObj.getFAQ_Text(), 2);
+				if (!result) {
+					CourseDetailsPageMsgList.add("Title of FAQ is not Available");
+				}
+
+				result = cfObj.commonWaitForElementToBeVisible(driver, CourseDetailsPageORObj.getFAQ_ViewAllButton(),
+						2);
+				if (result == true) {
+					cfObj.commonClick(CourseDetailsPageORObj.getFAQ_ViewAllButton());
+				} else {
+					result = false;
+					CourseDetailsPageMsgList.add("FAQ ViewAll button is not Working");
+				}
+
+				List<WebElement> tx7 = CourseDetailsPageORObj.getFAQ_Question();
+				List<WebElement> tx8 = CourseDetailsPageORObj.getFAQ_TextInside();
+				for (int i = 0; i < tx7.size(); i++) {
+					cfObj.commonClick(tx7.get(i));
+					result = cfObj.commonWaitForElementToBeVisible(driver, tx7.get(i), 2);
 					if (!result) {
-						CourseDetailsPageMsgList.add("Answer Content is not Available");
+						CourseDetailsPageMsgList.add("Question Content is not Available");
 					}
 
-				}
-			}
+					for (int j = 0; j < tx8.size(); j++) {
+						result = cfObj.commonWaitForElementToBeVisible(driver, tx8.get(i), 2);
+						if (!result) {
+							CourseDetailsPageMsgList.add("Answer Content is not Available");
+						}
 
-			List<WebElement> tx4 = CourseDetailsPageORObj.getContent_AllElementInside();
-			for (int i = 0; i < tx4.size(); i++) {
-				result = cfObj.commonWaitForElementToBeVisible(driver, tx4.get(i), 2);
-				if (!result) {
-					CourseDetailsPageMsgList.add("Course Content inside Course is not Available");
+					}
+				}
+
+				List<WebElement> tx4 = CourseDetailsPageORObj.getContent_AllElementInside();
+				for (int i = 0; i < tx4.size(); i++) {
+					result = cfObj.commonWaitForElementToBeVisible(driver, tx4.get(i), 2);
+					if (!result) {
+						CourseDetailsPageMsgList.add("Course Content inside Course is not Available");
+					}
+				}
+			} else {
+				result = cfObj.commonWaitForElementToBeVisible(driver, CourseDetailsPageORObj.getFAQ_Button(), 2);
+				if (result) {
+					CourseDetailsPageMsgList.add("FAQ button is display for the course");
+					result = false;
+				} else {
+					result = true;
+
 				}
 			}
 

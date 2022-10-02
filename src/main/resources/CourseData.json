@@ -1,0 +1,13 @@
+{
+  "dataSet" : [ {
+    "courseType" : "test-series"
+  }, {
+    "courseType" : "live"
+  }, {
+    "courseType" : "smart"
+  }, {
+    "courseType" : "micro"
+  }, {
+    "courseType" : "books"
+  } ]
+}

@@ -1,5 +1,6 @@
 package apiUtil;
 
+import pojo.courseList.CourseList;
 import pojo.courseView.CourseView;
 import util.APIResponse;
 import util.APIUtils;
@@ -27,6 +28,25 @@ public class CourseApiUtil {
 		}
 
 		return courseViewObj;
+
+	}
+
+	public CourseList getCourseList(String strBestSelling) {
+		CourseList courseListObj = null;
+		try {
+
+			ap = apiUtilsObj.getCall(cfReaderObject.getBaseUrl(), "web/viewallcourses/bestselling-courses", null);
+			if (ap.code != 200) {
+				return null;
+			}
+
+			courseListObj = ap.responseData.as(CourseList.class);
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
+		return courseListObj;
 
 	}
 }

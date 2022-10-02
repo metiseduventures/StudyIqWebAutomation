@@ -39,7 +39,7 @@ public class CoursePageUtil {
 		librayUtilObj = new LibraryPageUtil(driver);
 		int no;
 		String strCourseSlug = null;
-		
+
 		try {
 
 			strCourseType = testData.getCourseType().toString();
@@ -59,6 +59,12 @@ public class CoursePageUtil {
 					}
 				} else if (testData.getCourseType().contains("books")) {
 					result = util.clickOnBookOnHomePage(driver);
+					if (!result) {
+						coursePageMsgList.addAll(util.homePageMsgList);
+						return result;
+					}
+				} else if (testData.getCourseType().contains("test-series")) {
+					result = util.clickOnTestSeriesOnHomePage(driver);
 					if (!result) {
 						coursePageMsgList.addAll(util.homePageMsgList);
 						return result;
@@ -91,7 +97,7 @@ public class CoursePageUtil {
 					return result;
 				}
 
-				result = verifyClickOfferPromo(driver, testData.getOfferName());
+				result = verifyPromoCode(driver);
 				if (!result) {
 					return result;
 				}
@@ -99,14 +105,12 @@ public class CoursePageUtil {
 				if (!result) {
 					return result;
 				}
+				result = verifyClickPay(testData.getPaymentMethod(), driver, testData, testData.getbankNameForPaytm());
+				if (!result) {
+					return result;
+				}
 				if ((ConfigFileReader.strEnv).equalsIgnoreCase("staging")
 						|| (ConfigFileReader.strEnv).equalsIgnoreCase("dev")) {
-
-					result = verifyClickPay(testData.getPaymentMethod(), driver, testData,
-							testData.getbankNameForPaytm());
-					if (!result) {
-						return result;
-					}
 
 					if (testData.getIsKey().equalsIgnoreCase("pass")) {
 
@@ -161,7 +165,7 @@ public class CoursePageUtil {
 				if (!result) {
 					return result;
 				}
-				result = verifyClickOfferPromo(driver, testData.getOfferName());
+				result = verifyPromoCode(driver);
 				if (!result) {
 					return result;
 				}
@@ -296,8 +300,9 @@ public class CoursePageUtil {
 		return result;
 	}
 
-	public boolean verifyClickOfferPromo(WebDriver driver, String offerName) {
+	public boolean verifyPromoCode(WebDriver driver) {
 		boolean result = true;
+		String couponCode = null;
 		try {
 
 			List<WebElement> links = coursePageORobj.verifyTitle();
@@ -317,7 +322,7 @@ public class CoursePageUtil {
 
 				cfObj.commonClick(coursePageORobj.buyNowMain());
 
-				// wait for payment detail page to be opned
+				// wait for payment detail page to be opened
 				result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".package-payment-details", "css", 30);
 				if (!result) {
 					coursePageMsgList.add("Payment page not opned after click on buy now button");
@@ -330,18 +335,18 @@ public class CoursePageUtil {
 				// It clicks on the offer desired and checks
 				for (int i = 0; i < coursePackages.size(); i++) {
 					String bestValueTitleString = links.get(i).getText();
-					if (bestValueTitleString.equalsIgnoreCase(offerName)) {
+					System.out.println(bestValueTitleString);
+					result = cfObj.commonWaitForElementToBeVisible(driver, links.get(i), 10);
+					if (!result) {
+						coursePageMsgList.add("The course package is not visible");
+						return result;
+					}
+					String packageAmountString = coursePageORobj.packageAmounts().get(i).getText();
+					Double packageAmount = amountCorrectFormat(packageAmountString);
 
-						result = cfObj.commonWaitForElementToBeVisible(driver, links.get(i), 10);
-						if (!result) {
-							coursePageMsgList.add("The course package is not visible");
-							return result;
-						}
+					cfObj.commonClick(coursePackages.get(i));
 
-						cfObj.commonClick(coursePackages.get(i));
-
-						String packageAmountString = coursePageORobj.packageAmounts().get(i).getText();
-						Double packageAmount = amountCorrectFormat(packageAmountString);
+					if (coursePageORobj.getListOfferApplied().size() == 0) {
 
 						result = cfObj.commonWaitForElementToBeVisible(driver, coursePageORobj.promoClick(), 10);
 						if (!result) {
@@ -370,12 +375,11 @@ public class CoursePageUtil {
 							coursePageMsgList.add("The coupon code is not visible after applying");
 							return result;
 						}
-
-						String couponCode = coursePageORobj.couponCodeElement().getText();
+						couponCode = coursePageORobj.couponCodeElement().getText();
 
 						result = cfObj.commonWaitForElementToBeVisible(driver, coursePageORobj.RApplyCodeClick(), 10);
 						if (!result) {
-							coursePageMsgList.add("The remove btn is not visible after applying");
+							coursePageMsgList.add("The remove btn is not visible after applying code");
 							return result;
 						}
 
@@ -410,64 +414,36 @@ public class CoursePageUtil {
 							coursePageMsgList.add("The input is not working");
 							return result;
 						}
-
 						cfObj.commonClick(coursePageORobj.applyCodeMain());
 
-						result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "coupon-error", "class", 10);
+						result = cfObj.commonWaitForElementToBeVisible(driver, coursePageORobj.couponCodeElement(), 10);
 						if (!result) {
-
-							result = cfObj.commonWaitForElementToBeVisible(driver, coursePageORobj.couponCodeElement(),
-									10);
-							if (!result) {
-								coursePageMsgList.add("The coupon code is not visible after applying");
-								return result;
-							}
-
-							String removeCouponAmountString = coursePageORobj.removeAmount().getText();
-							Double removeCouponAmount = amountCorrectFormat(removeCouponAmountString);
-
-							String afterpackageAmountString = coursePageORobj.packageAmounts().get(i).getText();
-							Double afterPackageAmount = amountCorrectFormat(afterpackageAmountString);
-
-							for (int j = 1; j < coursePackages.size(); j++) {
-								cfObj.commonClick(coursePackages.get(j));
-							}
-
-							if (packageAmount == afterPackageAmount + removeCouponAmount) {
-								cfObj.commonClick(coursePageORobj.buyNowMain());
-							} else {
-								coursePageMsgList.add("The amount is not same of packages before and after");
-								return false;
-							}
-
-							// wait for payment detail page to be opened
-							result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".package-payment-details",
-									"css", 30);
-							if (!result) {
-								coursePageMsgList.add("Payment page not opned after click on buy now button");
-								return result;
-							}
-
-							return true;
-
-						} else {
-							System.out.println("The coupon is correct but it is not valid msg is not visible");
-
-							cfObj.commonClick(coursePageORobj.buyNowMain());
-
-							// wait for payment detail page to be opned
-							result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".package-payment-details",
-									"css", 30);
-							if (!result) {
-								coursePageMsgList.add("Payment page not opned after click on buy now button");
-								return result;
-							}
-
-							return true;
+							coursePageMsgList.add("The coupon code is not visible after applying");
+							return result;
 						}
+					}
 
+					String removeCouponAmountString = coursePageORobj.removeAmount().getText();
+					Double removeCouponAmount = amountCorrectFormat(removeCouponAmountString);
+
+					String afterpackageAmountString = coursePageORobj.packageAmounts().get(i).getText();
+					Double afterPackageAmount = amountCorrectFormat(afterpackageAmountString);
+
+					if (afterPackageAmount + (removeCouponAmount) != packageAmount) {
+						coursePageMsgList.add("Diffrence in final package amount after apply promo code: " + couponCode
+								+ "on package " + bestValueTitleString);
+						return false;
 					}
 				}
+				cfObj.commonClick(coursePageORobj.buyNowMain());
+				// wait for payment detail page to be opened
+				result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".package-payment-details", "css", 30);
+				if (!result) {
+					coursePageMsgList
+							.add("Payment page not opned after click on buy now button after applying coupon code");
+					return result;
+				}
+
 			}
 
 		} catch (Exception e) {
@@ -664,13 +640,25 @@ public class CoursePageUtil {
 		boolean result = true;
 		try {
 
-			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver,
-					"//img[@src='https://static-staging.paytm.in/pgp/web/assets/paytm-pg-blue.svg']", "xpath", 10);
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//img[@data-key='qr-paytm']", "xpath",
+					10);
 			if (!result) {
-				coursePageMsgList.add("The payment page is not of paytm");
+				coursePageMsgList.add("The payment page is not open for paytm");
 				return result;
 			}
 
+			if (ConfigFileReader.strEnv.equalsIgnoreCase("prod")) {
+				cfObj.commonClick(coursePageORobj.getArrowLeft());
+				// Cancel payment
+				cfObj.commonClick(coursePageORobj.getListNoYesButtonPopUp().get(1));
+				result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".retry-payment-btn", "css", 10);
+				if (!result) {
+					coursePageMsgList.add("Payment retry page is not opened when payment is unsuccessfull");
+					return result;
+				} else {
+					return result;
+				}
+			}
 			result = cfObj.commonWaitForElementToBeVisible(driver, coursePageORobj.netbankingInPaytm(), 10);
 			if (!result) {
 				coursePageMsgList.add("The netbank btn is not visible in paytm method");
@@ -720,7 +708,8 @@ public class CoursePageUtil {
 					return result;
 				}
 
-			} else if (testData.getIsKey().equalsIgnoreCase("fail")) {
+			} else if (testData.getIsKey().equalsIgnoreCase("fail")
+					|| ConfigFileReader.strEnv.equalsIgnoreCase("prod")) {
 
 				boolean bool = true;
 
@@ -1233,14 +1222,12 @@ public class CoursePageUtil {
 		}
 		return result;
 	}
-	
-	public boolean verifyCourseContent(WebDriver driver)
-	{
+
+	public boolean verifyCourseContent(WebDriver driver) {
 		boolean result = true;
-		try
-		{
-			
-		}catch (Exception e) {
+		try {
+
+		} catch (Exception e) {
 			result = false;
 			coursePageMsgList.add("verifyCourseContent_Exception: " + e.getMessage());
 		}

@@ -95,7 +95,7 @@ public class CourseDetailsPage_OR {
 		return listCourseInfo;
 	}
 
-	@FindBy(xpath="//div[@class='navigation']/button[1]")
+	@FindBy(xpath="//button[text()='Exams Covered']")
 	private WebElement ExamsCovered_TextButton;
 	
 	public  WebElement getExamsCovered_TextButton() {
@@ -120,7 +120,7 @@ public class CourseDetailsPage_OR {
 	}
 	//About Authors
 	
-	@FindBy(xpath="//div[@class='navigation']/button[2]")
+	@FindBy(xpath="//button[text()='About Authors']")
 	private WebElement AboutAuthors_Button ;
 	
 	public  WebElement getAboutAuthors_Button() {
@@ -170,7 +170,7 @@ public class CourseDetailsPage_OR {
 	
 	//Demo Videos
 	
-	@FindBy(xpath="//div[@class='navigation']/button[3]")
+	@FindBy(xpath="//button[text()='Demo Videos']")
 	private WebElement Demo_Videos_Button;
 	
 	public  WebElement getDemo_Videos_Button() {
@@ -222,7 +222,7 @@ public class CourseDetailsPage_OR {
 		return CourseContent_Title;
 	}
 	
-	@FindBy(xpath="//div[@class='navigation']/button[4]")
+	@FindBy(xpath="//button[text()='Course Content']")
 	private WebElement CourseContent_Button;
 	
 	public  WebElement getCourseContent_Button() {
@@ -356,7 +356,7 @@ public class CourseDetailsPage_OR {
 	
 	//Frequently Asked Questions
 	
-	@FindBy(xpath="//div[@class='navigation']/button[5]")
+	@FindBy(xpath="//button[text()='FAQs']")
 	private WebElement FAQ_Button;
 	
 	public  WebElement getFAQ_Button() {
@@ -412,6 +412,13 @@ public class CourseDetailsPage_OR {
 	public WebElement getPricing_cut() {
 		// TODO Auto-generated method stub
 		return Pricing_cut;
+	}
+	
+	@FindBy(css=".test_series_course_info")
+	private List<WebElement> listTestSeriesCourseInfo;
+
+	public List<WebElement> getListTestSeriesCourseInfo() {
+		return listTestSeriesCourseInfo;
 	}
 	
 }

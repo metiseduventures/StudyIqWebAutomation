@@ -26,124 +26,123 @@ public class HomePageUtil {
 	LibraryPageUtil librayUtilObj;
 	CoursePageUtil coursePageUtilObj;
 	MyProfileUtil myProfileUtilObj;
-	
+
 	public HomePageUtil(WebDriver driver) {
 
 		homePageORObj = new HomePage_OR();
 		PageFactory.initElements(driver, homePageORObj);
 	}
 
-	public boolean validateHomePage(WebDriver driver,String strMobileNumber) {
-		boolean result=true;
+	public boolean validateHomePage(WebDriver driver, String strMobileNumber) {
+		boolean result = true;
 		try {
-			result=VerifyContacts(driver);
-			if (!result) { 
+			result = VerifyContacts(driver);
+			if (!result) {
 				homePageMsgList.add("Contacts is not Verify");
 				return result;
-				}
-			
-			result=clickOnNavBarItem(driver);
-			if (!result) { 
+			}
+
+			result = clickOnNavBarItem(driver);
+			if (!result) {
 				homePageMsgList.add("Item is not Available");
 				return result;
-				}
-			
-			result=clickOnSlideItem(driver);
-			if (!result) { 
+			}
+
+			result = clickOnSlideItem(driver);
+			if (!result) {
 				homePageMsgList.add("Slide Item is not Available");
 				return result;
-				}
-			
-			 result=clickOnExploreButton(driver);
-			 if (!result) { 
-					homePageMsgList.add("Explore_Button is not Working");
-					return result;
-				}
-		
-			 result=verifyLogin(driver,strMobileNumber);
-			 if (!result) { 
-					homePageMsgList.add("Failed to Login");
-					return result;
-				}
-			 
-			 result=VerifyListOfCourse(driver);
-			 if (!result) { 
-					homePageMsgList.add("Course Link is not Working");
-					return result;
-				}
-			 
-			 result=clickOnMyLibraryButton(driver);
-			 if (!result) { 
-					homePageMsgList.add("My-Library Button is not Working");
-					return result;
-				}
-			 			 
-			 result=clickOnMyOfferButton(driver);
-			 if (!result) { 
-					homePageMsgList.add("My-Offer Button is not Working");
-					return result;
-				}
-			 result=clickOnMyprofileButton(driver);
-			 if (!result) { 
-					homePageMsgList.add("My-profile Button is not Working");
-					return result;
-				}
-			result=clickOnLogOutButton(driver);
-			 if (!result) { 
-					homePageMsgList.add("Log-out Button is not Working");
-					return result;
-				}
-			 
-			 result=VerifyTestimonial(driver);
-			 if (!result) { 
-					homePageMsgList.add("Not Varify Testimonial Part");
-					return result;
-				}
-			 
-			result=VerifySocialMediaIcon(driver);
-			if (!result) { 
+			}
+
+			result = clickOnExploreButton(driver);
+			if (!result) {
+				homePageMsgList.add("Explore_Button is not Working");
+				return result;
+			}
+
+			result = verifyLogin(driver, strMobileNumber);
+			if (!result) {
+				homePageMsgList.add("Failed to Login");
+				return result;
+			}
+
+			result = VerifyListOfCourse(driver);
+			if (!result) {
+				homePageMsgList.add("Course Link is not Working");
+				return result;
+			}
+
+			result = clickOnMyLibraryButton(driver);
+			if (!result) {
+				homePageMsgList.add("My-Library Button is not Working");
+				return result;
+			}
+
+			result = clickOnMyOfferButton(driver);
+			if (!result) {
+				homePageMsgList.add("My-Offer Button is not Working");
+				return result;
+			}
+			result = clickOnMyprofileButton(driver);
+			if (!result) {
+				homePageMsgList.add("My-profile Button is not Working");
+				return result;
+			}
+			result = clickOnLogOutButton(driver);
+			if (!result) {
+				homePageMsgList.add("Log-out Button is not Working");
+				return result;
+			}
+
+			result = VerifyTestimonial(driver);
+			if (!result) {
+				homePageMsgList.add("Not Varify Testimonial Part");
+				return result;
+			}
+
+			result = VerifySocialMediaIcon(driver);
+			if (!result) {
 				homePageMsgList.add("Social Media is not Verify");
 				return result;
-				}
-			result=clickOnPoketNewApp(driver);
-			if (!result) { 
+			}
+			result = clickOnPoketNewApp(driver);
+			if (!result) {
 				homePageMsgList.add("Poket New App Button is not Working");
 				return result;
-				}
-						
-		}catch (Exception e) {
+			}
+
+		} catch (Exception e) {
 			result = false;
 			homePageMsgList.add("validateHomePage_Exception: " + e.getMessage());
 		}
 
 		return result;
 	}
-	
+
 	public boolean VerifyContacts(WebDriver driver) {
 		boolean result = true;
 		try {
 			cfObj.commonClick(homePageORObj.getClose_Notification());
-			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//div[@class='we_are_text']/span", "xpath", 1);
-			if (result==true) {
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//div[@class='we_are_text']/span",
+					"xpath", 1);
+			if (result == true) {
 				cfObj.commonClick(homePageORObj.getContactClickHereButton());
-				Set<String> windowsId=driver.getWindowHandles();
-				Iterator<String> itr=windowsId.iterator();
-				String defaultwindowId=itr.next();
-				String childwindowId=itr.next();
+				Set<String> windowsId = driver.getWindowHandles();
+				Iterator<String> itr = windowsId.iterator();
+				String defaultwindowId = itr.next();
+				String childwindowId = itr.next();
 				driver.switchTo().window(childwindowId);
-				String title="StudyIQ";
-				result=driver.getTitle().contains(title);
-				if(result==true) {
+				String title = "StudyIQ";
+				result = driver.getTitle().contains(title);
+				if (result == true) {
 					homePageMsgList.add("StudyIQ Application Download Website");
-				}
-				else {
+				} else {
 					homePageMsgList.add("Not StudyIQ Application Download Website");
 					return result;
 				}
 				driver.close();
 				driver.switchTo().window(defaultwindowId);
-			}
-			else {
+			} else {
 				homePageMsgList.add("Contacts is not Available");
 				return result;
 
@@ -154,6 +153,7 @@ public class HomePageUtil {
 		}
 		return result;
 	}
+
 	public boolean verifyLogin(WebDriver driver, String strMobileNumber) {
 		boolean result = true;
 		String strOtp = null;
@@ -448,7 +448,7 @@ public class HomePageUtil {
 	public boolean clickOnBookOnHomePage(WebDriver driver) {
 		boolean result = true;
 		try {
-			driver.navigate().to(fileReader.getBaseUrlWeb()+"books");
+			driver.navigate().to(fileReader.getBaseUrlWeb() + "books");
 			if (homePageORObj.getlistOfBook().size() == 0) {
 				homePageMsgList.add("Books are not display on the home page");
 				return false;
@@ -583,314 +583,293 @@ public class HomePageUtil {
 		}
 		return result;
 	}
-	
+
 	public boolean clickOnNavBarItem(WebDriver driver) {
 		boolean result = true;
 		try {
 			List<WebElement> L1 = homePageORObj.getNavBar_Item();
-			for(int i=1;i<L1.size();i++)
-			{
+			for (int i = 1; i < L1.size(); i++) {
 				cfObj.commonClick(L1.get(i));
-				
-				result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver,".not-found--title","css", 2);
-	        	if(result==true)
-	        	{
-	        		cfObj.commonClick(homePageORObj.getBackToHome());
-	        	} 	
-	        	result = cfObj.commonWaitForElementToBeVisible(driver,L1.get(i), 2);
-	        	if(!result) {
-	        		homePageMsgList.add("Iteam is not Available");
-		        }	       
+
+				result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".not-found--title", "css", 2);
+				if (result == true) {
+					cfObj.commonClick(homePageORObj.getBackToHome());
+				}
+				result = cfObj.commonWaitForElementToBeVisible(driver, L1.get(i), 2);
+				if (!result) {
+					homePageMsgList.add("Iteam is not Available");
+				}
 			}
 			cfObj.commonClick(homePageORObj.getHomePage());
-			
-			result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver,"//div[@class='courses navbar-nav']/a[contains(text(),'Courses')]","xpath", 2);
-        	if(result==true)
-        	{
-        		cfObj.commonClick(homePageORObj.getCourseButton());
-    			cfObj.commonClick(homePageORObj.getHomePage());
-        	} 
-        	else {
-    			homePageMsgList.add("Course Button is Not Working");
-        		return result;
-        	}
-			
+
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver,
+					"//div[@class='courses navbar-nav']/a[contains(text(),'Courses')]", "xpath", 2);
+			if (result == true) {
+				cfObj.commonClick(homePageORObj.getCourseButton());
+				cfObj.commonClick(homePageORObj.getHomePage());
+			} else {
+				homePageMsgList.add("Course Button is Not Working");
+				return result;
+			}
+
 		} catch (Exception e) {
 			result = false;
 			homePageMsgList.add("clickOnNavBarItem_Exception: " + e.getMessage());
 		}
 		return result;
 	}
-	
+
 	public boolean clickOnSlideItem(WebDriver driver) {
 		boolean result = true;
-		try {	
-			//Click On Backward Button
-			result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver,"//div[@class='slick-arrow slick-prev left_arrow_wrapper']/img","xpath", 1);
-			if(result==true) {
-				for(int j=0;j<3;j++) {
+		try {
+			// Click On Backward Button
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver,
+					"//div[@class='slick-arrow slick-prev left_arrow_wrapper']/img", "xpath", 1);
+			if (result == true) {
+				for (int j = 0; j < 3; j++) {
 					cfObj.commonClick(homePageORObj.getBackwardArrow());
 				}
-				
-		     }
-			else {
-	        	homePageMsgList.add("Backward Button is not Available");
-	        	return result;
-			}	
-			
+
+			} else {
+				homePageMsgList.add("Backward Button is not Available");
+				return result;
+			}
+
 			cfObj.commonClick(homePageORObj.getSlideCoursesOne());
 			cfObj.commonClick(homePageORObj.getHomePage());
-			
-			//Click On Farward Button
-			result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver,"//div[@class='slick-arrow slick-next right_arrow_wrapper']/img","xpath", 1);
-			if(result==true) {
-			    for(int i=0;i<3;i++) {
-			       cfObj.commonClick(homePageORObj.getFarwardArrow());
-			     			    }
-			}
-			else {
-        		homePageMsgList.add("Farward Button is not Available");
-        		return result;
+
+			// Click On Farward Button
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver,
+					"//div[@class='slick-arrow slick-next right_arrow_wrapper']/img", "xpath", 1);
+			if (result == true) {
+				for (int i = 0; i < 3; i++) {
+					cfObj.commonClick(homePageORObj.getFarwardArrow());
+				}
+			} else {
+				homePageMsgList.add("Farward Button is not Available");
+				return result;
 			}
 			cfObj.commonClick(homePageORObj.getHomePage());
-			
-				
+
 		} catch (Exception e) {
 			result = false;
 			homePageMsgList.add("clickOnSlideItem_Exception: " + e.getMessage());
 		}
 		return result;
 	}
-	
+
 	public boolean clickOnExploreButton(WebDriver driver) {
 		boolean result = true;
 		try {
-			result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver,"//span[contains(text(),'Explore Courses')]","xpath", 0);
-			if(result==true) {
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver,
+					"//span[contains(text(),'Explore Courses')]", "xpath", 0);
+			if (result == true) {
 				cfObj.commonClick(homePageORObj.getExploreCourses());
 				cfObj.commonClick(homePageORObj.getHomePage());
+			} else {
+				homePageMsgList.add("Explore_Courses Button is not Working");
+				return result;
 			}
-			else {
-        		homePageMsgList.add("Explore_Courses Button is not Working");
-        		return result;
-			}	
-				
+
 		} catch (Exception e) {
 			result = false;
 			homePageMsgList.add("clickOnExploreButton_Exception: " + e.getMessage());
 		}
 		return result;
 	}
-	
+
 	public boolean clickOnMyLibraryButton(WebDriver driver) {
 		boolean result = true;
-	    librayUtilObj=new LibraryPageUtil(driver);
+		librayUtilObj = new LibraryPageUtil(driver);
 		try {
-			result=librayUtilObj.DropDownLibrary_Course(driver);
-			if(!result)
-			{
+			result = librayUtilObj.DropDownLibrary_Course(driver);
+			if (!result) {
 				cfObj.commonClick(homePageORObj.getDropDown_Button());
 				cfObj.commonClick(homePageORObj.getMyLibraryButton());
-				result=cfObj.commonWaitForElementToBeVisible(driver,homePageORObj.getLibraryEmptyText() , 1);
-				if(result==true) {
-				cfObj.commonClick(homePageORObj.getLibraryExplore_Courses());
-				cfObj.commonClick(homePageORObj.getHomePage());
-				return result;
-				}
-				else {
+				result = cfObj.commonWaitForElementToBeVisible(driver, homePageORObj.getLibraryEmptyText(), 1);
+				if (result == true) {
+					cfObj.commonClick(homePageORObj.getLibraryExplore_Courses());
+					cfObj.commonClick(homePageORObj.getHomePage());
+					return result;
+				} else {
 					homePageMsgList.add("Explore Button is not Working");
-	        		return result;
+					return result;
 				}
 			}
-		
+
 		} catch (Exception e) {
 			result = false;
 			homePageMsgList.add("clickOnMyLibraryButton_Exception: " + e.getMessage());
 		}
 		return result;
 	}
-	
+
 	public boolean clickOnMyOfferButton(WebDriver driver) {
 		boolean result = true;
 		try {
-			result=clickOnDropDown(driver);
-			if(!result)
-			{
+			result = clickOnDropDown(driver);
+			if (!result) {
 				homePageMsgList.add("DropDown is not Working");
-        		return result;
+				return result;
 			}
-			result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver,"//a[contains(text(),'My Offers')]","xpath", 0);
-			if(result==true)
-			{
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//a[contains(text(),'My Offers')]",
+					"xpath", 0);
+			if (result == true) {
 				cfObj.commonClick(homePageORObj.getMyOfferButton());
 				cfObj.commonClick(homePageORObj.getHomePage());
-			}
-			else {
+			} else {
 				homePageMsgList.add("Offer Button is not Working");
-        		return result;
+				return result;
 			}
-				
+
 		} catch (Exception e) {
 			result = false;
 			homePageMsgList.add("clickOnMyOfferButton_Exception: " + e.getMessage());
 		}
 		return result;
 	}
-	
+
 	public boolean clickOnLogOutButton(WebDriver driver) {
 		boolean result = true;
 		try {
-			result=clickOnDropDown(driver);
-			if(!result)
-			{
+			result = clickOnDropDown(driver);
+			if (!result) {
 				homePageMsgList.add("DropDown is not Working");
-        		return result;
+				return result;
 			}
-			result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver,"//a[contains(text(),'Logout')]","xpath", 1);
-			if(result==true)
-			{
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//a[contains(text(),'Logout')]", "xpath",
+					1);
+			if (result == true) {
 				cfObj.commonClick(homePageORObj.getLogOutButton());
-			}
-			else {
+			} else {
 				homePageMsgList.add("Log-Out Button is not Working");
-        		return result;
+				return result;
 			}
-				
+
 		} catch (Exception e) {
 			result = false;
 			homePageMsgList.add("clickOnLogOutButton_Exception: " + e.getMessage());
 		}
 		return result;
 	}
-	
+
 	public boolean VerifyTestimonial(WebDriver driver) {
 		boolean result = true;
 		try {
 			cfObj.commonClick(homePageORObj.getViewAllButton_ofTestimonial());
-			List<WebElement> L4=homePageORObj.getTestimonialVideo();
-			for(int i=0;i<5;i++) {
-			    cfObj.commonClick(L4.get(i));
-			    driver.navigate().back();
-			    cfObj.commonClick(homePageORObj.getClose_Notification());
+			List<WebElement> L4 = homePageORObj.getTestimonialVideo();
+			for (int i = 0; i < 5; i++) {
+				cfObj.commonClick(L4.get(i));
+				driver.navigate().back();
+				cfObj.commonClick(homePageORObj.getClose_Notification());
 				cfObj.commonClick(homePageORObj.getViewAllButton_ofTestimonial());
 			}
 			cfObj.commonClick(homePageORObj.getViewAllButton_ofTestimonial());
-			result=cfObj.commonWaitForElementToBeVisible(driver,homePageORObj.getTestimonialVideo().get(1) , 0);
-			if (result==true) {
+			result = cfObj.commonWaitForElementToBeVisible(driver, homePageORObj.getTestimonialVideo().get(1), 0);
+			if (result == true) {
 				cfObj.commonClick(homePageORObj.getTestimonialVideo().get(1));
 				cfObj.commonClick(homePageORObj.getVideo());
 				driver.navigate().back();
 				cfObj.commonClick(homePageORObj.getClose_Notification());
-			}
-			else {
-        		homePageMsgList.add("Video is not Available");
-        		return result;
+			} else {
+				homePageMsgList.add("Video is not Available");
+				return result;
 			}
 			cfObj.commonClick(homePageORObj.getHomePage());
-			   							
+
 		} catch (Exception e) {
 			result = false;
 			homePageMsgList.add("VerifyTestimonial_Exception: " + e.getMessage());
 		}
 		return result;
 	}
-	
+
 	public boolean VerifySocialMediaIcon(WebDriver driver) {
 		boolean result = true;
 		try {
-			result=clickOnYoutube(driver);
-			if(!result)
-			{
+			result = clickOnYoutube(driver);
+			if (!result) {
 				homePageMsgList.add("Youtube Icon Is Not Working");
-        		return result;
+				return result;
 			}
 
-			result=clickOnFacebook(driver);
-			if(!result)
-			{
+			result = clickOnFacebook(driver);
+			if (!result) {
 				homePageMsgList.add("Facebook Icon Is Not Working");
-        		return result;
+				return result;
 			}
 
-			result=clickOnTelegram(driver);
-			if(!result)
-			{
+			result = clickOnTelegram(driver);
+			if (!result) {
 				homePageMsgList.add("Teleagram Icon Is Not Working");
-        		return result;
+				return result;
 			}
 
-			result=clickOnInstagram(driver);
-			if(!result)
-			{
+			result = clickOnInstagram(driver);
+			if (!result) {
 				homePageMsgList.add("Instagram Icon Is Not Working");
-        		return result;
+				return result;
 			}
 
-			result=clickOnTwitter(driver);
-			if(!result)
-			{
+			result = clickOnTwitter(driver);
+			if (!result) {
 				homePageMsgList.add("Twitter Icon Is Not Working");
-        		return result;
+				return result;
 			}
 
-			result=clickOnLinkedIn(driver);
-			if(!result)
-			{
+			result = clickOnLinkedIn(driver);
+			if (!result) {
 				homePageMsgList.add("LinkedIn Icon Is Not Working");
-        		return result;
+				return result;
 			}
 
-			result=clickOnTumblr(driver);
-			if(!result)
-			{
+			result = clickOnTumblr(driver);
+			if (!result) {
 				homePageMsgList.add("Tumblr Icon Is Not Working");
-        		return result;
+				return result;
 			}
 
-			result=clickOnWhatsApp(driver);
-			if(!result)
-			{
+			result = clickOnWhatsApp(driver);
+			if (!result) {
 				homePageMsgList.add("WhatsApp Icon Is Not Working");
-        		return result;
+				return result;
 			}
-				
+
 		} catch (Exception e) {
 			result = false;
 			homePageMsgList.add("VerifySocialMediaIcon_Exception: " + e.getMessage());
 		}
 		return result;
 	}
-	
+
 	public boolean clickOnYoutube(WebDriver driver) {
 		boolean result = true;
 		try {
-			result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver,"(//div[@class='social-icons']/span)[1]","xpath", 1);
-			if(result==true)
-			{
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "(//div[@class='social-icons']/span)[1]",
+					"xpath", 1);
+			if (result == true) {
 				cfObj.commonClick(homePageORObj.getStudyIQ_Youtube_SocialIcon());
-				
-				Set<String> windowsId=driver.getWindowHandles();
-				Iterator<String> itr=windowsId.iterator();
-				String defaultwindowId=itr.next();
-				String childwindowId=itr.next();
+
+				Set<String> windowsId = driver.getWindowHandles();
+				Iterator<String> itr = windowsId.iterator();
+				String defaultwindowId = itr.next();
+				String childwindowId = itr.next();
 				driver.switchTo().window(childwindowId);
-				String title="StudyIQ IAS - YouTube";
-				result=driver.getTitle().contains(title);
-				if(result==true) {
+				String title = "StudyIQ IAS - YouTube";
+				result = driver.getTitle().contains(title);
+				if (result == true) {
 					homePageMsgList.add("StudyIQ Youtube Website");
-				}
-				else {
+				} else {
 					homePageMsgList.add("Not StudyIQ Youtube Website");
 					return result;
 				}
 				driver.close();
 				driver.switchTo().window(defaultwindowId);
 
-			}
-			else {
+			} else {
 				homePageMsgList.add("StudyIQ Youtube Social Icon Button is not Available");
-        		return result;
-			}			
+				return result;
+			}
 
 		} catch (Exception e) {
 			result = false;
@@ -898,37 +877,35 @@ public class HomePageUtil {
 		}
 		return result;
 	}
-	
+
 	public boolean clickOnFacebook(WebDriver driver) {
 		boolean result = true;
 		try {
-			result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver,"(//div[@class='social-icons']/span)[2]","xpath", 1);
-			if(result==true)
-			{
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "(//div[@class='social-icons']/span)[2]",
+					"xpath", 1);
+			if (result == true) {
 				cfObj.commonClick(homePageORObj.getStudyIQ_Facebook_SocialIcon());
-				
-				Set<String> windowsId=driver.getWindowHandles();
-				Iterator<String> itr=windowsId.iterator();
-				String defaultwindowId=itr.next();
-				String childwindowId=itr.next();
+
+				Set<String> windowsId = driver.getWindowHandles();
+				Iterator<String> itr = windowsId.iterator();
+				String defaultwindowId = itr.next();
+				String childwindowId = itr.next();
 				driver.switchTo().window(childwindowId);
-				String title="Study IQ - Home | Facebook";
-				result=driver.getTitle().contains(title);
-				if(result==true) {
+				String title = "Study IQ - Home | Facebook";
+				result = driver.getTitle().contains(title);
+				if (result == true) {
 					homePageMsgList.add("StudyIQ Facebook Website");
-				}
-				else {
+				} else {
 					homePageMsgList.add("Not StudyIQ Facebook Website");
 					return result;
 				}
 				driver.close();
 				driver.switchTo().window(defaultwindowId);
 
-			}
-			else {
+			} else {
 				homePageMsgList.add("StudyIQ Facebook Social Icon Button is not Available");
-        		return result;
-			}			
+				return result;
+			}
 
 		} catch (Exception e) {
 			result = false;
@@ -937,36 +914,34 @@ public class HomePageUtil {
 
 		return result;
 	}
-	
+
 	public boolean clickOnTelegram(WebDriver driver) {
 		boolean result = true;
 		try {
-			result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver,"(//div[@class='social-icons']/span)[3]","xpath", 1);
-			if(result==true)
-			{
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "(//div[@class='social-icons']/span)[3]",
+					"xpath", 1);
+			if (result == true) {
 				cfObj.commonClick(homePageORObj.getStudyIQ_Telegram_SocialIcon());
-				
-				Set<String> windowsId=driver.getWindowHandles();
-				Iterator<String> itr=windowsId.iterator();
-				String defaultwindowId=itr.next();
-				String childwindowId=itr.next();
+
+				Set<String> windowsId = driver.getWindowHandles();
+				Iterator<String> itr = windowsId.iterator();
+				String defaultwindowId = itr.next();
+				String childwindowId = itr.next();
 				driver.switchTo().window(childwindowId);
-				String title="Telegram: Contact @Studyiqeducation";
-				result=driver.getTitle().contains(title);
-				if(result==true) {
+				String title = "Telegram: Contact @Studyiqeducation";
+				result = driver.getTitle().contains(title);
+				if (result == true) {
 					homePageMsgList.add("StudyIQ Telegram Website");
-				}
-				else {
+				} else {
 					homePageMsgList.add("Not StudyIQ Telegram Website");
 					return result;
 				}
 				driver.close();
 				driver.switchTo().window(defaultwindowId);
-			}
-			else {
+			} else {
 				homePageMsgList.add("StudyIQ Telegram Social Icon Button is not Available");
-        		return result;
-			}			
+				return result;
+			}
 
 		} catch (Exception e) {
 			result = false;
@@ -975,37 +950,35 @@ public class HomePageUtil {
 
 		return result;
 	}
-	
+
 	public boolean clickOnInstagram(WebDriver driver) {
 		boolean result = true;
 		try {
-			result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver,"(//div[@class='social-icons']/span)[4]","xpath", 1);
-			if(result==true)
-			{
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "(//div[@class='social-icons']/span)[4]",
+					"xpath", 1);
+			if (result == true) {
 				cfObj.commonClick(homePageORObj.getStudyIQ_Instagram_SocialIcon());
-				
-				Set<String> windowsId=driver.getWindowHandles();
-				Iterator<String> itr=windowsId.iterator();
-				String defaultwindowId=itr.next();
-				String childwindowId=itr.next();
+
+				Set<String> windowsId = driver.getWindowHandles();
+				Iterator<String> itr = windowsId.iterator();
+				String defaultwindowId = itr.next();
+				String childwindowId = itr.next();
 				driver.switchTo().window(childwindowId);
-				String title="Instagram";
-				result=driver.getTitle().contains(title);
-				if(result==true) {
+				String title = "Instagram";
+				result = driver.getTitle().contains(title);
+				if (result == true) {
 					homePageMsgList.add("StudyIQ Instagram  Website");
-				}
-				else {
+				} else {
 					homePageMsgList.add("Not StudyIQ Instagram Website");
 					return result;
 				}
 				driver.close();
 				driver.switchTo().window(defaultwindowId);
 
-			}
-			else {
+			} else {
 				homePageMsgList.add("StudyIQ Instagram Social Icon Button is not Available");
-        		return result;
-			}			
+				return result;
+			}
 
 		} catch (Exception e) {
 			result = false;
@@ -1014,37 +987,35 @@ public class HomePageUtil {
 
 		return result;
 	}
-	
+
 	public boolean clickOnTwitter(WebDriver driver) {
 		boolean result = true;
 		try {
-			result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver,"(//div[@class='social-icons']/span)[5]","xpath", 1);
-			if(result==true)
-			{
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "(//div[@class='social-icons']/span)[5]",
+					"xpath", 1);
+			if (result == true) {
 				cfObj.commonClick(homePageORObj.getStudyIQ_Twitter_SocialIcon());
-				
-				Set<String> windowsId=driver.getWindowHandles();
-				Iterator<String> itr=windowsId.iterator();
-				String defaultwindowId=itr.next();
-				String childwindowId=itr.next();
+
+				Set<String> windowsId = driver.getWindowHandles();
+				Iterator<String> itr = windowsId.iterator();
+				String defaultwindowId = itr.next();
+				String childwindowId = itr.next();
 				driver.switchTo().window(childwindowId);
-				String title="Twitter";
-				result=driver.getTitle().contains(title);
-				if(result==true) {
+				String title = "Twitter";
+				result = driver.getTitle().contains(title);
+				if (result == true) {
 					homePageMsgList.add("StudyIQ Twitter Website");
-				}
-				else {
+				} else {
 					homePageMsgList.add("Not StudyIQ Twitter Website");
 					return result;
 				}
 				driver.close();
 				driver.switchTo().window(defaultwindowId);
 
-			}
-			else {
+			} else {
 				homePageMsgList.add("StudyIQ Twitter Social Icon Button is not Available");
-        		return result;
-			}			
+				return result;
+			}
 
 		} catch (Exception e) {
 			result = false;
@@ -1053,37 +1024,35 @@ public class HomePageUtil {
 
 		return result;
 	}
-	
+
 	public boolean clickOnLinkedIn(WebDriver driver) {
 		boolean result = true;
 		try {
-			result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver,"(//div[@class='social-icons']/span)[6]","xpath", 1);
-			if(result==true)
-			{
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "(//div[@class='social-icons']/span)[6]",
+					"xpath", 1);
+			if (result == true) {
 				cfObj.commonClick(homePageORObj.getStudyIQ_LinkedIn_SocialIcon());
-				
-				Set<String> windowsId=driver.getWindowHandles();
-				Iterator<String> itr=windowsId.iterator();
-				String defaultwindowId=itr.next();
-				String childwindowId=itr.next();
+
+				Set<String> windowsId = driver.getWindowHandles();
+				Iterator<String> itr = windowsId.iterator();
+				String defaultwindowId = itr.next();
+				String childwindowId = itr.next();
 				driver.switchTo().window(childwindowId);
-				String title="LinkedIn";
-				result=driver.getTitle().contains(title);
-				if(result==true) {
+				String title = "LinkedIn";
+				result = driver.getTitle().contains(title);
+				if (result == true) {
 					homePageMsgList.add("StudyIQ LinkedIn Website");
-				}
-				else {
+				} else {
 					homePageMsgList.add("Not StudyIQ LinkedIn Website");
 					return result;
 				}
 				driver.close();
 				driver.switchTo().window(defaultwindowId);
 
-			}
-			else {
+			} else {
 				homePageMsgList.add("StudyIQ LinkedIn Social Icon Button is not Available");
-        		return result;
-			}			
+				return result;
+			}
 
 		} catch (Exception e) {
 			result = false;
@@ -1092,37 +1061,35 @@ public class HomePageUtil {
 
 		return result;
 	}
-	
+
 	public boolean clickOnTumblr(WebDriver driver) {
 		boolean result = true;
 		try {
-			result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver,"(//div[@class='social-icons']/span)[7]","xpath", 1);
-			if(result==true)
-			{
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "(//div[@class='social-icons']/span)[7]",
+					"xpath", 1);
+			if (result == true) {
 				cfObj.commonClick(homePageORObj.getStudyIQ_Tumblr_SocialIcon());
-				
-				Set<String> windowsId=driver.getWindowHandles();
-				Iterator<String> itr=windowsId.iterator();
-				String defaultwindowId=itr.next();
-				String childwindowId=itr.next();
+
+				Set<String> windowsId = driver.getWindowHandles();
+				Iterator<String> itr = windowsId.iterator();
+				String defaultwindowId = itr.next();
+				String childwindowId = itr.next();
 				driver.switchTo().window(childwindowId);
-				String title="StudyIQ";
-				result=driver.getTitle().contains(title);
-				if(result==true) {
+				String title = "StudyIQ";
+				result = driver.getTitle().contains(title);
+				if (result == true) {
 					homePageMsgList.add("StudyIQ Tumblr Website");
-				}
-				else {
+				} else {
 					homePageMsgList.add("Not StudyIQ Tumblr Website");
 					return result;
 				}
 				driver.close();
 				driver.switchTo().window(defaultwindowId);
 
-			}
-			else {
+			} else {
 				homePageMsgList.add("StudyIQ Tumblr Social Icon Button is not Available");
-        		return result;
-			}			
+				return result;
+			}
 
 		} catch (Exception e) {
 			result = false;
@@ -1131,37 +1098,35 @@ public class HomePageUtil {
 
 		return result;
 	}
-	
+
 	public boolean clickOnWhatsApp(WebDriver driver) {
 		boolean result = true;
 		try {
-			result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver,"(//span[@class='whatsapp'])[1]","xpath", 1);
-			if(result==true)
-			{
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "(//span[@class='whatsapp'])[1]", "xpath",
+					1);
+			if (result == true) {
 				cfObj.commonClick(homePageORObj.getwhatsapp_SocialIcon());
-				
-				Set<String> windowsId=driver.getWindowHandles();
-				Iterator<String> itr=windowsId.iterator();
-				String defaultwindowId=itr.next();
-				String childwindowId=itr.next();
+
+				Set<String> windowsId = driver.getWindowHandles();
+				Iterator<String> itr = windowsId.iterator();
+				String defaultwindowId = itr.next();
+				String childwindowId = itr.next();
 				driver.switchTo().window(childwindowId);
-				String title="Share on WhatsApp";
-				result=driver.getTitle().contains(title);
-				if(result==true) {
+				String title = "Share on WhatsApp";
+				result = driver.getTitle().contains(title);
+				if (result == true) {
 					homePageMsgList.add("StudyIQ whatsapp Website");
-				}
-				else {
+				} else {
 					homePageMsgList.add("Not StudyIQ whatsapp Website");
 					return result;
 				}
 				driver.close();
 				driver.switchTo().window(defaultwindowId);
 
-			}
-			else {
+			} else {
 				homePageMsgList.add("StudyIQ whatsapp Social Icon Button is not Available");
-        		return result;
-			}			
+				return result;
+			}
 
 		} catch (Exception e) {
 			result = false;
@@ -1170,36 +1135,34 @@ public class HomePageUtil {
 
 		return result;
 	}
-	
+
 	public boolean clickOnPoketNewApp(WebDriver driver) {
 		boolean result = true;
 		try {
-			result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver,"(//button[@class='btn btn-dark btn-lg'])[1]","xpath", 1);
-			if(result==true)
-			{
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver,
+					"(//button[@class='btn btn-dark btn-lg'])[1]", "xpath", 1);
+			if (result == true) {
 				cfObj.commonClick(homePageORObj.getStudyIQ_Poket_NewsApp());
-				
-				Set<String> windowsId=driver.getWindowHandles();
-				Iterator<String> itr=windowsId.iterator();
-				String defaultwindowId=itr.next();
-				String childwindowId=itr.next();
+
+				Set<String> windowsId = driver.getWindowHandles();
+				Iterator<String> itr = windowsId.iterator();
+				String defaultwindowId = itr.next();
+				String childwindowId = itr.next();
 				driver.switchTo().window(childwindowId);
-				String title="Poket News";
-				result=driver.getTitle().contains(title);
-				if(result==true) {
+				String title = "Poket News";
+				result = driver.getTitle().contains(title);
+				if (result == true) {
 					homePageMsgList.add("StudyIQ Poket-News App Website");
-				}
-				else {
+				} else {
 					homePageMsgList.add("Not StudyIQ Poket-News Website");
 					return result;
 				}
 				driver.close();
 				driver.switchTo().window(defaultwindowId);
-			}
-			else {
+			} else {
 				homePageMsgList.add("StudyIQ Poket-News App Button is not Available");
-        		return result;
-			}			
+				return result;
+			}
 
 		} catch (Exception e) {
 			result = false;
@@ -1208,71 +1171,93 @@ public class HomePageUtil {
 
 		return result;
 	}
-	
+
 	public boolean VerifyListOfCourse(WebDriver driver) {
 		boolean result = true;
-		coursePageUtilObj=new CoursePageUtil(driver);
+		coursePageUtilObj = new CoursePageUtil(driver);
 		try {
-			List<WebElement> L3=homePageORObj.getListCourse();
-			for(int i=0;i<2;i++) {
-			    cfObj.commonClick(L3.get(i));
+			List<WebElement> L3 = homePageORObj.getListCourse();
+			for (int i = 0; i < 2; i++) {
+				cfObj.commonClick(L3.get(i));
 				cfObj.commonClick(homePageORObj.getCloseButton());
 				driver.navigate().back();
-				}
-				cfObj.commonClick(homePageORObj.getListCourse().get(1));
-				result = coursePageUtilObj.selectExamPrefrences(driver);
-				if (!result) {
-					return result;
-				}
-				result = coursePageUtilObj.clickOnBuyNow();
-				if (!result) {
-					return result;
-				}
-				
-				result = coursePageUtilObj.PackageVerification();
-				if (!result) {
-					return result;
-				}
-				cfObj.commonClick(homePageORObj.getCloseButton());
-				cfObj.commonClick(homePageORObj.getHomePage());
-							
+			}
+			cfObj.commonClick(homePageORObj.getListCourse().get(1));
+			result = coursePageUtilObj.selectExamPrefrences(driver);
+			if (!result) {
+				return result;
+			}
+			result = coursePageUtilObj.clickOnBuyNow();
+			if (!result) {
+				return result;
+			}
+
+			result = coursePageUtilObj.PackageVerification();
+			if (!result) {
+				return result;
+			}
+			cfObj.commonClick(homePageORObj.getCloseButton());
+			cfObj.commonClick(homePageORObj.getHomePage());
+
 		} catch (Exception e) {
 			result = false;
 			homePageMsgList.add("VerifyListOfCourse_Exception: " + e.getMessage());
 		}
 		return result;
 	}
-	
+
 	public boolean clickOnMyprofileButton(WebDriver driver) {
 		boolean result = true;
-		myProfileUtilObj=new MyProfileUtil(driver);
+		myProfileUtilObj = new MyProfileUtil(driver);
 		try {
-			result=verifyMyProfile(driver);
-			if(!result)
-			{
+			result = verifyMyProfile(driver);
+			if (!result) {
 				homePageMsgList.add("Fail to Open My Profile");
-        		return result;
-			}
-			
-			result=myProfileUtilObj.verifyProfileInput(driver);
-			if(!result)
-			{
-				homePageMsgList.add(" My Profile Page is not Validated ");
-        		return result;
+				return result;
 			}
 
-			result=myProfileUtilObj.clickOnUpdateProfile_button();
-			if(!result)
-			{
+			result = myProfileUtilObj.verifyProfileInput(driver);
+			if (!result) {
+				homePageMsgList.add(" My Profile Page is not Validated ");
+				return result;
+			}
+
+			result = myProfileUtilObj.clickOnUpdateProfile_button();
+			if (!result) {
 				homePageMsgList.add(" Update Profile Button is not Working");
-        		return result;
+				return result;
 			}
 
 			cfObj.commonClick(homePageORObj.getHomePage());
-				
+
 		} catch (Exception e) {
 			result = false;
 			homePageMsgList.add("clickOnMyprofileButton_Exception: " + e.getMessage());
+		}
+		return result;
+	}
+
+	public boolean clickOnTestSeriesOnHomePage(WebDriver driver) {
+		boolean result = true;
+		try {
+			driver.navigate().to(fileReader.getBaseUrlWeb() + "mock-test-series");
+			if (homePageORObj.getlistOfBook().size() == 0) {
+				homePageMsgList.add("test series are not display on the home page");
+				return false;
+			}
+			// Select first book course
+			cfObj.commonClick(homePageORObj.getlistOfBook().get(0));
+
+			// wait for course detail page to be opened
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".course_basic_info_wrapper", "css", 30);
+			if (!result) {
+				homePageMsgList.add("Course detail page not opened");
+				return result;
+			}
+
+		} catch (Exception e) {
+			result = false;
+			homePageMsgList.add("clickOnTestSeriesOnHomePage_Exception: " + e.getMessage());
 		}
 		return result;
 	}

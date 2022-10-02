@@ -209,7 +209,7 @@ public class CoursePage_OR {
 		return loginRegisterBox;
 	}
 
-	@FindBy(xpath = "(//div[contains(@class,'_202C d-block po-n o-h pos-r')])[3]")
+	@FindBy(xpath = "//input[@value='nb']")
 	WebElement netBankElement;
 
 	public WebElement netbankingInPaytm() {
@@ -501,5 +501,25 @@ public class CoursePage_OR {
 	public WebElement closeCheckoutBox() {
 		return closeCheckoutBoxElement;
 	}
+	
+	@FindBy(css = ".course-package--offers.applied")
+	List<WebElement> listOfferApplied;
 
+	public List<WebElement> getListOfferApplied() {
+		return listOfferApplied;
+	}
+	
+	@FindBy(css = ".arrow-left-header")
+	WebElement arrowLeft;
+
+	public WebElement getArrowLeft() {
+		return arrowLeft;
+	}
+	
+	@FindBy(css = ".btn-primary")
+	List<WebElement> listNoYesButtonPopUp;
+
+	public List<WebElement> getListNoYesButtonPopUp() {
+		return listNoYesButtonPopUp;
+	}
 }
