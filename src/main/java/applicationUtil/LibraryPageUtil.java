@@ -163,6 +163,7 @@ public class LibraryPageUtil {
 
 	public boolean verifyBoughtCourse(String searchCourseName) {
 		boolean result = true;
+		int count =0;
 		try {
 			List<WebElement> linkCourses = libraryPage_OR.libraryTitles();
 
@@ -171,8 +172,16 @@ public class LibraryPageUtil {
 				if (!courseInLibrary.contains(searchCourseName)) {
 					libraryPageMsgList.add("Mismatch in purchase course in libabry : Expected Name : "
 							+ searchCourseName + ": Actaul: " + courseInLibrary);
-					result = false;
+					
+				}else
+				{
+					count = count + 1;
 				}
+			}
+			
+			if(count == 0)
+			{
+				return false;
 			}
 
 		} catch (Exception e) {

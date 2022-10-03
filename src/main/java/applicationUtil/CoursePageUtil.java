@@ -26,7 +26,6 @@ public class CoursePageUtil {
 	ConfigFileReader rConfigFileReader;
 	HomePageUtil util;
 	LibraryPageUtil librayUtilObj;
-	public String strCourseType;
 
 	public CoursePageUtil(WebDriver driver) {
 		coursePageORobj = new CoursePage_OR();
@@ -37,8 +36,10 @@ public class CoursePageUtil {
 		boolean result = true;
 		util = new HomePageUtil(driver);
 		librayUtilObj = new LibraryPageUtil(driver);
-		int no;
 		String strCourseSlug = null;
+		CourseView courseViewObj = null;
+		CourseApiUtil courseApiUtilObj;
+		String strCourseType, strCourseName;
 
 		try {
 
@@ -72,7 +73,9 @@ public class CoursePageUtil {
 				}
 				strCourseSlug = driver.getCurrentUrl().split("course-detail/")[1];
 				System.out.println("strCourseSlug:" + strCourseSlug);
-				testData.setCourseName(strCourseSlug.replace("-", " "));
+				courseApiUtilObj = new CourseApiUtil();
+				courseViewObj = courseApiUtilObj.getCourseViewData(strCourseSlug);
+				System.out.println(courseViewObj.getData().getPriceInfo());
 				result = verifyClickBuy(driver, false);
 				if (!result) {
 					return result;
@@ -92,11 +95,11 @@ public class CoursePageUtil {
 					return result;
 				}
 				testData.setCourseType(strCourseType);
-				result = verifyPackages(strCourseSlug, strCourseType, driver);
+				result = verifyPackages(driver, courseViewObj);
 				if (!result) {
 					return result;
 				}
-
+				testData.setCourseName(courseViewObj.getData().getCourseDetail().getCourseTitle());
 				result = verifyPromoCode(driver);
 				if (!result) {
 					return result;
@@ -161,7 +164,7 @@ public class CoursePageUtil {
 				if (!result) {
 					return result;
 				}
-				result = verifyPackages(strCourseSlug, strCourseType, driver);
+				result = verifyPackages(driver, courseViewObj);
 				if (!result) {
 					return result;
 				}
@@ -264,22 +267,15 @@ public class CoursePageUtil {
 		return result;
 	}
 
-	public boolean verifyPackages(String strCourseSlug, String strCourseType, WebDriver driver) {
+	public boolean verifyPackages(WebDriver driver, CourseView courseViewObj) {
 		boolean result = true;
-		CourseView courseViewObj;
-		CourseApiUtil courseApiUtilObj;
-
 		try {
-			courseApiUtilObj = new CourseApiUtil();
-			courseViewObj = courseApiUtilObj.getCourseViewData(strCourseSlug);
-			System.out.println(courseViewObj.getData().getPriceInfo());
 			result = verifyPackageType(courseViewObj);
-			strCourseType = courseViewObj.getData().getCourseType().getCourseTypeName();
 			if (!result) {
 				return result;
 			}
 
-			if (strCourseType.contains("books")) {
+			if (courseViewObj.getData().getCourseType().getCourseTypeName().equalsIgnoreCase("books")) {
 
 				result = verifyPackageFormFormBooks();
 				if (!result) {
@@ -640,8 +636,7 @@ public class CoursePageUtil {
 		boolean result = true;
 		try {
 
-			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//img[@data-key='qr-paytm']", "xpath",
-					10);
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//img[@data-key='qr-code']", "xpath", 10);
 			if (!result) {
 				coursePageMsgList.add("The payment page is not open for paytm");
 				return result;

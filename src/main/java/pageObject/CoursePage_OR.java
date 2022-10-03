@@ -209,7 +209,7 @@ public class CoursePage_OR {
 		return loginRegisterBox;
 	}
 
-	@FindBy(xpath = "//input[@value='nb']")
+	@FindBy(id = "ptm-nb")
 	WebElement netBankElement;
 
 	public WebElement netbankingInPaytm() {
