@@ -137,11 +137,11 @@ public class CoursePageUtil {
 			}
 			// for new user
 			else {
-
-				// handle the pop up
-				no = coursePageORobj.sizePopUp().size();
-				if (no > 0) {
-					coursePageORobj.popUpClose().click();
+				// click on login/register button
+				result = util.clickOnLoginRegisterButton(driver);
+				if (!result) {
+					coursePageMsgList.addAll(util.homePageMsgList);
+					return result;
 				}
 				result = util.doSignUp();
 				if (!result) {
