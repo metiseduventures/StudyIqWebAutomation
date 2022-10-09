@@ -591,11 +591,11 @@ public class HomePageUtil {
 			for (int i = 1; i < L1.size(); i++) {
 				cfObj.commonClick(L1.get(i));
 
-				result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".not-found--title", "css", 2);
+				result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".not-found--title", "css", 20);
 				if (result == true) {
 					cfObj.commonClick(homePageORObj.getBackToHome());
 				}
-				result = cfObj.commonWaitForElementToBeVisible(driver, L1.get(i), 2);
+				result = cfObj.commonWaitForElementToBeVisible(driver, L1.get(i), 20);
 				if (!result) {
 					homePageMsgList.add("Iteam is not Available");
 				}
@@ -603,10 +603,11 @@ public class HomePageUtil {
 			cfObj.commonClick(homePageORObj.getHomePage());
 
 			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver,
-					"//div[@class='courses navbar-nav']/a[contains(text(),'Courses')]", "xpath", 2);
+					"//div[@class='courses navbar-nav']/a[contains(text(),'Courses')]", "xpath", 20);
 			if (result == true) {
 				cfObj.commonClick(homePageORObj.getCourseButton());
 				cfObj.commonClick(homePageORObj.getHomePage());
+				cfObj.commonClick(homePageORObj.getClose_Notification());
 			} else {
 				homePageMsgList.add("Course Button is Not Working");
 				return result;
@@ -624,7 +625,7 @@ public class HomePageUtil {
 		try {
 			// Click On Backward Button
 			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver,
-					"//div[@class='slick-arrow slick-prev left_arrow_wrapper']/img", "xpath", 1);
+					"//div[@class='slick-arrow slick-prev left_arrow_wrapper']/img", "xpath", 20);
 			if (result == true) {
 				for (int j = 0; j < 3; j++) {
 					cfObj.commonClick(homePageORObj.getBackwardArrow());
@@ -637,10 +638,10 @@ public class HomePageUtil {
 
 			cfObj.commonClick(homePageORObj.getSlideCoursesOne());
 			cfObj.commonClick(homePageORObj.getHomePage());
-
+			cfObj.commonClick(homePageORObj.getClose_Notification());
 			// Click On Farward Button
 			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver,
-					"//div[@class='slick-arrow slick-next right_arrow_wrapper']/img", "xpath", 1);
+					"//div[@class='slick-arrow slick-next right_arrow_wrapper']/img", "xpath", 20);
 			if (result == true) {
 				for (int i = 0; i < 3; i++) {
 					cfObj.commonClick(homePageORObj.getFarwardArrow());
@@ -662,10 +663,11 @@ public class HomePageUtil {
 		boolean result = true;
 		try {
 			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver,
-					"//span[contains(text(),'Explore Courses')]", "xpath", 0);
+					"//span[contains(text(),'Explore Courses')]", "xpath", 20);
 			if (result == true) {
 				cfObj.commonClick(homePageORObj.getExploreCourses());
 				cfObj.commonClick(homePageORObj.getHomePage());
+				cfObj.commonClick(homePageORObj.getClose_Notification());
 			} else {
 				homePageMsgList.add("Explore_Courses Button is not Working");
 				return result;
@@ -686,10 +688,11 @@ public class HomePageUtil {
 			if (!result) {
 				cfObj.commonClick(homePageORObj.getDropDown_Button());
 				cfObj.commonClick(homePageORObj.getMyLibraryButton());
-				result = cfObj.commonWaitForElementToBeVisible(driver, homePageORObj.getLibraryEmptyText(), 1);
+				result = cfObj.commonWaitForElementToBeVisible(driver, homePageORObj.getLibraryEmptyText(), 20);
 				if (result == true) {
 					cfObj.commonClick(homePageORObj.getLibraryExplore_Courses());
 					cfObj.commonClick(homePageORObj.getHomePage());
+					cfObj.commonClick(homePageORObj.getClose_Notification());
 					return result;
 				} else {
 					homePageMsgList.add("Explore Button is not Working");
@@ -713,10 +716,11 @@ public class HomePageUtil {
 				return result;
 			}
 			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//a[contains(text(),'My Offers')]",
-					"xpath", 0);
+					"xpath", 20);
 			if (result == true) {
 				cfObj.commonClick(homePageORObj.getMyOfferButton());
 				cfObj.commonClick(homePageORObj.getHomePage());
+				cfObj.commonClick(homePageORObj.getClose_Notification());
 			} else {
 				homePageMsgList.add("Offer Button is not Working");
 				return result;
@@ -738,7 +742,7 @@ public class HomePageUtil {
 				return result;
 			}
 			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//a[contains(text(),'Logout')]", "xpath",
-					1);
+					20);
 			if (result == true) {
 				cfObj.commonClick(homePageORObj.getLogOutButton());
 			} else {
@@ -765,7 +769,7 @@ public class HomePageUtil {
 				cfObj.commonClick(homePageORObj.getViewAllButton_ofTestimonial());
 			}
 			cfObj.commonClick(homePageORObj.getViewAllButton_ofTestimonial());
-			result = cfObj.commonWaitForElementToBeVisible(driver, homePageORObj.getTestimonialVideo().get(1), 0);
+			result = cfObj.commonWaitForElementToBeVisible(driver, homePageORObj.getTestimonialVideo().get(1), 20);
 			if (result == true) {
 				cfObj.commonClick(homePageORObj.getTestimonialVideo().get(1));
 				cfObj.commonClick(homePageORObj.getVideo());
@@ -846,7 +850,7 @@ public class HomePageUtil {
 		boolean result = true;
 		try {
 			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "(//div[@class='social-icons']/span)[1]",
-					"xpath", 1);
+					"xpath", 20);
 			if (result == true) {
 				cfObj.commonClick(homePageORObj.getStudyIQ_Youtube_SocialIcon());
 
@@ -882,7 +886,7 @@ public class HomePageUtil {
 		boolean result = true;
 		try {
 			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "(//div[@class='social-icons']/span)[2]",
-					"xpath", 1);
+					"xpath", 20);
 			if (result == true) {
 				cfObj.commonClick(homePageORObj.getStudyIQ_Facebook_SocialIcon());
 
@@ -919,7 +923,7 @@ public class HomePageUtil {
 		boolean result = true;
 		try {
 			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "(//div[@class='social-icons']/span)[3]",
-					"xpath", 1);
+					"xpath", 20);
 			if (result == true) {
 				cfObj.commonClick(homePageORObj.getStudyIQ_Telegram_SocialIcon());
 
@@ -955,7 +959,7 @@ public class HomePageUtil {
 		boolean result = true;
 		try {
 			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "(//div[@class='social-icons']/span)[4]",
-					"xpath", 1);
+					"xpath", 20);
 			if (result == true) {
 				cfObj.commonClick(homePageORObj.getStudyIQ_Instagram_SocialIcon());
 
@@ -992,7 +996,7 @@ public class HomePageUtil {
 		boolean result = true;
 		try {
 			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "(//div[@class='social-icons']/span)[5]",
-					"xpath", 1);
+					"xpath", 20);
 			if (result == true) {
 				cfObj.commonClick(homePageORObj.getStudyIQ_Twitter_SocialIcon());
 
@@ -1029,7 +1033,7 @@ public class HomePageUtil {
 		boolean result = true;
 		try {
 			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "(//div[@class='social-icons']/span)[6]",
-					"xpath", 1);
+					"xpath", 20);
 			if (result == true) {
 				cfObj.commonClick(homePageORObj.getStudyIQ_LinkedIn_SocialIcon());
 
@@ -1066,7 +1070,7 @@ public class HomePageUtil {
 		boolean result = true;
 		try {
 			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "(//div[@class='social-icons']/span)[7]",
-					"xpath", 1);
+					"xpath", 20);
 			if (result == true) {
 				cfObj.commonClick(homePageORObj.getStudyIQ_Tumblr_SocialIcon());
 
@@ -1103,7 +1107,7 @@ public class HomePageUtil {
 		boolean result = true;
 		try {
 			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "(//span[@class='whatsapp'])[1]", "xpath",
-					1);
+					20);
 			if (result == true) {
 				cfObj.commonClick(homePageORObj.getwhatsapp_SocialIcon());
 
@@ -1140,7 +1144,7 @@ public class HomePageUtil {
 		boolean result = true;
 		try {
 			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver,
-					"(//button[@class='btn btn-dark btn-lg'])[1]", "xpath", 1);
+					"(//button[@class='btn btn-dark btn-lg'])[1]", "xpath", 20);
 			if (result == true) {
 				cfObj.commonClick(homePageORObj.getStudyIQ_Poket_NewsApp());
 
@@ -1181,6 +1185,7 @@ public class HomePageUtil {
 				cfObj.commonClick(L3.get(i));
 				cfObj.commonClick(homePageORObj.getCloseButton());
 				driver.navigate().back();
+				cfObj.commonClick(homePageORObj.getClose_Notification());
 			}
 			cfObj.commonClick(homePageORObj.getListCourse().get(1));
 			result = coursePageUtilObj.selectExamPrefrences(driver);
@@ -1198,7 +1203,7 @@ public class HomePageUtil {
 			}
 			cfObj.commonClick(homePageORObj.getCloseButton());
 			cfObj.commonClick(homePageORObj.getHomePage());
-
+			cfObj.commonClick(homePageORObj.getClose_Notification());
 		} catch (Exception e) {
 			result = false;
 			homePageMsgList.add("VerifyListOfCourse_Exception: " + e.getMessage());
@@ -1229,7 +1234,7 @@ public class HomePageUtil {
 			}
 
 			cfObj.commonClick(homePageORObj.getHomePage());
-
+			cfObj.commonClick(homePageORObj.getClose_Notification());
 		} catch (Exception e) {
 			result = false;
 			homePageMsgList.add("clickOnMyprofileButton_Exception: " + e.getMessage());
