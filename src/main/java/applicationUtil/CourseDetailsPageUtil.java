@@ -51,6 +51,12 @@ public class CourseDetailsPageUtil {
 					CourseDetailsPageMsgList.addAll(homeUtilObj.homePageMsgList);
 					return result;
 				}
+			} else if (testData.getCourseType().contains("live")) {
+				result = homeUtilObj.clickOnLiveCoursesOnHomePage(driver);
+				if (!result) {
+					CourseDetailsPageMsgList.addAll(homeUtilObj.homePageMsgList);
+					return result;
+				}
 			} else if (testData.getCourseType().contains("test-series")) {
 				result = homeUtilObj.clickOnTestSeriesOnHomePage(driver);
 				if (!result) {
@@ -69,7 +75,25 @@ public class CourseDetailsPageUtil {
 			if (!result) {
 				return result;
 			}
+			
+			// click on Pricing
 
+			result = clickOnPricing(driver);
+
+			if (!result) {
+				return result;
+			}
+			
+			if (courseViewObj.getData().getCourseType().getCourseTypeName().equalsIgnoreCase("Testseries")) {
+				
+				//click on Description
+				result = VerifyDescription(driver);
+
+				if (!result) {
+					return result;
+				}
+			}
+			
 			// enter Exams Covered
 			result = clickOnExamsCovered(driver, courseViewObj);
 
@@ -92,12 +116,22 @@ public class CourseDetailsPageUtil {
 			}
 
 			if (!courseViewObj.getData().getCourseType().getCourseTypeName().equalsIgnoreCase("Testseries")) {
+				if (!courseViewObj.getData().getCourseType().getCourseTypeName().equalsIgnoreCase("books")) {
+					
+					// click on Get Free With This Course
+					result = clickOnThisCourse(driver);
 
-				// click on Get Free With This Course
-				result = clickOnThisCourse(driver);
+					if (!result) {
+						return result;
+					}
+					
+					// Click on Features
 
-				if (!result) {
-					return result;
+					result = clickOnFeatures(driver, courseViewObj);
+
+					if (!result) {
+						return result;
+					}
 				}
 
 				// click on Course Content
@@ -107,6 +141,7 @@ public class CourseDetailsPageUtil {
 				if (!result) {
 					return result;
 				}
+				
 			}
 
 			// click on Our Packages
@@ -117,13 +152,6 @@ public class CourseDetailsPageUtil {
 				return result;
 			}
 
-			// Click on Features
-
-			result = clickOnFeatures(driver, courseViewObj);
-
-			if (!result) {
-				return result;
-			}
 
 			// click on Frequently Asked Questions
 
@@ -133,13 +161,6 @@ public class CourseDetailsPageUtil {
 				return result;
 			}
 
-			// click on Pricing
-
-			result = clickOnPricing(driver);
-
-			if (!result) {
-				return result;
-			}
 
 		} catch (Exception e) {
 			result = false;
@@ -379,30 +400,16 @@ public class CourseDetailsPageUtil {
 				CourseDetailsPageMsgList.add("Title of Course is not Available");
 			}
 
-			result = cfObj.commonWaitForElementToBeVisible(driver, CourseDetailsPageORObj.getCourseContent_viewAll(),
-					2);
-			if (result == true) {
 				cfObj.commonClick(CourseDetailsPageORObj.getCourseContent_viewAll());
-			} else {
-				result = false;
-				CourseDetailsPageMsgList.add("viewAll button is not Working");
-			}
 
 			List<WebElement> tx3 = CourseDetailsPageORObj.getContent_AllElement();
 			for (int i = 0; i < tx3.size(); i++) {
 				cfObj.commonClick(tx3.get(i));
-				result = cfObj.commonWaitForElementToBeVisible(driver, tx3.get(i), 2);
-				if (!result) {
-					CourseDetailsPageMsgList.add("Course Content is not Available");
-				}
 			}
 
 			List<WebElement> tx4 = CourseDetailsPageORObj.getContent_AllElementInside();
 			for (int i = 0; i < tx4.size(); i++) {
-				result = cfObj.commonWaitForElementToBeVisible(driver, tx4.get(i), 1);
-				if (!result) {
-					CourseDetailsPageMsgList.add("Course Content inside Course is not Available");
-				}
+				tx4.get(i).isDisplayed();
 			}
 
 		} catch (Exception e) {
@@ -497,13 +504,7 @@ public class CourseDetailsPageUtil {
 					}
 				}
 
-				List<WebElement> tx6 = CourseDetailsPageORObj.getFeatures_TextElement1();
-				for (int i = 0; i < tx6.size(); i++) {
-					result = cfObj.commonWaitForElementToBeVisible(driver, tx6.get(i), 1);
-					if (!result) {
-						CourseDetailsPageMsgList.add("inside Features Content is not Available");
-					}
-				}
+				
 			} else {
 				result = cfObj.commonWaitForElementToBeVisible(driver, CourseDetailsPageORObj.getFeatures_Text(), 2);
 				if (result) {
@@ -609,13 +610,82 @@ public class CourseDetailsPageUtil {
 			}
 
 			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//img[@class='close_icon']", "xpath", 10);
-			if (!result) {
-				CourseDetailsPageMsgList.add("Close Button not working");
+			if (result==true) {
+				cfObj.commonClick(CourseDetailsPageORObj.getcloseButton());
+			}
+			else {
+				result = false;
+				CourseDetailsPageMsgList.add("Close button is not Available");
 			}
 
 		} catch (Exception e) {
 			result = false;
 			CourseDetailsPageMsgList.add("clickOnPricing_Exception: " + e.getMessage());
+
+		}
+		return result;
+	}
+	
+	public boolean VerifyDescription(WebDriver driver) {
+		boolean result = true;
+		try {
+
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//button[contains(text(),'Description')]", "xpath", 10);
+			if (result == true) {
+				cfObj.commonClick(CourseDetailsPageORObj.getListDescription_Button());
+				
+				result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//div[@class='course_title page_titles']", "xpath", 10);
+				if(result==true) {
+					result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//span[contains(text(),'show more')]", "xpath", 10);
+					if(result==true) {
+						cfObj.commonClick(CourseDetailsPageORObj.getShowMore_Button());
+					}
+					else {
+						CourseDetailsPageMsgList.add("Show_More Button is not Available");
+					}
+					
+					result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//div[@class='description_formatted']", "xpath", 10);
+					if(result==true) {
+						CourseDetailsPageMsgList.add("About Description is Available");
+					}
+					else {
+						return result;
+					}
+				}
+			}
+				else {
+					result = false;
+					CourseDetailsPageMsgList.add("Description Title is not Available");
+				}
+
+		} catch (Exception e) {
+			result = false;
+			CourseDetailsPageMsgList.add("VerifyDescription_Exception: " + e.getMessage());
+
+		}
+		return result;
+	}
+	
+	public boolean clickOnBuyNow(WebDriver driver) {
+		boolean result = true;
+		try {
+
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "(//button[contains(text(),'Buy Now')])[1]", "xpath", 10);
+			if (result == true) {
+				cfObj.commonClick(CourseDetailsPageORObj.getNavBar_BuyNow_Button());
+			} else {
+				result = false;
+				CourseDetailsPageMsgList.add("BuyNow button is not Available");
+			}
+
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//img[@class='close_icon']", "xpath", 10);
+			if (result==true) {
+				cfObj.commonClick(CourseDetailsPageORObj.getcloseButton());
+			}
+
+		} catch (Exception e) {
+			result = false;
+			CourseDetailsPageMsgList.add("clickOnBuyNow_Exception: " + e.getMessage());
 
 		}
 		return result;
