@@ -89,7 +89,7 @@ public class LibraryPage_OR {
 		return DotMicro;
 	}
 	
-	@FindBy(xpath="(//*[contains(text(),'Books')])[1]")
+	@FindBy(xpath="(//div[contains(text(),'Books')])[1]")
 	private WebElement DotBook;
 	
 	public WebElement getDotBook()
@@ -191,7 +191,20 @@ public class LibraryPage_OR {
 		return courseTypeMenu;
 	}
 	
+	@FindBy(xpath="(//div[@class='dropdown-body open z_index'])/div")
+	private List<WebElement> ListOfsourse;
+
+	public List<WebElement> getListOfsourse() {
+		return ListOfsourse;
+	}
 	
+	@FindBy(xpath="(//div[contains(text(),'Live Classes')])")
+	private WebElement DotLiveClasses;
+	
+	public WebElement getDotLiveClasses()
+	{
+		return DotLiveClasses;
+	}
 	
 
 }
