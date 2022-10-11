@@ -522,4 +522,25 @@ public class CoursePage_OR {
 	public List<WebElement> getListNoYesButtonPopUp() {
 		return listNoYesButtonPopUp;
 	}
+	
+	@FindBy(xpath = "//input[@name='pin_code']")
+	WebElement inputPincodeInBookElement;
+	
+	public WebElement inputPincodeInBook() {
+		return inputPincodeInBookElement;
+	}
+	
+	@FindBy(xpath = "//iframe[@id='moe-onsite-campaign-63440175126a417df314e181']")
+	WebElement popUpFrameElement;
+	
+	public WebElement popUpFrame() {
+		return popUpFrameElement;
+	}
+	
+	@FindBy(xpath = "//button[@id='close-icon']")
+	WebElement closePopUpElement;
+	
+	public WebElement closePopUp() {
+		return closePopUpElement;
+	}
 }

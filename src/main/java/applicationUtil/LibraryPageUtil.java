@@ -99,7 +99,7 @@ public class LibraryPageUtil {
 		return result;
 	}
 
-	public boolean verifyPuchasedCourseOnMyLibrary(WebDriver driver, TestData testData) {
+	public boolean verifyPuchasedCourseOnMyLibrary(WebDriver driver, TestData testData, String courseName) {
 		boolean result = true;
 		String strActualCourseType;
 		try {
@@ -112,11 +112,11 @@ public class LibraryPageUtil {
 
 			if (libraryPage_OR.getCourseTypeMenu().size() == 0) {
 				libraryPageMsgList.add("Course type menu is not display after purchase course in library");
-				return false;
+				
 			}
 
-			strActualCourseType = libraryPage_OR.getCourseTypeMenu().get(0).getText().toString();
-			if (!strActualCourseType.equalsIgnoreCase(testData.getCourseType().toString())) {
+			strActualCourseType = libraryPage_OR.getCourseTypeMenu().get(0).getText().toString().toLowerCase();
+			if (!strActualCourseType.contains(testData.getCourseType().toString().toLowerCase())) {
 				libraryPageMsgList.add("Course type is different: Expected course type in library should be :"
 						+ testData.getCourseType().toString());
 				result = false;
@@ -132,7 +132,7 @@ public class LibraryPageUtil {
 					return false;
 
 				} else {
-					result = verifyBoughtCourse(testData.getCourseName());
+					result = verifyBoughtCourse(courseName);
 					if (!result) {
 						return result;
 					}
@@ -163,25 +163,19 @@ public class LibraryPageUtil {
 
 	public boolean verifyBoughtCourse(String searchCourseName) {
 		boolean result = true;
-		int count =0;
 		try {
 			List<WebElement> linkCourses = libraryPage_OR.libraryTitles();
 
 			for (int i = 0; i < linkCourses.size(); i++) {
 				String courseInLibrary = linkCourses.get(i).getText().toLowerCase();
-				if (!courseInLibrary.contains(searchCourseName)) {
+				if (!courseInLibrary.equalsIgnoreCase(searchCourseName)) {
 					libraryPageMsgList.add("Mismatch in purchase course in libabry : Expected Name : "
 							+ searchCourseName + ": Actaul: " + courseInLibrary);
 					
 				}else
 				{
-					count = count + 1;
+					break;
 				}
-			}
-			
-			if(count == 0)
-			{
-				return false;
 			}
 
 		} catch (Exception e) {
