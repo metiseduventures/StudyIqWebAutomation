@@ -44,6 +44,14 @@ public class CoursePageUtil {
 		try {
 
 			strCourseType = testData.getCourseType().toString();
+			
+			result = cfObj.commonWaitForElementToBeVisible(driver, coursePageORobj.popUpFrame(), 10);
+			if (result) {
+				driver.switchTo().frame(coursePageORobj.popUpFrame());
+				cfObj.commonClick(coursePageORobj.closePopUp());
+				driver.switchTo().parentFrame();
+			}
+						
 			// for guest user
 			if (testData.getIsUserGuest()) {
 				if (testData.getCourseType().contains("smart")) {
@@ -76,6 +84,7 @@ public class CoursePageUtil {
 				courseApiUtilObj = new CourseApiUtil();
 				courseViewObj = courseApiUtilObj.getCourseViewData(strCourseSlug);
 				System.out.println(courseViewObj.getData().getPriceInfo());
+
 				result = verifyClickBuy(driver, false);
 				if (!result) {
 					return result;
@@ -86,46 +95,52 @@ public class CoursePageUtil {
 					coursePageMsgList.add("Fail Register");
 					return result;
 				}
+
 				result = selectExamPrefrences(driver);
 				if (!result) {
 					return result;
 				}
+
 				result = verifyClickBuy(driver, true);
 				if (!result) {
 					return result;
 				}
+
 				testData.setCourseType(strCourseType);
 				result = verifyPackages(driver, courseViewObj);
 				if (!result) {
 					return result;
 				}
+
 				testData.setCourseName(courseViewObj.getData().getCourseDetail().getCourseTitle());
+				String courseName = courseViewObj.getData().getCourseDetail().getCourseTitle();
 				result = verifyPromoCode(driver);
 				if (!result) {
 					return result;
 				}
+
 				result = verifyPayCheckout(driver);
 				if (!result) {
 					return result;
 				}
+
 				result = verifyClickPay(testData.getPaymentMethod(), driver, testData, testData.getbankNameForPaytm());
 				if (!result) {
 					return result;
 				}
+
 				if ((ConfigFileReader.strEnv).equalsIgnoreCase("staging")
 						|| (ConfigFileReader.strEnv).equalsIgnoreCase("dev")) {
 
 					if (testData.getIsKey().equalsIgnoreCase("pass")) {
 
-						result = verifyLibraryCourse(driver, testData);
+						result = verifyLibraryCourse(driver, testData, courseName);
 						if (!result) {
 							return result;
 						}
 
 					} else {
-
 						System.out.println("User on course page - the payment is failed");
-
 					}
 
 				} else if ((ConfigFileReader.strEnv).equalsIgnoreCase("prod")) {
@@ -146,33 +161,73 @@ public class CoursePageUtil {
 					coursePageMsgList.addAll(util.homePageMsgList);
 					return result;
 				}
+
 				result = util.doSignUp();
 				if (!result) {
 					coursePageMsgList.addAll(util.homePageMsgList);
 					return result;
 				}
-				result = util.clickOnCourseOnHomePage(driver);
-				if (!result) {
-					coursePageMsgList.addAll(util.homePageMsgList);
-					return result;
+
+				if (testData.getCourseType().contains("smart")) {
+					result = util.clickOnSmartCourseOnHomePage(driver);
+					if (!result) {
+						coursePageMsgList.addAll(util.homePageMsgList);
+						return result;
+					}
+				} else if (testData.getCourseType().contains("micro")) {
+					result = util.clickOnMicroCourseOnHomePage(driver);
+					if (!result) {
+						coursePageMsgList.addAll(util.homePageMsgList);
+						return result;
+					}
+				} else if (testData.getCourseType().contains("books")) {
+					result = util.clickOnBookOnHomePage(driver);
+					if (!result) {
+						coursePageMsgList.addAll(util.homePageMsgList);
+						return result;
+					}
+				} else if (testData.getCourseType().contains("test-series")) {
+					result = util.clickOnTestSeriesOnHomePage(driver);
+					if (!result) {
+						coursePageMsgList.addAll(util.homePageMsgList);
+						return result;
+					}
 				}
+				strCourseSlug = driver.getCurrentUrl().split("course-detail/")[1];
+				System.out.println("strCourseSlug:" + strCourseSlug);
+				courseApiUtilObj = new CourseApiUtil();
+				courseViewObj = courseApiUtilObj.getCourseViewData(strCourseSlug);
+				System.out.println(courseViewObj.getData().getPriceInfo());
+
 				result = selectExamPrefrences(driver);
 				if (!result) {
 					return result;
 				}
+
 				result = verifyClickBuy(driver, true);
 				if (!result) {
 					return result;
 				}
+
+				testData.setCourseType(strCourseType);
 				result = verifyPackages(driver, courseViewObj);
 				if (!result) {
 					return result;
 				}
+
+				testData.setCourseName(courseViewObj.getData().getCourseDetail().getCourseTitle());
+				String courseName = courseViewObj.getData().getCourseDetail().getCourseTitle();
 				result = verifyPromoCode(driver);
 				if (!result) {
 					return result;
 				}
+
 				result = verifyPayCheckout(driver);
+				if (!result) {
+					return result;
+				}
+
+				result = verifyClickPay(testData.getPaymentMethod(), driver, testData, testData.getbankNameForPaytm());
 				if (!result) {
 					return result;
 				}
@@ -180,14 +235,15 @@ public class CoursePageUtil {
 				if ((ConfigFileReader.strEnv).equalsIgnoreCase("staging")
 						|| (ConfigFileReader.strEnv).equalsIgnoreCase("dev")) {
 
-					result = verifyClickPay(testData.getPaymentMethod(), driver, testData,
-							testData.getbankNameForPaytm());
-					if (!result) {
-						return result;
-					}
-					result = verifyLibraryCourse(driver, testData);
-					if (!result) {
-						return result;
+					if (testData.getIsKey().equalsIgnoreCase("pass")) {
+
+						result = verifyLibraryCourse(driver, testData, courseName);
+						if (!result) {
+							return result;
+						}
+
+					} else {
+						System.out.println("User on course page - the payment is failed");
 					}
 
 				} else if ((ConfigFileReader.strEnv).equalsIgnoreCase("prod")) {
@@ -207,7 +263,8 @@ public class CoursePageUtil {
 		return result;
 	}
 
-	public boolean verifyLibraryCourse(WebDriver driver, TestData testData) throws InterruptedException {
+	public boolean verifyLibraryCourse(WebDriver driver, TestData testData, String courseName)
+			throws InterruptedException {
 		boolean result = true;
 
 		// call goLibaray function
@@ -217,7 +274,7 @@ public class CoursePageUtil {
 		}
 		// verify in library the course
 		librayUtilObj = new LibraryPageUtil(driver);
-		result = librayUtilObj.verifyPuchasedCourseOnMyLibrary(driver, testData);
+		result = librayUtilObj.verifyPuchasedCourseOnMyLibrary(driver, testData, courseName);
 		if (!result) {
 			coursePageMsgList.addAll(librayUtilObj.libraryPageMsgList);
 			return result;
@@ -643,6 +700,7 @@ public class CoursePageUtil {
 			}
 
 			if (ConfigFileReader.strEnv.equalsIgnoreCase("prod")) {
+
 				cfObj.commonClick(coursePageORobj.getArrowLeft());
 				// Cancel payment
 				cfObj.commonClick(coursePageORobj.getListNoYesButtonPopUp().get(1));
@@ -703,90 +761,37 @@ public class CoursePageUtil {
 					return result;
 				}
 
-			} else if (testData.getIsKey().equalsIgnoreCase("fail")
-					|| ConfigFileReader.strEnv.equalsIgnoreCase("prod")) {
+			} else if (testData.getIsKey().equalsIgnoreCase("fail")) {
 
-				boolean bool = true;
+				cfObj.commonClick(coursePageORobj.failureInPaytm());
 
-				while (bool) {
-
-					cfObj.commonClick(coursePageORobj.failureInPaytm());
-
-					result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".failure-heading", "css", 10);
-					if (result) {
-
-						result = cfObj.commonWaitForElementToBeVisible(driver, coursePageORobj.retryPaymentStatusBtn(),
-								10);
-						if (!result) {
-							coursePageMsgList.add("The retry btn is not visible");
-							return result;
-						}
-
-						result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".back-to-home-link", "css",
-								10);
-						if (!result) {
-							coursePageMsgList.add("Back to home btn is not visible");
-							return result;
-						}
-
-						cfObj.commonClick(coursePageORobj.retryPaymentStatusBtn());
-
-						result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".modal-title.h4", "css", 10);
-						if (!result) {
-							coursePageMsgList.add("The checkout page is not visible");
-							return result;
-						}
-
-						result = cfObj.commonWaitForElementToBeVisible(driver, coursePageORobj.closeCheckoutBox(), 30);
-						if (!result) {
-							coursePageMsgList.add("The close btn is not visible in checkout");
-							return result;
-						}
-
-						cfObj.commonClick(coursePageORobj.closeCheckoutBox());
-
-						cfObj.commonWaitForElementToBeLocatedAndVisible(driver,
-								"div[class='title_wrapper'] div[class='title']", "css", 10);
-						if (!result) {
-							coursePageMsgList.add("After closing the checkout page, course page not visible");
-							return result;
-						}
-
-						bool = false;
-						break;
-					}
-
-					result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".pu-title.sub-txt-global", "css",
-							11);
-					if (!result) {
-						coursePageMsgList.add("Your transaction has failed pop up not visible");
-						return result;
-					}
-
-					result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".fs14.sub-txt-global", "css", 10);
-					if (!result) {
-						coursePageMsgList.add("Try again with another bank text is not visible");
-						return result;
-					}
-
-					result = cfObj.commonWaitForElementToBeVisible(driver, coursePageORobj.retryPaymentBtn(), 10);
-					if (!result) {
-						coursePageMsgList.add("The retry btn on payment failure is not visible");
-						return result;
-					}
-
-					cfObj.commonClick(coursePageORobj.retryPaymentBtn());
-
-					result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".pu-title", "css", 10);
-					if (!result) {
-						coursePageMsgList.add("Select bank pop up is not visible");
-						return result;
-					}
-
-					cfObj.commonClick(coursePageORobj.payBtnClick());
-
+				result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".pu-title.sub-txt-global", "css", 11);
+				if (!result) {
+					coursePageMsgList.add("Your transaction has failed pop up not visible");
+					return result;
 				}
 
+				result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".fs14.sub-txt-global", "css", 10);
+				if (!result) {
+					coursePageMsgList.add("Try again with another bank text is not visible");
+					return result;
+				}
+
+				result = cfObj.commonWaitForElementToBeVisible(driver, coursePageORobj.retryPaymentBtn(), 10);
+				if (!result) {
+					coursePageMsgList.add("The retry btn on payment failure is not visible");
+					return result;
+				}
+
+				cfObj.commonClick(coursePageORobj.retryPaymentBtn());
+
+				result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".pu-title", "css", 10);
+				if (!result) {
+					coursePageMsgList.add("Select bank pop up is not visible");
+					return result;
+				}
+
+				return result;
 			}
 
 		} catch (Exception e) {
@@ -1149,6 +1154,8 @@ public class CoursePageUtil {
 				coursePageMsgList.add("not able add to pin code");
 				return result;
 			}
+
+			cfObj.commonClick(coursePageORobj.buyNowMain());
 
 			if (!coursePageORobj.getListBookingFormCity().get(0).getAttribute("value").toString()
 					.equalsIgnoreCase("GURUGRAM")) {

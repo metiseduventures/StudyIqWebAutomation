@@ -50,7 +50,7 @@
   }, {
     "isUserGuest" : false,
     "isKey" : "pass",
-    "courseType" : "book",
+    "courseType" : "books",
     "courseName" : "punjab",
     "courseId" : "",
     "paymentMethod" : "Paytm",
