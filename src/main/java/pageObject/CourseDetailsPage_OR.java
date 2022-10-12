@@ -186,7 +186,7 @@ public class CourseDetailsPage_OR {
 		return DemoVideos_Text;
 	}
 	
-	@FindBy(xpath="//*[@id=\"root\"]/div/div/div[3]/div[6]/div/div[2]/div/div[2]/div/img")
+	@FindBy(xpath="//div[@class='dm_list col-lg-3 col-sm-12']/div/img")
 	private List<WebElement> ListOf_Videos ;
 	
 	public  List<WebElement> getListOf_Videos() {
@@ -398,7 +398,7 @@ public class CourseDetailsPage_OR {
 	
 	//Pricing
 	
-	@FindBy(xpath="//div[@class='navigation']/button[6]")
+	@FindBy(xpath="//*[contains(text(),'Pricing')]")
 	private WebElement Pricing_Button;
 	
 	public  WebElement getPricing_Button() {
@@ -420,5 +420,41 @@ public class CourseDetailsPage_OR {
 	public List<WebElement> getListTestSeriesCourseInfo() {
 		return listTestSeriesCourseInfo;
 	}
+	
+	@FindBy(xpath="//button[contains(text(),'Description')]")
+	private WebElement Description_Button;
+
+	public WebElement getListDescription_Button() {
+		return Description_Button;
+	}
+	
+	@FindBy(xpath="//span[contains(text(),'show more')]")
+	private WebElement ShowMore_Button;
+
+	public WebElement getShowMore_Button() {
+		return ShowMore_Button;
+	}
+	
+	@FindBy(xpath="(//button[contains(text(),'Buy Now')])[1]")
+	private WebElement NavBar_BuyNow_Button;
+
+	public WebElement getNavBar_BuyNow_Button() {
+		return NavBar_BuyNow_Button;
+	}
+	
+	@FindBy(xpath="//img[@class='close_icon']")
+	private WebElement closeButton;
+
+	public WebElement getcloseButton() {
+		return closeButton;
+	}
+	
+	@FindBy(xpath="(//span[contains(text(),'UPSC Live')])[1]")
+	private WebElement LiveCourses;
+
+	public WebElement getLiveCourses() {
+		return LiveCourses;
+	}
+	
 	
 }

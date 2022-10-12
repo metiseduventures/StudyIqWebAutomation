@@ -1266,5 +1266,30 @@ public class HomePageUtil {
 		}
 		return result;
 	}
+	
+	public boolean clickOnLiveCoursesOnHomePage(WebDriver driver) {
+		boolean result = true;
+		try {
+			driver.navigate().to(fileReader.getBaseUrlWeb() + "upsc-live");
+			if (homePageORObj.getlistOfBook().size() == 0) {
+				homePageMsgList.add("Live_Course are not display on the home page");
+				return false;
+			}
+			// Select first book course
+			cfObj.commonClick(homePageORObj.getlistOfBook().get(1));
+
+			// wait for course detail page to be opened
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".course_basic_info_wrapper", "css", 30);
+			if (!result) {
+				homePageMsgList.add("Course detail page not opened");
+				return result;
+			}
+
+		} catch (Exception e) {
+			result = false;
+			homePageMsgList.add("clickOnLiveCoursesOnHomePage_Exception: " + e.getMessage());
+		}
+		return result;
+	}
 
 }
