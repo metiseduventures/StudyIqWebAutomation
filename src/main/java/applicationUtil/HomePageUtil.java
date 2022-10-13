@@ -637,6 +637,7 @@ public class HomePageUtil {
 			}
 
 			cfObj.commonClick(homePageORObj.getSlideCoursesOne());
+			Thread.sleep(10000);
 			cfObj.commonClick(homePageORObj.getHomePage());
 			cfObj.commonClick(homePageORObj.getClose_Notification());
 			// Click On Farward Button
@@ -1005,7 +1006,7 @@ public class HomePageUtil {
 				String defaultwindowId = itr.next();
 				String childwindowId = itr.next();
 				driver.switchTo().window(childwindowId);
-				String title = "Twitter";
+				String title = driver.getTitle();
 				result = driver.getTitle().contains(title);
 				if (result == true) {
 					homePageMsgList.add("StudyIQ Twitter Website");
@@ -1221,7 +1222,7 @@ public class HomePageUtil {
 				return result;
 			}
 
-			result = myProfileUtilObj.verifyProfileInput(driver);
+			result = myProfileUtilObj.validateMyProfile_Page(driver);
 			if (!result) {
 				homePageMsgList.add(" My Profile Page is not Validated ");
 				return result;
@@ -1230,6 +1231,12 @@ public class HomePageUtil {
 			result = myProfileUtilObj.clickOnUpdateProfile_button();
 			if (!result) {
 				homePageMsgList.add(" Update Profile Button is not Working");
+				return result;
+			}
+			
+			result=myProfileUtilObj.verifyInputDetails();
+			if (!result) {
+				homePageMsgList.add("Not Verify Input data");
 				return result;
 			}
 

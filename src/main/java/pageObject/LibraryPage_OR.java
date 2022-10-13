@@ -173,5 +173,28 @@ public class LibraryPage_OR {
 	public List<WebElement> getCourseTypeMenu() {
 		return courseTypeMenu;
 	}
+	
+	@FindBy(xpath="(//div[@class='dropdown-body open z_index'])/div")
+	private List<WebElement> ListOfsourse;
+
+	public List<WebElement> getListOfsourse() {
+		return ListOfsourse;
+	}
+
+	@FindBy(xpath="(//div[contains(text(),'Live Classes')])")
+	private WebElement DotLiveClasses;
+
+	public WebElement getDotLiveClasses()
+	{
+		return DotLiveClasses;
+	}
+	
+	@FindBy(xpath="(//div[contains(text(),'Books')])[1]")
+	private WebElement DropDownBook;
+
+	public WebElement getDropDownBook()
+	{
+		return DropDownBook;
+	}
 
 }
