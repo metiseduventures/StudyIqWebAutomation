@@ -162,7 +162,7 @@ public class MyProfileUtil {
 	public boolean clickOnUpdateProfile_button() {
 		boolean result = true;
 		try {
-
+             Thread.sleep(5000);
 			cfObj.commonClick(MyProfileORobj.getUpdateProfile_button());
 
 		} catch (Exception e) {

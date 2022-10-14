@@ -254,33 +254,45 @@ public class LibraryPageUtil {
 				libraryPageMsgList.add("DropDown is not working");
 				return result;
 			}
+			
+			if(libraryPage_OR.getListOfsourse().size()>0) {
+				
+				// click on Smart-Course button
+				result = clickOnSmart(driver);
+				if (!result) {
+					libraryPageMsgList.add("Smart Course is not Available");
+				}
 
-			// click on Smart-Course button
-			result = clickOnSmart(driver);
-			if (!result) {
-				libraryPageMsgList.add("Smart Course is not Available");
-				return result;
-			}
+				// click on Micro-Course button
+				result = clickOnMicro(driver);
+				if (!result) {
+					libraryPageMsgList.add("Micro Course is not Available");
+				}
 
-			// click on Micro-Course button
-			result = clickOnMicro(driver);
-			if (!result) {
-				libraryPageMsgList.add("Micro Course is not Available");
-				return result;
-			}
+				// click on Book button
+				result = clickOnBook(driver);
+				if (!result) {
+					libraryPageMsgList.add("Book is not Available");
+				}
 
-			// click on Book button
-			result = clickOnBook(driver);
-			if (!result) {
-				libraryPageMsgList.add("Book is not Available");
+				// click on TestSeries button
+				result = clickOnTestSeries(driver);
+				if (!result) {
+					libraryPageMsgList.add("TestSeries is not Available");
+				}
+				
+				// click on Live_Classes button
+				result = clickOnLiveClasses(driver);
+				if (!result) {
+					libraryPageMsgList.add("Live_Classes is not Available");
+				}
+				result=true;
 				return result;
-			}
-
-			// click on TestSeries button
-			result = clickOnTestSeries(driver);
-			if (!result) {
-				libraryPageMsgList.add("TestSeries is not Available");
-				return result;
+			}else {
+				if(libraryPage_OR.getListOfsourse().size()==0) {
+					result=false;
+					return result;
+				}
 			}
 
 		} catch (Exception e) {
@@ -350,10 +362,10 @@ public class LibraryPageUtil {
 			if (!result) {
 				libraryPageMsgList.add("DropDown is not working");
 			}
-			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "(//*[contains(text(),'Books')])[1]",
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "(//div[contains(text(),'Books')])[1]",
 					"xpath", 10);
 			if (result == true) {
-				cfObj.commonClick(libraryPage_OR.getDotBook());
+				cfObj.commonClick(libraryPage_OR.getDropDownBook());
 			} else {
 				libraryPageMsgList.add("TestSeries is Not Available");
 			}
@@ -447,6 +459,30 @@ public class LibraryPageUtil {
 		} catch (Exception e) {
 			result = false;
 			libraryPageMsgList.add("VerifySmart_Course_Exception: " + e.getMessage());
+		}
+		return result;
+	}
+	
+	public boolean clickOnLiveClasses(WebDriver driver) {
+		boolean result=true;
+		try{
+
+			result = homeUtilObj.clickOnDropDown(driver);
+			if (!result) {
+				libraryPageMsgList.add("DropDown is not working");
+			}
+
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver,
+					"(//div[contains(text(),'Live Classes')])", "xpath", 10);
+			if (result == true) {
+				cfObj.commonClick(libraryPage_OR.getDotLiveClasses());
+			} else {
+				libraryPageMsgList.add("Live_Classes is Not Available");
+				return result;
+			}
+		}catch (Exception e) {
+			result = false;
+			libraryPageMsgList.add("clickOnLiveClasses_Exception: " + e.getMessage());
 		}
 		return result;
 	}
