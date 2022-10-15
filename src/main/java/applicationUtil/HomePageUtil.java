@@ -637,7 +637,7 @@ public class HomePageUtil {
 			}
 
 			cfObj.commonClick(homePageORObj.getSlideCoursesOne());
-			Thread.sleep(10000);
+			Thread.sleep(21000);
 			cfObj.commonClick(homePageORObj.getHomePage());
 			cfObj.commonClick(homePageORObj.getClose_Notification());
 			// Click On Farward Button
@@ -719,7 +719,7 @@ public class HomePageUtil {
 			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//a[contains(text(),'My Offers')]",
 					"xpath", 20);
 			if (result == true) {
-				cfObj.commonClick(homePageORObj.getMyOfferButton());
+				cfObj.commonClick(homePageORObj.getMyOffer());
 				cfObj.commonClick(homePageORObj.getHomePage());
 				cfObj.commonClick(homePageORObj.getClose_Notification());
 			} else {
@@ -1184,11 +1184,13 @@ public class HomePageUtil {
 			List<WebElement> L3 = homePageORObj.getListCourse();
 			for (int i = 0; i < 2; i++) {
 				cfObj.commonClick(L3.get(i));
+				Thread.sleep(21000);
 				cfObj.commonClick(homePageORObj.getCloseButton());
 				driver.navigate().back();
 				cfObj.commonClick(homePageORObj.getClose_Notification());
 			}
 			cfObj.commonClick(homePageORObj.getListCourse().get(1));
+			Thread.sleep(21000);
 			result = coursePageUtilObj.selectExamPrefrences(driver);
 			if (!result) {
 				return result;

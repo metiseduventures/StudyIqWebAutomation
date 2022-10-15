@@ -307,5 +307,12 @@ public class HomePage_OR {
 		return CloseButton;
 	}
 	
+	@FindBy(xpath="//a[contains(text(),'My Offers')]")
+	private WebElement MyOffer;
+	
+	public WebElement getMyOffer(){
+		return MyOffer;
+	}
+	
 
 }
