@@ -21,7 +21,7 @@ public class ConfigFileReader {
 	public ConfigFileReader() {
 		BufferedReader reader;
 		String strPropertyPath = null;
-		strEnv = System.getProperty("env");
+		//strEnv = System.getProperty("env");
 		strEnv = "prod";
 		//strEnv = "staging";						
 

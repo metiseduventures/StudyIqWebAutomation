@@ -456,5 +456,15 @@ public class CourseDetailsPage_OR {
 		return LiveCourses;
 	}
 	
+	@FindBy(css=".view_test_series")
+	private List<WebElement> listTestSeriesButton;
+
+	public List<WebElement> getListTestSeriesButton() {
+		return listTestSeriesButton;
+	}
+	
+	
+	
+	
 	
 }

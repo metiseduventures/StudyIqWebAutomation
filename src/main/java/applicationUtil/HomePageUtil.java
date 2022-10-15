@@ -8,10 +8,13 @@ import java.util.Set;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
+
+import apiUtil.HomePageApiUtil;
 import apiUtil.OtpUtil;
 import pageObject.HomePage_OR;
 import pageObject.LibraryPage_OR;
 import pojo.TestData;
+import pojo.menuList.MenuList;
 import util.Common_Function;
 import util.ConfigFileReader;
 
@@ -39,12 +42,6 @@ public class HomePageUtil {
 			result = VerifyContacts(driver);
 			if (!result) {
 				homePageMsgList.add("Contacts is not Verify");
-				return result;
-			}
-
-			result = clickOnNavBarItem(driver);
-			if (!result) {
-				homePageMsgList.add("Item is not Available");
 				return result;
 			}
 
@@ -91,18 +88,6 @@ public class HomePageUtil {
 			result = clickOnLogOutButton(driver);
 			if (!result) {
 				homePageMsgList.add("Log-out Button is not Working");
-				return result;
-			}
-
-			result = VerifyTestimonial(driver);
-			if (!result) {
-				homePageMsgList.add("Not Varify Testimonial Part");
-				return result;
-			}
-
-			result = VerifySocialMediaIcon(driver);
-			if (!result) {
-				homePageMsgList.add("Social Media is not Verify");
 				return result;
 			}
 			result = clickOnPoketNewApp(driver);
@@ -584,20 +569,31 @@ public class HomePageUtil {
 		return result;
 	}
 
-	public boolean clickOnNavBarItem(WebDriver driver) {
+	public boolean verifyHomePageMenuList(WebDriver driver) {
 		boolean result = true;
+		MenuList menuListObj;
+		HomePageApiUtil homePageAPiUtilObj;
 		try {
-			List<WebElement> L1 = homePageORObj.getNavBar_Item();
-			for (int i = 1; i < L1.size(); i++) {
-				cfObj.commonClick(L1.get(i));
 
-				result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".not-found--title", "css", 20);
-				if (result == true) {
-					cfObj.commonClick(homePageORObj.getBackToHome());
-				}
-				result = cfObj.commonWaitForElementToBeVisible(driver, L1.get(i), 20);
+			// get menu list from api
+			homePageAPiUtilObj = new HomePageApiUtil();
+			menuListObj = homePageAPiUtilObj.getHomePageMenu();
+			if (menuListObj == null) {
+				homePageMsgList.add("Error in home page menu list api");
+				return false;
+			}
+
+			if (menuListObj.getData().size() != homePageORObj.getNavBar_Item().size()) {
+				homePageMsgList.add("Mismatch in menu list item on web and api");
+				return false;
+			}
+			for (int i = 1; i < homePageORObj.getNavBar_Item().size(); i++) {
+				cfObj.commonClick(homePageORObj.getNavBar_Item().get(i));
+
+				result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".course_category", "css", 20);
 				if (!result) {
-					homePageMsgList.add("Iteam is not Available");
+					homePageMsgList.add(menuListObj.getData().get(i).getMenuSlug() + "page is not opened");
+					result = false;
 				}
 			}
 			cfObj.commonClick(homePageORObj.getHomePage());
@@ -615,7 +611,7 @@ public class HomePageUtil {
 
 		} catch (Exception e) {
 			result = false;
-			homePageMsgList.add("clickOnNavBarItem_Exception: " + e.getMessage());
+			homePageMsgList.add("verifyHomePageMenuList_Exception: " + e.getMessage());
 		}
 		return result;
 	}
@@ -1235,8 +1231,8 @@ public class HomePageUtil {
 				homePageMsgList.add(" Update Profile Button is not Working");
 				return result;
 			}
-			
-			result=myProfileUtilObj.verifyInputDetails();
+
+			result = myProfileUtilObj.verifyInputDetails();
 			if (!result) {
 				homePageMsgList.add("Not Verify Input data");
 				return result;
@@ -1275,7 +1271,7 @@ public class HomePageUtil {
 		}
 		return result;
 	}
-	
+
 	public boolean clickOnLiveCoursesOnHomePage(WebDriver driver) {
 		boolean result = true;
 		try {
