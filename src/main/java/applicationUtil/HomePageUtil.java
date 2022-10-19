@@ -495,7 +495,13 @@ public class HomePageUtil {
 	public boolean clickOnMyProfile(WebDriver driver) {
 		boolean result = true;
 		try {
-			cfObj.commonClick(homePageORObj.getMyProfile_Button());
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "(//a[@role='button'])[2]", "xpath", 30);
+			if (result==true) {
+				cfObj.commonClick(homePageORObj.getMyProfile_Button());
+			}else {
+				homePageMsgList.add("My-Profile Button is not Visible");
+			    return result;	
+			}
 
 		} catch (Exception e) {
 			result = false;
@@ -660,7 +666,7 @@ public class HomePageUtil {
 		boolean result = true;
 		try {
 			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver,
-					"//span[contains(text(),'Explore Courses')]", "xpath", 20);
+					"button[class='ant-btn ant-btn-default expl_crs_btn']", "css", 20);
 			if (result == true) {
 				cfObj.commonClick(homePageORObj.getExploreCourses());
 				cfObj.commonClick(homePageORObj.getHomePage());
@@ -850,12 +856,14 @@ public class HomePageUtil {
 					"xpath", 20);
 			if (result == true) {
 				cfObj.commonClick(homePageORObj.getStudyIQ_Youtube_SocialIcon());
-
+				Thread.sleep(10000);
 				Set<String> windowsId = driver.getWindowHandles();
 				Iterator<String> itr = windowsId.iterator();
 				String defaultwindowId = itr.next();
 				String childwindowId = itr.next();
 				driver.switchTo().window(childwindowId);
+				driver.navigate().refresh();
+				Thread.sleep(10000);
 				String title = "StudyIQ IAS - YouTube";
 				result = driver.getTitle().contains(title);
 				if (result == true) {
@@ -866,7 +874,7 @@ public class HomePageUtil {
 				}
 				driver.close();
 				driver.switchTo().window(defaultwindowId);
-
+				Thread.sleep(10000);
 			} else {
 				homePageMsgList.add("StudyIQ Youtube Social Icon Button is not Available");
 				return result;
@@ -886,12 +894,14 @@ public class HomePageUtil {
 					"xpath", 20);
 			if (result == true) {
 				cfObj.commonClick(homePageORObj.getStudyIQ_Facebook_SocialIcon());
-
+				Thread.sleep(10000);
 				Set<String> windowsId = driver.getWindowHandles();
 				Iterator<String> itr = windowsId.iterator();
 				String defaultwindowId = itr.next();
 				String childwindowId = itr.next();
 				driver.switchTo().window(childwindowId);
+				driver.navigate().refresh();
+				Thread.sleep(10000);
 				String title = "Study IQ - Home | Facebook";
 				result = driver.getTitle().contains(title);
 				if (result == true) {
@@ -902,7 +912,7 @@ public class HomePageUtil {
 				}
 				driver.close();
 				driver.switchTo().window(defaultwindowId);
-
+				Thread.sleep(10000);
 			} else {
 				homePageMsgList.add("StudyIQ Facebook Social Icon Button is not Available");
 				return result;
@@ -923,12 +933,14 @@ public class HomePageUtil {
 					"xpath", 20);
 			if (result == true) {
 				cfObj.commonClick(homePageORObj.getStudyIQ_Telegram_SocialIcon());
-
+				Thread.sleep(10000);
 				Set<String> windowsId = driver.getWindowHandles();
 				Iterator<String> itr = windowsId.iterator();
 				String defaultwindowId = itr.next();
 				String childwindowId = itr.next();
 				driver.switchTo().window(childwindowId);
+				driver.navigate().refresh();
+				Thread.sleep(10000);
 				String title = "Telegram: Contact @Studyiqeducation";
 				result = driver.getTitle().contains(title);
 				if (result == true) {
@@ -939,6 +951,7 @@ public class HomePageUtil {
 				}
 				driver.close();
 				driver.switchTo().window(defaultwindowId);
+				Thread.sleep(10000);
 			} else {
 				homePageMsgList.add("StudyIQ Telegram Social Icon Button is not Available");
 				return result;
@@ -959,12 +972,14 @@ public class HomePageUtil {
 					"xpath", 20);
 			if (result == true) {
 				cfObj.commonClick(homePageORObj.getStudyIQ_Instagram_SocialIcon());
-
+				Thread.sleep(10000);
 				Set<String> windowsId = driver.getWindowHandles();
 				Iterator<String> itr = windowsId.iterator();
 				String defaultwindowId = itr.next();
 				String childwindowId = itr.next();
 				driver.switchTo().window(childwindowId);
+				driver.navigate().refresh();
+				Thread.sleep(10000);
 				String title = "Instagram";
 				result = driver.getTitle().contains(title);
 				if (result == true) {
@@ -975,7 +990,7 @@ public class HomePageUtil {
 				}
 				driver.close();
 				driver.switchTo().window(defaultwindowId);
-
+				Thread.sleep(10000);
 			} else {
 				homePageMsgList.add("StudyIQ Instagram Social Icon Button is not Available");
 				return result;
@@ -996,12 +1011,14 @@ public class HomePageUtil {
 					"xpath", 20);
 			if (result == true) {
 				cfObj.commonClick(homePageORObj.getStudyIQ_Twitter_SocialIcon());
-
+				Thread.sleep(10000);
 				Set<String> windowsId = driver.getWindowHandles();
 				Iterator<String> itr = windowsId.iterator();
 				String defaultwindowId = itr.next();
 				String childwindowId = itr.next();
 				driver.switchTo().window(childwindowId);
+				driver.navigate().refresh();
+				Thread.sleep(10000);
 				String title = driver.getTitle();
 				result = driver.getTitle().contains(title);
 				if (result == true) {
@@ -1012,7 +1029,7 @@ public class HomePageUtil {
 				}
 				driver.close();
 				driver.switchTo().window(defaultwindowId);
-
+				Thread.sleep(10000);
 			} else {
 				homePageMsgList.add("StudyIQ Twitter Social Icon Button is not Available");
 				return result;
@@ -1033,12 +1050,14 @@ public class HomePageUtil {
 					"xpath", 20);
 			if (result == true) {
 				cfObj.commonClick(homePageORObj.getStudyIQ_LinkedIn_SocialIcon());
-
+				Thread.sleep(10000);
 				Set<String> windowsId = driver.getWindowHandles();
 				Iterator<String> itr = windowsId.iterator();
 				String defaultwindowId = itr.next();
 				String childwindowId = itr.next();
 				driver.switchTo().window(childwindowId);
+				driver.navigate().refresh();
+				Thread.sleep(10000);
 				String title = "LinkedIn";
 				result = driver.getTitle().contains(title);
 				if (result == true) {
@@ -1049,7 +1068,7 @@ public class HomePageUtil {
 				}
 				driver.close();
 				driver.switchTo().window(defaultwindowId);
-
+				Thread.sleep(10000);
 			} else {
 				homePageMsgList.add("StudyIQ LinkedIn Social Icon Button is not Available");
 				return result;
@@ -1070,12 +1089,14 @@ public class HomePageUtil {
 					"xpath", 20);
 			if (result == true) {
 				cfObj.commonClick(homePageORObj.getStudyIQ_Tumblr_SocialIcon());
-
+				Thread.sleep(10000);
 				Set<String> windowsId = driver.getWindowHandles();
 				Iterator<String> itr = windowsId.iterator();
 				String defaultwindowId = itr.next();
 				String childwindowId = itr.next();
 				driver.switchTo().window(childwindowId);
+				driver.navigate().refresh();
+				Thread.sleep(10000);
 				String title = "StudyIQ";
 				result = driver.getTitle().contains(title);
 				if (result == true) {
@@ -1086,7 +1107,7 @@ public class HomePageUtil {
 				}
 				driver.close();
 				driver.switchTo().window(defaultwindowId);
-
+				Thread.sleep(10000);
 			} else {
 				homePageMsgList.add("StudyIQ Tumblr Social Icon Button is not Available");
 				return result;
@@ -1107,12 +1128,14 @@ public class HomePageUtil {
 					20);
 			if (result == true) {
 				cfObj.commonClick(homePageORObj.getwhatsapp_SocialIcon());
-
+				Thread.sleep(10000);
 				Set<String> windowsId = driver.getWindowHandles();
 				Iterator<String> itr = windowsId.iterator();
 				String defaultwindowId = itr.next();
 				String childwindowId = itr.next();
 				driver.switchTo().window(childwindowId);
+				driver.navigate().refresh();
+				Thread.sleep(10000);
 				String title = "Share on WhatsApp";
 				result = driver.getTitle().contains(title);
 				if (result == true) {
@@ -1123,7 +1146,7 @@ public class HomePageUtil {
 				}
 				driver.close();
 				driver.switchTo().window(defaultwindowId);
-
+				Thread.sleep(10000);
 			} else {
 				homePageMsgList.add("StudyIQ whatsapp Social Icon Button is not Available");
 				return result;
@@ -1144,7 +1167,7 @@ public class HomePageUtil {
 					"(//button[@class='btn btn-dark btn-lg'])[1]", "xpath", 20);
 			if (result == true) {
 				cfObj.commonClick(homePageORObj.getStudyIQ_Poket_NewsApp());
-
+                Thread.sleep(7000);
 				Set<String> windowsId = driver.getWindowHandles();
 				Iterator<String> itr = windowsId.iterator();
 				String defaultwindowId = itr.next();

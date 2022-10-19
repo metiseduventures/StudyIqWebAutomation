@@ -73,7 +73,7 @@ public class CourseDetailsPageUtil {
 			System.out.println(courseViewObj.getData().getPriceInfo());
 			result = verifyCourseInfo(driver, courseViewObj);
 			if (!result) {
-				return result;
+				CourseDetailsPageMsgList.add("Course Info is not Present");
 			}
 
 			result = verifyTestSeriesMockTest(driver, courseViewObj);
