@@ -174,11 +174,7 @@ public class HomePageUtil {
 			if (!result) {
 				return result;
 			}
-			// Click on Continue button
-			result = clickOnContinueButton();
-			if (!result) {
-				return result;
-			}
+			
 
 		} catch (Exception e) {
 			result = false;
@@ -227,7 +223,7 @@ public class HomePageUtil {
 		boolean result = true;
 		try {
 
-			result = cfObj.commonSetTextTextBox(homePageORObj.getListTextMobileNumber().get(0), strMobileNo);
+			result = cfObj.commonSetTextTextBox(homePageORObj.getlistTextpHONENumber().get(0), strMobileNo);
 			if (!result) {
 				homePageMsgList.add("Not able to enter mobile number");
 				return result;
@@ -244,7 +240,7 @@ public class HomePageUtil {
 		try {
 
 			for (int i = 0; i <= 5; i++) {
-				cfObj.commonSetTextTextBox(homePageORObj.getListTextOtp().get(i), String.valueOf(strOtp.charAt(i)));
+				cfObj.commonSetTextTextBox(homePageORObj.getlistTextOtpBox().get(i), String.valueOf(strOtp.charAt(i)));
 			}
 
 		} catch (Exception e) {
@@ -258,7 +254,7 @@ public class HomePageUtil {
 		boolean result = true;
 		try {
 
-			cfObj.commonClick(homePageORObj.getListBtnContinue().get(0));
+			cfObj.commonClick(homePageORObj.getBtnContinue().get(0));
 
 		} catch (Exception e) {
 			result = false;
@@ -564,7 +560,14 @@ public class HomePageUtil {
 			}
 			// Click on Continue button
 
-			result = clickOnContinueButton();
+			result = clickOnVerifyButton();
+			if (!result) {
+				return result;
+			}
+			
+			//Exam Preference 
+			
+			result = VerifyExamPreference();
 			if (!result) {
 				return result;
 			}
@@ -1316,6 +1319,31 @@ public class HomePageUtil {
 		} catch (Exception e) {
 			result = false;
 			homePageMsgList.add("clickOnLiveCoursesOnHomePage_Exception: " + e.getMessage());
+		}
+		return result;
+	}
+	
+	public boolean clickOnVerifyButton() {
+		boolean result = true;
+		try {
+
+			cfObj.commonClick(homePageORObj.getBtnVerify().get(0));
+
+		} catch (Exception e) {
+			result = false;
+			homePageMsgList.add("clickOnVerifyButton_Exception: " + e.getMessage());
+		}
+		return result;
+	}
+	
+	public boolean VerifyExamPreference() {
+		boolean result = true;
+		try {
+			cfObj.commonClick(homePageORObj.getListOfExamPreferenceCOurses().get(0));
+
+		} catch (Exception e) {
+			result = false;
+			homePageMsgList.add("VerifyExamPreference_Exception: " + e.getMessage());
 		}
 		return result;
 	}

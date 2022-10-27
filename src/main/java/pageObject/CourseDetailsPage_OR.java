@@ -463,8 +463,48 @@ public class CourseDetailsPage_OR {
 		return listTestSeriesButton;
 	}
 	
+	@FindBy(xpath="//a/img[@class='crossImage']")
+	private WebElement NewcloseButton;
+
+	public WebElement getNewcloseButton() {
+	return NewcloseButton;
+	}
 	
-	
+	@FindBy(xpath="(//h1[contains(text(),'Similar Courses')])[2]")
+	private WebElement SimilarCourse;
+
+	public WebElement getSimilarCourse() {
+	return SimilarCourse;
+	}
+
+	@FindBy(xpath="(//div[@class='crossSell-Card-main-slick'])")
+	private List<WebElement> listOF_similarCourse;
+
+	public List<WebElement> getlistOF_similarCourse() {
+	return listOF_similarCourse;
+	}
+
+	@FindBy(xpath="(//div[@class='thumb-content'])/h4")
+	private List<WebElement> NameOf_listOF_similarCourse;
+
+	public List<WebElement> getNameOf_listOF_similarCourse() {
+	return NameOf_listOF_similarCourse;
+	}
+
+	@FindBy(xpath="(//div[@class='thumb-content'])//button[contains(text(),'View Details')]")
+	private List<WebElement> ViewButton_similarCourse;
+
+	public List<WebElement> getViewButton_similarCourse() {
+	return ViewButton_similarCourse;
+	}
+
+	@FindBy(xpath="//div[@class='title_wrapper']/div[@class='title']")
+	private WebElement CourseTitle_similarCourse;
+
+	public WebElement getCourseTitle_similarCourse() {
+	return CourseTitle_similarCourse;
+	}
+
 	
 	
 }

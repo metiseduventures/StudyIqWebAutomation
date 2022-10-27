@@ -314,5 +314,39 @@ public class HomePage_OR {
 		return MyOffer;
 	}
 	
+	public List<WebElement> getlistTextpHONENumber() {
+		return listTextpHONENumber;
+	}
+
+	@FindBy(xpath = "//input[@id='phoneNumber'] ")
+	private List<WebElement> listTextpHONENumber;
+	
+	@FindBy(xpath = "//button[@class='loginBtn smallFont btn btn-primary btn-block']")
+	private List<WebElement> BtnContinue;
+
+	public List<WebElement> getBtnContinue() {
+		return BtnContinue;
+	}
+	
+	@FindBy(xpath = "(//div[@class='otp_record']/input)")
+	private List<WebElement> listTextOtpBox;
+
+	public List<WebElement> getlistTextOtpBox() {
+		return listTextOtpBox;
+	}
+	
+	@FindBy(xpath = "//button[@class='loginBtn btn btn-primary btn-block']")
+	private List<WebElement> BtnVerify;
+
+	public List<WebElement> getBtnVerify() {
+		return BtnVerify;
+	}
+	
+	@FindBy(xpath = "//div[@class='inputContainer']")
+	private List<WebElement> ListOfExamPreferenceCOurses;
+
+	public List<WebElement> getListOfExamPreferenceCOurses() {
+		return ListOfExamPreferenceCOurses;
+	}
 
 }
