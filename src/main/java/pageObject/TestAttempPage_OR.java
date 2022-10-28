@@ -56,32 +56,12 @@ public class TestAttempPage_OR {
 		return listAnswerOption;
 	}
 
-	@FindBy(xpath = "//*[@id='root']/div/div/div[2]/div[5]/div[1]/div[3]/button")
-	private List<WebElement> listBtnSaveNext;
+	@FindBy(css = ".test-action-item")
+	private List<WebElement> listTestSeriesActionButton;
 
-	public List<WebElement> getListBtnSaveNext() {
-		return listBtnSaveNext;
-	}
 
-	@FindBy(xpath = "//*[@id=\"root\"]/div/div/div[2]/div[5]/div[1]/div[2]/button")
-	private List<WebElement> listBtnMarkForReviewAndNext;
-
-	public List<WebElement> getListBtnMarkForReviewAndNext() {
-		return listBtnMarkForReviewAndNext;
-	}
-
-	@FindBy(xpath = "//*[@id=\"root\"]/div/div/div[2]/div[5]/div[1]/div[1]/button")
-	private List<WebElement> listBtnClearResponse;
-
-	public List<WebElement> getListBtnClearResponse() {
-		return listBtnClearResponse;
-	}
-
-	@FindBy(css = "div.test-action-item>button")
-	private List<WebElement> listBtnSubmit;
-
-	public List<WebElement> getListBtnSubmit() {
-		return listBtnSubmit;
+	public List<WebElement> getListTestSeriesActionButton() {
+		return listTestSeriesActionButton;
 	}
 
 	@FindBy(css = ".tcq-status-list>div.green")

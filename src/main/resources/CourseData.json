@@ -1,8 +1,8 @@
 {
   "dataSet" : [ {
-    "courseType" : "test-series"
-  }, {
     "courseType" : "live"
+  }, {
+    "courseType" : "test-series"
   }, {
     "courseType" : "smart"
   }, {
