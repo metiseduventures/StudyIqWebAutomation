@@ -66,6 +66,7 @@ public class TestSeriesUtil {
 			}
 			driver.navigate()
 					.to(configObject.getBaseUrl() + "test-series/" + configObject.getCourseTestId() + "/UPSC%20Quiz");
+
 			Thread.sleep(10000);
 			testInstructionUtilObj = new TestInstrcutionUtil(driver);
 			result = testInstructionUtilObj.clickOnStartTest(driver);
@@ -348,6 +349,7 @@ public class TestSeriesUtil {
 		try {
 			homePageUtilObj = new HomePageUtil(driver);
 			result = homePageUtilObj.verifySignUp(driver);
+
 			if (!result) {
 				testAttemptPageMsgList.addAll(homePageUtilObj.homePageMsgList);
 				return result;
@@ -358,6 +360,7 @@ public class TestSeriesUtil {
 				testAttemptPageMsgList.addAll(homePageUtilObj.homePageMsgList);
 				return result;
 			}
+
 
 			strCourseSlug = driver.getCurrentUrl().split("course-detail/")[1];
 			System.out.println("strCourseSlug:" + strCourseSlug);
@@ -374,6 +377,7 @@ public class TestSeriesUtil {
 			}
 			driver.navigate()
 					.to(configObject.getBaseUrl() + "test-series/" + configObject.getCourseTestId() + "/UPSC%20Quiz");
+
 			Thread.sleep(10000);
 			testInstructionUtilObj = new TestInstrcutionUtil(driver);
 			result = testInstructionUtilObj.clickOnStartTest(driver);
@@ -445,8 +449,10 @@ public class TestSeriesUtil {
 					+ (intMarkForReviewCount + intAnsAndMarkCount);
 
 			System.out.println("strResumeState: " + strResumeState);
+
 			driver.navigate()
 					.to(configObject.getBaseUrl() + "test-series/" + configObject.getCourseTestId() + "/UPSC%20Quiz");
+
 			Thread.sleep(10000);
 			testInstructionUtilObj = new TestInstrcutionUtil(driver);
 			result = testInstructionUtilObj.clickOnStartTest(driver);
