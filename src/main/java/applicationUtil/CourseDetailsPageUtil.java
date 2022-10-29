@@ -14,6 +14,7 @@ import pageObject.CourseDetailsPage_OR;
 import pojo.TestData;
 import pojo.courseView.CourseView;
 import util.Common_Function;
+import util.ConfigFileReader;
 
 public class CourseDetailsPageUtil {
 
@@ -21,6 +22,7 @@ public class CourseDetailsPageUtil {
 	CourseDetailsPage_OR CourseDetailsPageORObj;
 	public List<String> CourseDetailsPageMsgList = new ArrayList<String>();
 	public Common_Function cfObj = new Common_Function();
+	public ConfigFileReader configReaderObj = new ConfigFileReader();
 
 	public CourseDetailsPageUtil(WebDriver driver) {
 
@@ -618,8 +620,7 @@ public class CourseDetailsPageUtil {
 				CourseDetailsPageMsgList.add("Pricing button is not Working");
 			}
 
-			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".close_icon", "css",
-					10);
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".close_icon", "css", 10);
 			if (result == true) {
 				cfObj.commonClick(CourseDetailsPageORObj.getNewcloseButton());
 			} else {
@@ -819,6 +820,43 @@ public class CourseDetailsPageUtil {
 			result = false;
 			CourseDetailsPageMsgList.add("verifySimilarCourses_Exception: " + e.getMessage());
 		}
+		return result;
+	}
+
+	public boolean verifyCourseSell(WebDriver driver) {
+		boolean result = true;
+		CourseApiUtil courseApiUtilObj;
+		CourseView courseViewObj;
+		String strCourseSlug = null;
+
+		try {
+			homeUtilObj = new HomePageUtil(driver);
+
+			driver.navigate()
+					.to(configReaderObj.getBaseUrl() + "course-detail/" + configReaderObj.getCrossSellCourseSlug());
+
+			// click on Courses Info
+			Thread.sleep(20000);
+			strCourseSlug = configReaderObj.getCrossSellCourseSlug();
+			System.out.println("strCourseSlug:" + strCourseSlug);
+			courseApiUtilObj = new CourseApiUtil();
+			courseViewObj = courseApiUtilObj.getCourseViewData(strCourseSlug);
+			System.out.println(courseViewObj.getData().getPriceInfo());
+			result = verifyCourseInfo(driver, courseViewObj);
+			if (!result) {
+				CourseDetailsPageMsgList.add("Course Info is not Present");
+			}
+			// Verify Cross Sell
+			result = verifySimilarCourses(driver, courseViewObj);
+			if (!result) {
+				return result;
+			}
+
+		} catch (Exception e) {
+			result = false;
+			CourseDetailsPageMsgList.add("verifyCourseSell_Exception: " + e.getMessage());
+		}
+
 		return result;
 	}
 

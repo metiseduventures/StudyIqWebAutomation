@@ -32,6 +32,17 @@ public class CourseDetailPageTest extends BaseTest {
 		
 	}
 	
+	
+	@Test
+	public void verifyCrossSellCourse() {
+
+		boolean result = true;
+		CourseDetailsUtilObj = new CourseDetailsPageUtil(driver);
+		result = CourseDetailsUtilObj.verifyCourseSell(driver);
+		Assert.assertEquals(result, true, CourseDetailsUtilObj.CourseDetailsPageMsgList.toString());
+		
+	}
+	
 	@SuppressWarnings("serial")
 	@DataProvider
 	public Object[][] getData() throws Exception {

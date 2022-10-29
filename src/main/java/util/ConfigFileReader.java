@@ -83,5 +83,19 @@ public class ConfigFileReader {
 		else
 			throw new RuntimeException("Base url web is not defined.");
 	}
-
+	
+	public String getCourseTestId() {
+		String strCourseTestId = properties.getProperty("courseTestId");
+		if (strCourseTestId != null)
+			return strCourseTestId;
+		else
+			throw new RuntimeException("strCourseTestId is not defined.");
+	}
+	public String getCrossSellCourseSlug() {
+		String strCrossSellCourseSlug = properties.getProperty("crossSellSlug");
+		if (strCrossSellCourseSlug != null)
+			return strCrossSellCourseSlug;
+		else
+			throw new RuntimeException("strCrossSellCourseSlug is not defined.");
+	}
 }
