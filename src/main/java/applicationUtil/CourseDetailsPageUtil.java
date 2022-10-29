@@ -833,7 +833,7 @@ public class CourseDetailsPageUtil {
 			homeUtilObj = new HomePageUtil(driver);
 
 			driver.navigate()
-					.to(configReaderObj.getBaseUrl() + "course-detail/" + configReaderObj.getCrossSellCourseSlug());
+					.to(configReaderObj.getBaseUrlWeb() + "course-detail/" + configReaderObj.getCrossSellCourseSlug());
 
 			// click on Courses Info
 			Thread.sleep(20000);
