@@ -8,8 +8,11 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 
+import apiUtil.CourseApiUtil;
 import pageObject.TestAttempPage_OR;
+import pojo.courseView.CourseView;
 import util.Common_Function;
+import util.ConfigFileReader;
 
 public class TestSeriesUtil {
 
@@ -20,6 +23,7 @@ public class TestSeriesUtil {
 	public int intAnsCount, intNotAnsCount, intNotVisitedCount, intMarkForReviewCount, intAnsAndMarkCount,
 			intTotalAnsweredCount;
 	public HomePageUtil homePageUtilObj;
+	public ConfigFileReader configObject = new ConfigFileReader();
 
 	public TestSeriesUtil(WebDriver driver) {
 
@@ -29,15 +33,40 @@ public class TestSeriesUtil {
 
 	public boolean verifyTestExecutionFlow(WebDriver driver) {
 		boolean result = true;
+		String strCourseSlug;
+		CourseApiUtil courseApiUtilObj;
+		CourseView courseViewObj;
+		CoursePageUtil coursePageUtilObj;
 		try {
 			homePageUtilObj = new HomePageUtil(driver);
-			result = homePageUtilObj.verifyLogin(driver, "8860543615");
+			result = homePageUtilObj.verifySignUp(driver);
 			if (!result) {
 				testAttemptPageMsgList.addAll(homePageUtilObj.homePageMsgList);
 				return result;
 			}
-			// go to my library
-			driver.navigate().to("https://dev.studyiq.com/test-series/1171/61818/Sectionwise_test_two");
+
+			result = homePageUtilObj.clickOnTestSeriesOnHomePage(driver);
+			if (!result) {
+				testAttemptPageMsgList.addAll(homePageUtilObj.homePageMsgList);
+				return result;
+			}
+
+			strCourseSlug = driver.getCurrentUrl().split("course-detail/")[1];
+			System.out.println("strCourseSlug:" + strCourseSlug);
+			courseApiUtilObj = new CourseApiUtil();
+			courseViewObj = courseApiUtilObj.getCourseViewData(strCourseSlug);
+			System.out.println(courseViewObj.getData().getPriceInfo());
+
+			coursePageUtilObj = new CoursePageUtil(driver);
+
+			result = coursePageUtilObj.selectExamPrefrences(driver);
+			if (!result) {
+				testAttemptPageMsgList.addAll(coursePageUtilObj.coursePageMsgList);
+				return result;
+			}
+			driver.navigate()
+					.to(configObject.getBaseUrl() + "test-series/" + configObject.getCourseTestId() + "/UPSC%20Quiz");
+
 			Thread.sleep(10000);
 			testInstructionUtilObj = new TestInstrcutionUtil(driver);
 			result = testInstructionUtilObj.clickOnStartTest(driver);
@@ -121,7 +150,7 @@ public class TestSeriesUtil {
 			}
 			// Click on submit button
 
-			cfObj.commonClick(testAttempPageObj.getListBtnSubmit().get(3));
+			cfObj.commonClick(testAttempPageObj.getListTestSeriesActionButton().get(3));
 			driver.switchTo().alert().accept();
 
 			// wait for view result pop up
@@ -189,26 +218,26 @@ public class TestSeriesUtil {
 				intAnsCount = intAnsCount + 1;
 				cfObj.commonClick(testAttempPageObj.getListAnswerOption().get(0));
 				// click on save and next
-				cfObj.commonClick(testAttempPageObj.getListBtnSaveNext().get(0));
+				cfObj.commonClick(testAttempPageObj.getListTestSeriesActionButton().get(2));
 
 			} else if (choice == 2) {
 
 				// click on save and next
-				cfObj.commonClick(testAttempPageObj.getListBtnSaveNext().get(0));
+				cfObj.commonClick(testAttempPageObj.getListTestSeriesActionButton().get(2));
 				intNotAnsCount = intNotAnsCount + 1;
 
 			} else if (choice == 3) {
 				intMarkForReviewCount = intMarkForReviewCount + 1;
 
 				// click on mark for review
-				cfObj.commonClick(testAttempPageObj.getListBtnMarkForReviewAndNext().get(0));
+				cfObj.commonClick(testAttempPageObj.getListTestSeriesActionButton().get(1));
 
 			} else if (choice == 4) {
 				intAnsAndMarkCount = intAnsAndMarkCount + 1;
 
 				cfObj.commonClick(testAttempPageObj.getListAnswerOption().get(0));
 				// click on mark for review
-				cfObj.commonClick(testAttempPageObj.getListBtnMarkForReviewAndNext().get(0));
+				cfObj.commonClick(testAttempPageObj.getListTestSeriesActionButton().get(1));
 
 			} else if (choice == 5) {
 				intNotAnsCount = intNotAnsCount + 1;
@@ -216,9 +245,9 @@ public class TestSeriesUtil {
 				// Clear Response
 				cfObj.commonClick(testAttempPageObj.getListAnswerOption().get(0));
 				// click on clear response
-				cfObj.commonClick(testAttempPageObj.getListBtnClearResponse().get(0));
+				cfObj.commonClick(testAttempPageObj.getListTestSeriesActionButton().get(0));
 				// click on save and next
-				cfObj.commonClick(testAttempPageObj.getListBtnSaveNext().get(0));
+				cfObj.commonClick(testAttempPageObj.getListTestSeriesActionButton().get(2));
 
 			}
 
@@ -241,7 +270,7 @@ public class TestSeriesUtil {
 			actNotVisited = testAttempPageObj.getListQuestionStatusNotVisitedStatus().size();
 			actMarkForReview = testAttempPageObj.getListQuestionStatusMarkForReviewStatus().size();
 			actAnsAndMarkForReview = testAttempPageObj.getListQuestionStatusAnsweredAndMarkForReviewStatus().size();
-			System.out.println(actMarkForReview+actAnsAndMarkForReview);
+			System.out.println(actMarkForReview + actAnsAndMarkForReview);
 
 			if (strAns != actAns) {
 				testAttemptPageMsgList.add("Mismtach in Answered question count for Section: " + strSectionName
@@ -313,15 +342,42 @@ public class TestSeriesUtil {
 
 	public boolean verifyResumeTest(WebDriver driver) {
 		boolean result = true;
+		String strCourseSlug;
+		CourseApiUtil courseApiUtilObj;
+		CourseView courseViewObj;
+		CoursePageUtil coursePageUtilObj;
 		try {
 			homePageUtilObj = new HomePageUtil(driver);
-			result = homePageUtilObj.verifyLogin(driver, "8860543615");
+			result = homePageUtilObj.verifySignUp(driver);
+
 			if (!result) {
 				testAttemptPageMsgList.addAll(homePageUtilObj.homePageMsgList);
 				return result;
 			}
 
-			driver.get("https://dev.studyiq.com/test-series/1171/61822/Decimal%20Negative%20Mark");
+			result = homePageUtilObj.clickOnTestSeriesOnHomePage(driver);
+			if (!result) {
+				testAttemptPageMsgList.addAll(homePageUtilObj.homePageMsgList);
+				return result;
+			}
+
+
+			strCourseSlug = driver.getCurrentUrl().split("course-detail/")[1];
+			System.out.println("strCourseSlug:" + strCourseSlug);
+			courseApiUtilObj = new CourseApiUtil();
+			courseViewObj = courseApiUtilObj.getCourseViewData(strCourseSlug);
+			System.out.println(courseViewObj.getData().getPriceInfo());
+
+			coursePageUtilObj = new CoursePageUtil(driver);
+
+			result = coursePageUtilObj.selectExamPrefrences(driver);
+			if (!result) {
+				testAttemptPageMsgList.addAll(coursePageUtilObj.coursePageMsgList);
+				return result;
+			}
+			driver.navigate()
+					.to(configObject.getBaseUrl() + "test-series/" + configObject.getCourseTestId() + "/UPSC%20Quiz");
+
 			Thread.sleep(10000);
 			testInstructionUtilObj = new TestInstrcutionUtil(driver);
 			result = testInstructionUtilObj.clickOnStartTest(driver);
@@ -394,7 +450,9 @@ public class TestSeriesUtil {
 
 			System.out.println("strResumeState: " + strResumeState);
 
-			driver.get("https://dev.studyiq.com/test-series/1171/61822/Decimal%20Negative%20Mark");
+			driver.navigate()
+					.to(configObject.getBaseUrl() + "test-series/" + configObject.getCourseTestId() + "/UPSC%20Quiz");
+
 			Thread.sleep(10000);
 			testInstructionUtilObj = new TestInstrcutionUtil(driver);
 			result = testInstructionUtilObj.clickOnStartTest(driver);
@@ -408,8 +466,10 @@ public class TestSeriesUtil {
 					+ "_" + testAttempPageObj.getListQuestionStatusNotAnswered().get(0).getText().toString() + "_"
 					+ testAttempPageObj.getListQuestionStatusNotAnswered().get(0).getText().toString() + "_"
 					+ testAttempPageObj.getListQuestionStatusNotVisited().get(0).getText().toString() + "_"
-					+ Integer.parseInt(testAttempPageObj.getListQuestionStatusMarkForReview().get(0).getText().toString()) + 
-					+ Integer.parseInt(testAttempPageObj.getListQuestionStatusAnsweredAndMarkForReview().get(0).getText().toString());
+					+ Integer.parseInt(
+							testAttempPageObj.getListQuestionStatusMarkForReview().get(0).getText().toString())
+					+ +Integer.parseInt(testAttempPageObj.getListQuestionStatusAnsweredAndMarkForReview().get(0)
+							.getText().toString());
 
 			if (!strActualResumeState.equalsIgnoreCase(strResumeState)) {
 				testAttemptPageMsgList.add("Wrong state maintain when user resume the test actaul state: "
