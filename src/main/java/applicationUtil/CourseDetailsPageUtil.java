@@ -330,6 +330,7 @@ public class CourseDetailsPageUtil {
 
 	public boolean veirfyDemoVideos(WebDriver driver, CourseView courseViewObj) {
 		boolean result = true;
+		int intStartTime, intPauseTime, intFinalTime;
 		try {
 
 			result = cfObj.commonWaitForElementToBeVisible(driver, CourseDetailsPageORObj.getDemo_Videos_Button(), 2);
@@ -350,10 +351,53 @@ public class CourseDetailsPageUtil {
 				List<WebElement> tx3 = CourseDetailsPageORObj.getListOf_Videos();
 				for (int i = 0; i < tx3.size(); i++) {
 					cfObj.commonClick(tx3.get(i));
-					result = cfObj.commonWaitForElementToBeVisible(driver, tx3.get(i), 2);
+					result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".shaka-current-time", "css", 10);
 					if (!result) {
-						CourseDetailsPageMsgList.add("Course Content is not Available");
+						CourseDetailsPageMsgList.add("Demo video not opned when click on videos from the list");
+						return result;
 					}
+
+					// get video time
+					intStartTime = Integer.valueOf(cfObj.commonGetElement(driver, ".shaka-current-time", "css")
+							.getText().toString().split("/")[0].trim().split(":")[2].trim());
+					System.out.println(intStartTime);
+
+					if (intStartTime > 0) {
+						CourseDetailsPageMsgList.add("Start time should be zero in starting of the video for course: "
+								+ courseViewObj.getData().getCourseDetail().getCourseTitle());
+						return false;
+					}
+
+					// Click on play button
+
+					cfObj.commonClick(cfObj.commonGetElement(driver, ".shaka-small-play-button", "css"));
+
+					Thread.sleep(5000);
+
+					// Click on pause button
+
+					cfObj.commonClick(cfObj.commonGetElement(driver, ".shaka-small-play-button", "css"));
+					intPauseTime = Integer.valueOf(cfObj.commonGetElement(driver, ".shaka-current-time", "css")
+							.getText().toString().split("/")[0].trim().split(":")[2].trim());
+					System.out.println(intPauseTime);
+					if (intPauseTime < 5) {
+						CourseDetailsPageMsgList.add("Video is not playing when click on start button for course: "
+								+ courseViewObj.getData().getCourseDetail().getCourseTitle());
+						return false;
+					}
+
+					Thread.sleep(5000);
+
+					intFinalTime = Integer.valueOf(cfObj.commonGetElement(driver, ".shaka-current-time", "css")
+							.getText().toString().split("/")[0].trim().split(":")[2].trim());
+					System.out.println(intFinalTime);
+
+					if (intPauseTime != intFinalTime) {
+						CourseDetailsPageMsgList.add("Video is not paused when click on paused button for course: "
+								+ courseViewObj.getData().getCourseDetail().getCourseTitle());
+						return false;
+					}
+
 				}
 			} else {
 				if (result) {
