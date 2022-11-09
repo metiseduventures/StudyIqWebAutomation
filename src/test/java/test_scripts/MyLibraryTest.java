@@ -21,9 +21,9 @@ public class MyLibraryTest extends BaseTest {
 	@Test(dataProvider = "getData", enabled = true)
 	public void verifyMyLibrary(TestData testData) {
 		boolean result = true;
-		coursePageUtilObj = new CoursePageUtil(driver);
-		result = coursePageUtilObj.verifyCoursePurchase(driver, testData);
-		Assert.assertEquals(result, true, coursePageUtilObj.coursePageMsgList.toString());
+		MyLibraryUtilUtilObj = new LibraryPageUtil(driver);
+		result = MyLibraryUtilUtilObj.VerifyExtRen_Courses(driver, testData);
+		Assert.assertEquals(result, true, MyLibraryUtilUtilObj.libraryPageMsgList.toString());
 	}
 	
 	
@@ -42,7 +42,7 @@ public class MyLibraryTest extends BaseTest {
 		return returnValue;
 	}
 	
-	@Test(dependsOnMethods="verifyMyLibrary")
+	@Test
 
 	public void LibraryCourse() {
 		boolean result = true;
