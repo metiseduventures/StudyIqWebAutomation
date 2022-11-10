@@ -98,5 +98,4 @@ public class ConfigFileReader {
 		else
 			throw new RuntimeException("strCrossSellCourseSlug is not defined.");
 	}
-
 }

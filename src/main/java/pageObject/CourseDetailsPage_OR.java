@@ -463,7 +463,7 @@ public class CourseDetailsPage_OR {
 		return listTestSeriesButton;
 	}
 	
-	@FindBy(xpath="//a/img[@class='crossImage']")
+	@FindBy(css=".close_icon")
 	private WebElement NewcloseButton;
 
 	public WebElement getNewcloseButton() {
