@@ -1,20 +1,36 @@
 {
-  "stage" : {
-
-   "course" :
-   
-   [ 
-   
-   ]
-   
-   },
-  "prod" : { 
-   "course" :
-   
-   [ 
-   
-   
-   ]
- 
-  }
+  "staging": [
+    {
+      "courseType": "liveStag",
+      "courseName": "courseName",
+      "isExpires": ""
+    },
+    {
+      "courseType": "TestSeriesStag",
+      "courseName": "courseName",
+      "isExpires": ""
+    },
+    {
+      "courseType": "MicroStag",
+      "courseName": "courseName",
+      "isExpires": ""
+    }
+  ],
+  "prod": [
+    {
+      "courseType": "liveProd",
+      "courseName": "courseName",
+      "isExpires": ""
+    },
+    {
+      "courseType": "TestSeriesProd",
+      "courseName": "courseName",
+      "isExpires": ""
+    },
+    {
+      "courseType": "MicroProd",
+      "courseName": "courseName",
+      "isExpires": ""
+    }
+  ]
 }

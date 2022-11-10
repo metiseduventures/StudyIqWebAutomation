@@ -311,7 +311,7 @@ public class CoursePageUtil {
 			} else {
 				// Wait for mobile number pop up
 				result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver,
-						"//input[@placeholder='Mobile Number']", "xpath", 30);
+						"//input[@placeholder='Enter 10 digit number']", "xpath", 30);
 				if (!result) {
 					coursePageMsgList.add("Mobile number pop up is not visible when click on buy now for guest user");
 					return result;

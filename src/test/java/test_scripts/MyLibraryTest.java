@@ -12,6 +12,7 @@ import com.google.gson.JsonParser;
 import applicationUtil.CoursePageUtil;
 import applicationUtil.LibraryPageUtil;
 import pojo.TestData;
+import util.ConfigFileReader;
 
 public class MyLibraryTest extends BaseTest {
 	
@@ -30,8 +31,8 @@ public class MyLibraryTest extends BaseTest {
 	@SuppressWarnings("serial")
 	@DataProvider
 	public Object[][] getData() throws Exception {
-		JsonElement jsonData = new JsonParser().parse(new FileReader("src/main/resources/TestData.json"));
-		JsonElement dataSet = jsonData.getAsJsonObject().get("dataSet");
+		JsonElement jsonData = new JsonParser().parse(new FileReader("src/main/resources/library.json"));
+		JsonElement dataSet = jsonData.getAsJsonObject().get(ConfigFileReader.strEnv);
 		List<TestData> testData = new Gson().fromJson(dataSet, new TypeToken<List<TestData>>() {
 		}.getType());
 		Object[][] returnValue = new Object[testData.size()][1];

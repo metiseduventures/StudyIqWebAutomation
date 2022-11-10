@@ -348,5 +348,12 @@ public class HomePage_OR {
 	public List<WebElement> getListOfExamPreferenceCOurses() {
 		return ListOfExamPreferenceCOurses;
 	}
+	
+	@FindBy(css = ".course_details")
+	List<WebElement> listOfTestSeries;
+
+	public List<WebElement> getListOfTestSeries() {
+		return listOfTestSeries;
+	}
 
 }

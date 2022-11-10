@@ -20,6 +20,15 @@ public class TestData {
 
 	private String isKey;
 	private String bankNameForPaytm;
+	private boolean isExpires;
+
+	public boolean isExpires() {
+		return isExpires;
+	}
+
+	public void setExpires(boolean isExpires) {
+		this.isExpires = isExpires;
+	}
 
 	public String getbankNameForPaytm() {
 		return bankNameForPaytm;

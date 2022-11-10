@@ -174,7 +174,6 @@ public class HomePageUtil {
 			if (!result) {
 				return result;
 			}
-			
 
 		} catch (Exception e) {
 			result = false;
@@ -492,11 +491,11 @@ public class HomePageUtil {
 		boolean result = true;
 		try {
 			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "(//a[@role='button'])[2]", "xpath", 30);
-			if (result==true) {
+			if (result == true) {
 				cfObj.commonClick(homePageORObj.getMyProfile_Button());
-			}else {
+			} else {
 				homePageMsgList.add("My-Profile Button is not Visible");
-			    return result;	
+				return result;
 			}
 
 		} catch (Exception e) {
@@ -564,9 +563,9 @@ public class HomePageUtil {
 			if (!result) {
 				return result;
 			}
-			
-			//Exam Preference 
-			
+
+			// Exam Preference
+
 			result = VerifyExamPreference();
 			if (!result) {
 				return result;
@@ -1170,7 +1169,7 @@ public class HomePageUtil {
 					"(//button[@class='btn btn-dark btn-lg'])[1]", "xpath", 20);
 			if (result == true) {
 				cfObj.commonClick(homePageORObj.getStudyIQ_Poket_NewsApp());
-                Thread.sleep(7000);
+				Thread.sleep(7000);
 				Set<String> windowsId = driver.getWindowHandles();
 				Iterator<String> itr = windowsId.iterator();
 				String defaultwindowId = itr.next();
@@ -1282,7 +1281,7 @@ public class HomePageUtil {
 				return false;
 			}
 			// Select first book course
-			cfObj.commonClick(homePageORObj.getlistOfBook().get(0));
+			cfObj.commonClick(homePageORObj.getListOfTestSeries().get(0));
 
 			// wait for course detail page to be opened
 			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".course_basic_info_wrapper", "css", 30);
@@ -1322,7 +1321,7 @@ public class HomePageUtil {
 		}
 		return result;
 	}
-	
+
 	public boolean clickOnVerifyButton() {
 		boolean result = true;
 		try {
@@ -1335,11 +1334,13 @@ public class HomePageUtil {
 		}
 		return result;
 	}
-	
+
 	public boolean VerifyExamPreference() {
 		boolean result = true;
 		try {
-			cfObj.commonClick(homePageORObj.getListOfExamPreferenceCOurses().get(0));
+			if (homePageORObj.getListOfExamPreferenceCOurses().size() > 0) {
+				cfObj.commonClick(homePageORObj.getListOfExamPreferenceCOurses().get(0));
+			}
 
 		} catch (Exception e) {
 			result = false;
