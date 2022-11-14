@@ -14,6 +14,7 @@ import pageObject.CourseDetailsPage_OR;
 import pojo.TestData;
 import pojo.courseView.CourseView;
 import util.Common_Function;
+import util.ConfigFileReader;
 
 public class CourseDetailsPageUtil {
 
@@ -21,6 +22,7 @@ public class CourseDetailsPageUtil {
 	CourseDetailsPage_OR CourseDetailsPageORObj;
 	public List<String> CourseDetailsPageMsgList = new ArrayList<String>();
 	public Common_Function cfObj = new Common_Function();
+	public ConfigFileReader configReaderObj = new ConfigFileReader();
 
 	public CourseDetailsPageUtil(WebDriver driver) {
 
@@ -150,13 +152,13 @@ public class CourseDetailsPageUtil {
 				}
 
 			}
-			
+
 			// Verify Cross Sell
-			result = verifySimilarCourses(driver);
+			result = verifySimilarCourses(driver, courseViewObj);
 			if (!result) {
-				CourseDetailsPageMsgList.add("Cross Sell Is Not Avilable for this Product");
+				return result;
 			}
-			
+      
 			// click on Our Packages
 
 			result = clickOnOurPackages(driver);
@@ -847,11 +849,107 @@ public class CourseDetailsPageUtil {
 			CourseDetailsPageMsgList.add("BuyNow button is not Available");
 		}
 
-		}catch (Exception e) {
+
+	public boolean verifySimilarCourses(WebDriver driver, CourseView courseViewObj) {
+		boolean result = true;
+		try {
+
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver,
+					"(//h1[contains(text(),'Similar Courses')])[2]", "xpath", 10);
+
+			if (courseViewObj.getData().getCrossSellDetails().size() > 0) {
+				if (result) {
+					result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver,
+							"(//div[@class='crossSell-Card-main-slick'])", "xpath", 10);
+					if (result == true) {
+						List<WebElement> L1 = CourseDetailsPageORObj.getlistOF_similarCourse();
+						for (int i = 0; i < L1.size(); i++) {
+							String NameOfCOurse = CourseDetailsPageORObj.getNameOf_listOF_similarCourse().get(i)
+									.getText();
+
+							cfObj.commonClick(CourseDetailsPageORObj.getViewButton_similarCourse().get(i));
+
+							Set<String> windowsId = driver.getWindowHandles();
+							Iterator<String> itr = windowsId.iterator();
+							String defaultwindowId = itr.next();
+							String childwindowId = itr.next();
+							driver.switchTo().window(childwindowId);
+							result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver,
+									"//div[@class='title_wrapper']/div[@class='title']", "xpath", 30);
+							if (result == true) {
+								String CourseTitle = CourseDetailsPageORObj.getCourseTitle_similarCourse().getText();
+								result = NameOfCOurse.contains(CourseTitle);
+								if (result == true) {
+									CourseDetailsPageMsgList.add("Course Name is Equal");
+								} else {
+									CourseDetailsPageMsgList.add("Course Name is not Equal");
+									return result;
+								}
+								driver.close();
+								driver.switchTo().window(defaultwindowId);
+								Thread.sleep(7000);
+							}
+						}
+					} else {
+						CourseDetailsPageMsgList.add("No Similar Course is available");
+						return result;
+					}
+				} else {
+					result = false;
+					CourseDetailsPageMsgList.add("BuyNow button is not Available");
+				}
+			} else {
+
+				if (result) {
+					CourseDetailsPageMsgList.add("Similar Course is available if data is blank in api");
+					return false;
+				} else {
+					return true;
+				}
+			}
+
+		} catch (Exception e) {
 			result = false;
 			CourseDetailsPageMsgList.add("verifySimilarCourses_Exception: " + e.getMessage());
 		}
-		return result;	
+		return result;
 	}
-	
+
+	public boolean verifyCourseSell(WebDriver driver) {
+		boolean result = true;
+		CourseApiUtil courseApiUtilObj;
+		CourseView courseViewObj;
+		String strCourseSlug = null;
+
+		try {
+			homeUtilObj = new HomePageUtil(driver);
+
+			driver.navigate()
+					.to(configReaderObj.getBaseUrlWeb() + "course-detail/" + configReaderObj.getCrossSellCourseSlug());
+
+			// click on Courses Info
+			Thread.sleep(20000);
+			strCourseSlug = configReaderObj.getCrossSellCourseSlug();
+			System.out.println("strCourseSlug:" + strCourseSlug);
+			courseApiUtilObj = new CourseApiUtil();
+			courseViewObj = courseApiUtilObj.getCourseViewData(strCourseSlug);
+			System.out.println(courseViewObj.getData().getPriceInfo());
+			result = verifyCourseInfo(driver, courseViewObj);
+			if (!result) {
+				CourseDetailsPageMsgList.add("Course Info is not Present");
+			}
+			// Verify Cross Sell
+			result = verifySimilarCourses(driver, courseViewObj);
+			if (!result) {
+				return result;
+			}
+
+		} catch (Exception e) {
+			result = false;
+			CourseDetailsPageMsgList.add("verifyCourseSell_Exception: " + e.getMessage());
+		}
+
+		return result;
+	}
+
 }
