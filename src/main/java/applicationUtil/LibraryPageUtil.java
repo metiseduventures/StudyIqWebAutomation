@@ -486,7 +486,8 @@ public class LibraryPageUtil {
 				 libraryPageMsgList.add("Failed to Login");
 				 return result;
 			 }
-             Thread.sleep(7000);
+
+       Thread.sleep(7000);
 			 if (testData.getNewcourseType().contains("VideoCourse")) {
 				 result=clickOnVideoCourses(driver);
 				 if(!result) {
