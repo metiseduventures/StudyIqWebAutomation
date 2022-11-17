@@ -37,8 +37,8 @@
     "emailBill" : "shubh123@gmail.com",
     "newcourseType" : "VideoCourse",
     "isRemove" : "",
-    "isExpire" : "RenewNow",
-    "isValidUpTo" : ""
+    "isExpire" : "",
+    "isValidUpTo" : "ValidUpTo"
   }, {
     "isUserGuest" : true,
     "isKey" : "pass",
@@ -56,9 +56,9 @@
     "numberBill" : "9975251338",
     "emailBill" : "harsh123@gmail.com",
     "newcourseType" : "VideoCourse",
-    "isExpire" : "",
+    "isExpire" : "RenewNow",
     "isRemove" : "",
-    "isValidUpTo" : "ValidUpTo"
+    "isValidUpTo" : ""
   }, {
     "isUserGuest" : false,
     "isKey" : "pass",

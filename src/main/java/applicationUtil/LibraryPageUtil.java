@@ -48,12 +48,7 @@ public class LibraryPageUtil {
 				return result;
 			}
 			result = DropDownLibrary_Course(driver);
-			if (result==true) {
-				result=VerifyContentOfCourse(driver);
-				if(!result) {
-					libraryPageMsgList.add("Fail to Verify_Content_of_Course");
-				}
-			}else if (result==false) {				
+			if (!result) {				
 				cfObj.commonClick(libraryPage_OR.getDropDown_Button());
 				cfObj.commonClick(libraryPage_OR.getMyLibraryButton());
 				result = cfObj.commonWaitForElementToBeVisible(driver, libraryPage_OR.getLibraryEmptyText(), 20);
@@ -250,7 +245,7 @@ public class LibraryPageUtil {
 		boolean result = true;
 		homeUtilObj = new HomePageUtil(driver);
 		try {
-
+            Thread.sleep(7000);
 			// click on DropDown button
 			result = homeUtilObj.clickOnDropDown(driver);
 			if (!result) {
@@ -491,7 +486,7 @@ public class LibraryPageUtil {
 				 libraryPageMsgList.add("Failed to Login");
 				 return result;
 			 }
-             
+             Thread.sleep(7000);
 			 if (testData.getNewcourseType().contains("VideoCourse")) {
 				 result=clickOnVideoCourses(driver);
 				 if(!result) {
@@ -515,7 +510,7 @@ public class LibraryPageUtil {
 			 }
 		
 			 if(testData.getIsRemove().contains("Remove")) {
-				 result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver,"//div[@id='library-listing-wrapper']/div[2]/div/div/div/div/button[contains(text(),'Remove')]", "xpath", 10);
+				 result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver,"//button[contains(text(),'Remove')]", "xpath", 10);
 				 if(result==true) {
 					 if(libraryPage_OR.getCourseInsideLibrary().size()>0) {
 						 cfObj.commonClick(libraryPage_OR.getRemoveBUtton().get(0));
@@ -530,7 +525,7 @@ public class LibraryPageUtil {
 				 }
 			 } 
 			 else if(testData.getIsExpire().contains("RenewNow")) {
-				 result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver,"//div[@id='library-listing-wrapper']/div[2]/div/div/div/div/button[contains(text(),'Renew Now')]", "xpath", 10);
+				 result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver,"//button[contains(text(),'Renew Now')]", "xpath", 10);
 			     if(result==true) {
 			    	 if(libraryPage_OR.getCourseInsideLibrary().size()>0) {
 			    		 cfObj.commonClick(libraryPage_OR.getRenewBUtton().get(0));
@@ -549,7 +544,7 @@ public class LibraryPageUtil {
 			 }
 			 else if(testData.getIsValidUpTo().contains("ValidUpTo")) {
 				 if(testData.getNewcourseType().contains("test-series")) {
-		    		 result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver,"//div[@id='library-listing-wrapper']/div[2]/div/div/div[2]/div[2]/span", "xpath", 10);
+		    		 result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver,"//span[@class='info-validity']", "xpath", 10);
 				     if(result==true) {
 				    	 cfObj.commonClick(libraryPage_OR.getValidCourse().get(0));
 				    	 cfObj.commonClick(libraryPage_OR.getCloseButton_ofTestSeriesCourses());
@@ -560,7 +555,7 @@ public class LibraryPageUtil {
 				     } 
 		    	 }
 		    	 else {
-		    		 result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver,"//div[@id='library-listing-wrapper']/div[2]/div/div/div[2]/div[2]/span", "xpath", 10);
+		    		 result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver,"//span[@class='info-validity']", "xpath", 10);
 				     if(result==true) {
 				    	 if(libraryPage_OR.getCourseInsideLibrary().size()>0) {
 				    		 cfObj.commonClick(libraryPage_OR.getValidCourse().get(0));
@@ -634,10 +629,11 @@ public class LibraryPageUtil {
 			
 			if ((ConfigFileReader.strEnv).equalsIgnoreCase("staging")
 					|| (ConfigFileReader.strEnv).equalsIgnoreCase("dev")) {
-				
-				result = coursePageUtil_Obj.goToLibrary(driver);
-				if (!result) {
-					return result;
+				if (testData.getIsKey().equalsIgnoreCase("pass")) {
+					result = coursePageUtil_Obj.goToLibrary(driver);
+					if (!result) {
+						return result;
+					}
 				}
 
 			} else if ((ConfigFileReader.strEnv).equalsIgnoreCase("prod")) {

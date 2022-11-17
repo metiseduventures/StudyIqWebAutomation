@@ -348,5 +348,40 @@ public class HomePage_OR {
 	public List<WebElement> getListOfExamPreferenceCOurses() {
 		return ListOfExamPreferenceCOurses;
 	}
+	
+	@FindBy(xpath = "(//div[@class='t_img']/img)")
+	private List<WebElement> ListOfFronttestimonialVideo;
+
+	public List<WebElement> getListOfFronttestimonialVideo() {
+		return ListOfFronttestimonialVideo;
+	}
+	
+	@FindBy(xpath="//div[@class='shaka-scrim-container']")
+	private WebElement PlayListOfFronttestimonialVideo;
+	
+	public WebElement getPlayListOfFronttestimonialVideo(){
+		return PlayListOfFronttestimonialVideo;
+	}
+	
+	@FindBy(xpath="//div[@class='buy_now']/button[contains(text(),'Start My Course')]")
+	private WebElement StartMyCourse_button;
+	
+	public WebElement getStartMyCourse_button(){
+		return StartMyCourse_button;
+	}
+	
+	@FindBy(xpath="//a[contains(text(),'Account Info')]")
+	private WebElement AccountInfo;
+	
+	public WebElement getAccountInfo(){
+		return AccountInfo;
+	}
+	
+	@FindBy(xpath="//button[@id='moe-dontallow_button']")
+	private WebElement ColseNotification;
+
+	public WebElement getColseNotification() {
+	return ColseNotification;
+	}
 
 }

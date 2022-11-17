@@ -543,4 +543,32 @@ public class CoursePage_OR {
 	public WebElement closePopUp() {
 		return closePopUpElement;
 	}
+	
+	@FindBy(xpath="//button[@id='moe-dontallow_button']")
+	private WebElement ColseNotification;
+
+	public WebElement getColseNotification() {
+	return ColseNotification;
+	}
+	
+	@FindBy(xpath = "//div[@class='inputContainer']")
+	private List<WebElement> ListOfExamPreferenceCOurses;
+
+	public List<WebElement> getListOfExamPreferenceCOurses() {
+		return ListOfExamPreferenceCOurses;
+	}
+	
+	@FindBy(xpath = "//button[@class='ptm-go-back-btn']")
+	WebElement arrowLeftNew;
+
+	public WebElement getarrowLeftNew() {
+		return arrowLeftNew;
+	}
+	
+	@FindBy(xpath = "//button[contains(text(),'Yes')]")
+	WebElement YesButtonPopUp;
+
+	public WebElement getYesButtonPopUp() {
+		return YesButtonPopUp;
+	}
 }

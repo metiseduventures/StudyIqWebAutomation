@@ -506,5 +506,19 @@ public class CourseDetailsPage_OR {
 	}
 
 	
+	@FindBy(xpath="//img[@class='crossImage']")
+	private WebElement REVAMPcloseButton;
+
+	public WebElement getREVAMPcloseButton() {
+	return REVAMPcloseButton;
+	}
+	
+	@FindBy(xpath="//button[@id='moe-dontallow_button']")
+	private WebElement ColseNotification;
+
+	public WebElement getColseNotification() {
+	return ColseNotification;
+	}
+	
 	
 }
