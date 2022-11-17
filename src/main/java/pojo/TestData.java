@@ -29,6 +29,11 @@ public class TestData {
 	public void setExpires(boolean isExpires) {
 		this.isExpires = isExpires;
 	}
+	private String choosePack;
+	private String isRemove;
+	private String newcourseType;
+	private String isValidUpTo;
+	private String isExpire;
 
 	public String getbankNameForPaytm() {
 		return bankNameForPaytm;
@@ -164,6 +169,46 @@ public class TestData {
 
 	public void setIsKey(String isKey) {
 		this.isKey = isKey;
+	}
+
+	public String getChoosePack() {
+		return choosePack;
+	}
+
+	public void setChoosePack(String choosePack) {
+		this.choosePack = choosePack;
+	}
+
+	public String getIsRemove() {
+		return isRemove;
+	}
+
+	public void setIsRemove(String isRemove) {
+		this.isRemove = isRemove;
+	}
+
+	public String getNewcourseType() {
+		return newcourseType;
+	}
+
+	public void setNewcourseType(String newcourseType) {
+		this.newcourseType = newcourseType;
+	}
+
+	public String getIsValidUpTo() {
+		return isValidUpTo;
+	}
+
+	public void setIsValidUpTo(String isValidUpTo) {
+		this.isValidUpTo = isValidUpTo;
+	}
+
+	public String getIsExpire() {
+		return isExpire;
+	}
+
+	public void setIsExpire(String isExpire) {
+		this.isExpire = isExpire;
 	}
 
 }

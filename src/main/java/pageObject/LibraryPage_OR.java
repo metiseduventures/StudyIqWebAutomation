@@ -195,6 +195,124 @@ public class LibraryPage_OR {
 	public WebElement getDropDownBook()
 	{
 		return DropDownBook;
+	} 
+	//Update Library 
+	
+	@FindBy(xpath = "(//*[contains(text(),'Video Course')])[1]")
+	private WebElement Dotvideocourses;
+
+	public WebElement getDotvideocourses() {
+		return Dotvideocourses;
+	}
+	
+	@FindBy(xpath = "//div[@id='library-listing-wrapper']/div[2]/div/div")
+	private List<WebElement> CourseInsideLibrary;
+
+	public List<WebElement> getCourseInsideLibrary() {
+		return CourseInsideLibrary;
+	}
+	
+	@FindBy(xpath = "//div[@id='library-listing-wrapper']/div[2]/div/div/div/div/button[contains(text(),'Renew Now')]")
+	private List<WebElement> RenewBUtton;
+
+	public List<WebElement> getRenewBUtton() {
+		return RenewBUtton;
+	}
+	
+	@FindBy(xpath = "//div[@id='library-listing-wrapper']/div[2]/div/div/div/div/button[contains(text(),'Extend Validity')]")
+	private List<WebElement> ExtendValidity;
+
+	public List<WebElement> getExtendValidity() {
+		return ExtendValidity;
+	}
+	
+	@FindBy(xpath = "//div[@id='library-listing-wrapper']/div[2]/div/div/div/div/button[contains(text(),'Remove')]")
+	private List<WebElement> RemoveBUtton;
+
+	public List<WebElement> getRemoveBUtton() {
+		return RemoveBUtton;
+	}
+	
+	@FindBy(xpath = "//div[@id='library-listing-wrapper']/div[2]/div/div/div[2]/div[2]/span")
+//	@FindBy(xpath = "//div[@id='library-listing-wrapper']/div[2]/div/div/div[2]/div[2]/span/text()")
+	private List<WebElement> ValidCourse;
+
+	public List<WebElement> getValidCourse() {
+		return ValidCourse;
+	}
+	
+	@FindBy(xpath = " //span[contains(text(),'More')]")
+	private WebElement More_Button;
+
+	public WebElement getMore_Button() {
+		return More_Button;
+	}
+	
+	@FindBy(xpath = "//span[contains(text(),'Extend Validity')]")
+	private WebElement Extend_Validity;
+
+	public WebElement getExtend_Validity() {
+		return Extend_Validity;
+	}
+	
+	@FindBy(xpath = "//li[@class='nav-item active']")
+	private List<WebElement> ListOf_SmartCourses;
+
+	public List<WebElement> getListOf_SmartCourses() {
+		return ListOf_SmartCourses;
+	}
+	
+	@FindBy(xpath = "//button[@class='btn btn-link']")
+	private WebElement CloseButton_ofTestSeriesCourses;
+
+	public WebElement getCloseButton_ofTestSeriesCourses() {
+		return CloseButton_ofTestSeriesCourses;
+	}
+	
+	@FindBy(xpath="//button[@id='dropdown-basic-button']")
+	private WebElement DropDown_Button;
+	
+	
+	public  WebElement getDropDown_Button() {
+		return DropDown_Button;
+	}
+	
+	@FindBy(xpath="(//div[contains(text(),'My Library')])[1]")
+	private WebElement MyLibraryButton;
+	
+	public WebElement getMyLibraryButton(){
+		return MyLibraryButton;
+	}
+	
+	@FindBy(xpath="//h3[contains(text(),'Your library is empty')]")
+	private WebElement LibraryEmptyText;
+	
+	public WebElement getLibraryEmptyText()
+	{
+		return LibraryEmptyText;
+	}
+	
+	@FindBy(xpath="(//button[contains(text(),'Explore Courses')])[2]")
+	private WebElement LibraryExplore_Courses;
+	
+	public WebElement getLibraryExplore_Courses()
+	{
+		return LibraryExplore_Courses;
+	}
+	
+	@FindBy(xpath="//span[@class='navbar-brand']")
+	private WebElement HomePage;
+	
+	public WebElement getHomePage()
+	{
+		return HomePage;
+	}
+	
+	@FindBy(css=".close_img")
+	private WebElement Close_Notification;
+	
+	public WebElement getClose_Notification(){
+		return Close_Notification;
 	}
 
 }

@@ -104,4 +104,100 @@ public class MyCourse_OR {
 		return SmartCourseVideo;
 	}
 	
+	@FindBy(xpath="//*[@id='root']/div/div/div[3]/div/div[2]/div[2]/div/div/div[1]/div")
+	private List<WebElement> CourseTopic_Title01;
+	
+	public List<WebElement> getCourseTopic_Title01()
+	{
+		return CourseTopic_Title01;
+	}
+	
+	@FindBy(css="div[class='collapse show'] div[class='video_name']")
+	private List<WebElement> TitleJustInsideVideo;
+	
+	public List<WebElement> getTitleJustInsideVideo()
+	{
+		return TitleJustInsideVideo;
+	}
+	
+	@FindBy(css="div[class='collapse show'] div[class='subchapter_header list-group-item'] div")
+	private List<WebElement> TitleJustInsideTitle;
+	
+	public List<WebElement> getTitleJustInsideTitle()
+	{
+		return TitleJustInsideTitle;
+	}
+	
+	@FindBy(xpath="//div[@class='collapse show'] /div[@class='video_list_body card-body']/div/div/span")
+	private List<WebElement> TitleJustInsideTitle_IntoVideo;
+	
+	public List<WebElement> getTitleJustInsideTitle_IntoVideo()
+	{
+		return TitleJustInsideTitle_IntoVideo;
+	}
+	
+	@FindBy(xpath="//div[@class='col-lg-9']//div[@class='fnp_card_header card-header']//div[@class='fnp_card_header_title']")
+	private List<WebElement> TitleOf_FreeCourses;
+	
+	public List<WebElement> getTitleOf_FreeCourses()
+	{
+		return TitleOf_FreeCourses;
+	}
+	
+	@FindBy(xpath="//div[@class='col-lg-9']//div[@class='fnp_wrapper accordion']//div[@class='collapse show']//div[@class='fdp_item list-group-item']")
+	private List<WebElement> TitleInsideContentOf_FreeCourses;
+	
+	public List<WebElement> getTitleInsideContentOf_FreeCourses()
+	{
+		return TitleInsideContentOf_FreeCourses;
+	}
+	
+	@FindBy(xpath="//div[@class='col-lg-9']//span[@class='fdp_vname']")
+	private List<WebElement> VideoContent_Course;
+	
+	public List<WebElement> getVideoContent_Course()
+	{
+		return VideoContent_Course;
+	}
+	
+	@FindBy(xpath="//button[@class='btn btn-link']")
+	private WebElement TestSeries_Course_CloseButton;
+	
+	public WebElement getTestSeries_Course_CloseButton()
+	{
+		return TestSeries_Course_CloseButton;
+	}
+	
+	@FindBy(xpath="//ul[@class='test-series-lesson-course-packages']/li")
+	private List<WebElement> TestSeries_TestContent;
+	
+	public List<WebElement> getTestSeries_TestContent()
+	{
+		return TestSeries_TestContent;
+	}
+	
+	@FindBy(xpath="//span[@class='test-series-lesson-test--title']")
+	private WebElement TestSeries_Course_TestName;
+	
+	public WebElement getTestSeries_Course_TestName()
+	{
+		return TestSeries_Course_TestName;
+	}
+	
+	@FindBy(xpath="//button[@class='btn btn-lint']")
+	private WebElement TestSeries_Course_BackButton;
+	
+	public WebElement getTestSeries_Course_BackButton()
+	{
+		return TestSeries_Course_BackButton;
+	}
+	
+	@FindBy(xpath="//span[@class='navbar-brand']")
+	private WebElement HomePage;
+	
+	public WebElement getHomePage()
+	{
+		return HomePage;
+	}
+	
 }

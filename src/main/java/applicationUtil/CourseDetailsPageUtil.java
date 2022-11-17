@@ -158,6 +158,7 @@ public class CourseDetailsPageUtil {
 			if (!result) {
 				return result;
 			}
+      
 			// click on Our Packages
 
 			result = clickOnOurPackages(driver);
@@ -664,7 +665,7 @@ public class CourseDetailsPageUtil {
 				CourseDetailsPageMsgList.add("Pricing button is not Working");
 			}
 
-			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".close_icon", "css", 10);
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//a/img[@class='crossImage']", "xpath", 10);
 			if (result == true) {
 				cfObj.commonClick(CourseDetailsPageORObj.getNewcloseButton());
 			} else {
@@ -801,6 +802,9 @@ public class CourseDetailsPageUtil {
 		}
 		return result;
 	}
+	
+	
+
 
 	public boolean verifySimilarCourses(WebDriver driver, CourseView courseViewObj) {
 		boolean result = true;

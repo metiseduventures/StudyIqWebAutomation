@@ -14,7 +14,11 @@
     "cityBill" : "noida",
     "stateBill" : "uttar pradesh",
     "numberBill" : "9872613831",
-    "emailBill" : "shubh123@gmail.com"
+    "emailBill" : "shubh123@gmail.com",
+    "newcourseType" : "VideoCourse",
+    "isRemove" : "Remove",
+    "isExpire" : "",
+    "isValidUpTo" : ""
   }, {
     "isUserGuest" : true,
     "isKey" : "fail",
@@ -30,7 +34,11 @@
     "cityBill" : "noida",
     "stateBill" : "uttar pradesh",
     "numberBill" : "9872613831",
-    "emailBill" : "shubh123@gmail.com"
+    "emailBill" : "shubh123@gmail.com",
+    "newcourseType" : "VideoCourse",
+    "isRemove" : "",
+    "isExpire" : "RenewNow",
+    "isValidUpTo" : ""
   }, {
     "isUserGuest" : true,
     "isKey" : "pass",
@@ -46,7 +54,11 @@
     "cityBill" : "noida",
     "stateBill" : "delhi",
     "numberBill" : "9975251338",
-    "emailBill" : "harsh123@gmail.com"
+    "emailBill" : "harsh123@gmail.com",
+    "newcourseType" : "VideoCourse",
+    "isExpire" : "",
+    "isRemove" : "",
+    "isValidUpTo" : "ValidUpTo"
   }, {
     "isUserGuest" : false,
     "isKey" : "pass",
@@ -62,7 +74,11 @@
     "cityBill" : "noida",
     "stateBill" : "delhi",
     "numberBill" : "9975251338",
-    "emailBill" : "harsh123@gmail.com"
+    "emailBill" : "harsh123@gmail.com",
+    "newcourseType" : "live",
+    "isExpire" : "",
+    "isRemove" : "",
+    "isValidUpTo" : "ValidUpTo"
   }, {
     "isUserGuest" : true,
     "isKey" : "pass",
@@ -78,6 +94,10 @@
     "cityBill" : "noida",
     "stateBill" : "uttar pradesh",
     "numberBill" : "9872613831",
-    "emailBill" : "shubh123@gmail.com"
+    "emailBill" : "shubh123@gmail.com",
+    "newcourseType" : "test-series",
+    "isExpire" : "",
+    "isRemove" : "",
+    "isValidUpTo" : "ValidUpTo"
   } ]
 }
