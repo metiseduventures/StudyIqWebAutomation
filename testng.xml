@@ -1,13 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <suite name="StudyIq Web Automation Test Suite">
-	<listeners>
-		<listener class-name="com.listener.TestListener" />
-		<listener class-name="com.listener.AnnotationTransformer" />
-	</listeners>
+	
 
 	<test name="LOGIN_SIGNUP">
 		<classes>
 			<class name="test_scripts.LoginTest" />
 		</classes>
 	</test>
+<<<<<<< HEAD
 </suite>
+=======
+	<test name="COURSE">
+		<classes>
+			<class name="test_scripts.CourseTest" />
+		</classes>
+	</test>
+	<test name="PROFILE">
+		<classes>
+			<class name="test_scripts.MyProfileTest" />
+		</classes>
+	</test>
+</suite>
+>>>>>>> 796efc447f50e7d0228a8b4d576689ae2d866917
