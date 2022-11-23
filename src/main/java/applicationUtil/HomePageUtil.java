@@ -1300,7 +1300,8 @@ public class HomePageUtil {
 	public boolean clickOnLiveCoursesOnHomePage(WebDriver driver) {
 		boolean result = true;
 		try {
-			driver.navigate().to(fileReader.getBaseUrlWeb() + "upsc-live");
+			driver.navigate()
+			.to(fileReader.getBaseUrlWeb() + "/" + fileReader.getliveClassMenuUrl());
 			if (homePageORObj.getlistOfBook().size() == 0) {
 				homePageMsgList.add("Live_Course are not display on the home page");
 				return false;

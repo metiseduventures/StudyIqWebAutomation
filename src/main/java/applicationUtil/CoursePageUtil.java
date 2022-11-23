@@ -70,6 +70,12 @@ public class CoursePageUtil {
 						coursePageMsgList.addAll(util.homePageMsgList);
 						return result;
 					}
+				} else if (testData.getCourseType().contains("live")) {
+					result = util.clickOnLiveCoursesOnHomePage(driver);
+					if (!result) {
+						coursePageMsgList.addAll(util.homePageMsgList);
+						return result;
+					}
 				}
 				strCourseSlug = driver.getCurrentUrl().split("course-detail/")[1];
 				System.out.println("strCourseSlug:" + strCourseSlug);
@@ -180,6 +186,12 @@ public class CoursePageUtil {
 					}
 				} else if (testData.getCourseType().contains("test-series")) {
 					result = util.clickOnTestSeriesOnHomePage(driver);
+					if (!result) {
+						coursePageMsgList.addAll(util.homePageMsgList);
+						return result;
+					}
+				} else if (testData.getCourseType().contains("live")) {
+					result = util.clickOnLiveCoursesOnHomePage(driver);
 					if (!result) {
 						coursePageMsgList.addAll(util.homePageMsgList);
 						return result;
@@ -693,7 +705,7 @@ public class CoursePageUtil {
 
 				cfObj.commonClick(coursePageORobj.getArrowLeft());
 				// Cancel payment
-				cfObj.commonClick(coursePageORobj.getListNoYesButtonPopUp().get(1));
+				cfObj.commonClick(coursePageORobj.getListNoYesButtonPopUp().get(0));
 				result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".retry-payment-btn", "css", 10);
 				if (!result) {
 					coursePageMsgList.add("Payment retry page is not opened when payment is unsuccessfull");

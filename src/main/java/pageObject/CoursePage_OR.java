@@ -509,14 +509,14 @@ public class CoursePage_OR {
 		return listOfferApplied;
 	}
 	
-	@FindBy(css = ".arrow-left-header")
+	@FindBy(css = ".ptm-go-back-btn")
 	WebElement arrowLeft;
 
 	public WebElement getArrowLeft() {
 		return arrowLeft;
 	}
 	
-	@FindBy(css = ".btn-primary")
+	@FindBy(css = ".ptm-cp-btn.ptm-cp-y-btn")
 	List<WebElement> listNoYesButtonPopUp;
 
 	public List<WebElement> getListNoYesButtonPopUp() {
