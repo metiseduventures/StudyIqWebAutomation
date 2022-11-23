@@ -70,7 +70,7 @@ public class HomePage_OR {
 		return listCourse;
 	}
 	
-	@FindBy(css = ".slick-list>div>div.slick-active")
+	@FindBy(css = ".course_details_wrapper>div>div.slick-list>div>div")
 	List<WebElement> listOfBook;
 
 	public List<WebElement> getlistOfBook() {

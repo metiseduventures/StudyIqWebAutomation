@@ -13,10 +13,10 @@ public class CoursePage_OR {
 		return titleOfPageElement;
 	}
 
-	@FindBy(css = "button[class='buy_now_btn btn btn-primary']")
-	WebElement buyNoWebElement;
+	@FindBy(xpath = "//button[text()='Buy Now']")
+	List<WebElement> buyNoWebElement;
 
-	public WebElement buyNowClick() {
+	public List<WebElement> buyNowClick() {
 		return buyNoWebElement;
 	}
 

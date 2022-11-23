@@ -10,14 +10,4 @@
 			<class name="test_scripts.LoginTest" />
 		</classes>
 	</test>
-	<test name="COURSE">
-		<classes>
-			<class name="test_scripts.CourseTest" />
-		</classes>
-	</test>
-	<test name="PROFILE">
-		<classes>
-			<class name="test_scripts.MyProfileTest" />
-		</classes>
-	</test>
 </suite>

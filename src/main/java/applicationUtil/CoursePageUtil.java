@@ -44,14 +44,6 @@ public class CoursePageUtil {
 		try {
 
 			strCourseType = testData.getCourseType().toString();
-			
-			result = cfObj.commonWaitForElementToBeVisible(driver, coursePageORobj.popUpFrame(), 10);
-			if (result) {
-				driver.switchTo().frame(coursePageORobj.popUpFrame());
-				cfObj.commonClick(coursePageORobj.closePopUp());
-				driver.switchTo().parentFrame();
-			}
-						
 			// for guest user
 			if (testData.getIsUserGuest()) {
 				if (testData.getCourseType().contains("smart")) {
@@ -83,7 +75,7 @@ public class CoursePageUtil {
 				System.out.println("strCourseSlug:" + strCourseSlug);
 				courseApiUtilObj = new CourseApiUtil();
 				courseViewObj = courseApiUtilObj.getCourseViewData(strCourseSlug);
-				System.out.println(courseViewObj.getData().getPriceInfo());
+				// System.out.println(courseViewObj.getData().getPriceInfo());
 
 				result = verifyClickBuy(driver, false);
 				if (!result) {
@@ -288,15 +280,13 @@ public class CoursePageUtil {
 		boolean result = true;
 
 		try {
-			String BuyText = coursePageORobj.buyNowClick().getText();
 
-			if (BuyText.equalsIgnoreCase("Buy Now")) {
-				cfObj.commonClick(coursePageORobj.buyNowClick());
-			} else {
-
-				coursePageMsgList.add("This is not buy now button");
+			if (coursePageORobj.buyNowClick().size() == 0) {
+				coursePageMsgList.add("Buy now button is not display on course detail page");
 				return false;
 			}
+
+			cfObj.commonClick(coursePageORobj.buyNowClick().get(0));
 
 			if (isLoggedInUser) {
 
@@ -1180,17 +1170,18 @@ public class CoursePageUtil {
 		boolean result = true;
 
 		try {
-			String BuyText = coursePageORobj.buyNowClick().getText();
 
-			if (BuyText.equalsIgnoreCase("Buy Now")) {
-				cfObj.commonClick(coursePageORobj.buyNowClick());
-			} else {
-				result = false;
-				coursePageMsgList.add("This is not buy now button");
+			if (coursePageORobj.buyNowClick().size() == 0) {
+
+				coursePageMsgList.add("Buy now button is not display on course detail page");
+				return false;
 			}
+
+			cfObj.commonClick(coursePageORobj.buyNowClick().get(0));
+
 		} catch (Exception e) {
 			result = false;
-			coursePageMsgList.add("click&VerifyBuyBtn_Exception: " + e.getMessage());
+			coursePageMsgList.add("clickOnBuyNow_Exception: " + e.getMessage());
 		}
 		return result;
 	}
