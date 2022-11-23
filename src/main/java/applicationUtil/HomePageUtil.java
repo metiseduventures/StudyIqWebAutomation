@@ -689,7 +689,7 @@ public class HomePageUtil {
 		boolean result = true;
 		librayUtilObj = new LibraryPageUtil(driver);
 		try {
-			result = librayUtilObj.DropDownLibrary_Course(driver);
+			result = clickOnDropDown(driver);
 			if (!result) {
 				cfObj.commonClick(homePageORObj.getDropDown_Button());
 				cfObj.commonClick(homePageORObj.getMyLibraryButton());

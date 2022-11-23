@@ -23,7 +23,7 @@ public class ConfigFileReader {
 		String strPropertyPath = null;
 		strEnv = System.getProperty("env");
 		//strEnv = "prod";
-		strEnv = "prod";					
+		strEnv = "staging";				
 
 		try {
 			if (strEnv.equalsIgnoreCase("staging")) {

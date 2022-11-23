@@ -15,19 +15,18 @@ import pojo.TestData;
 import util.ConfigFileReader;
 
 public class MyLibraryTest extends BaseTest {
-	
+
 	LibraryPageUtil MyLibraryUtilUtilObj;
 	CoursePageUtil coursePageUtilObj;
 
-	@Test(dataProvider = "getData", enabled = true)
+	@Test(dataProvider = "getData", enabled = false)
 	public void verifyMyLibrary(TestData testData) {
 		boolean result = true;
 		MyLibraryUtilUtilObj = new LibraryPageUtil(driver);
 		result = MyLibraryUtilUtilObj.VerifyExtRen_Courses(driver, testData);
 		Assert.assertEquals(result, true, MyLibraryUtilUtilObj.libraryPageMsgList.toString());
 	}
-	
-	
+
 	@SuppressWarnings("serial")
 	@DataProvider
 	public Object[][] getData() throws Exception {
@@ -42,13 +41,28 @@ public class MyLibraryTest extends BaseTest {
 		}
 		return returnValue;
 	}
-	
-	@Test
 
-	public void LibraryCourse() {
+	@Test
+	public void verifyMyLibrary() {
 		boolean result = true;
 		MyLibraryUtilUtilObj = new LibraryPageUtil(driver);
 		result = MyLibraryUtilUtilObj.verifyMyLibrary(driver);
+		Assert.assertEquals(result, true, MyLibraryUtilUtilObj.libraryPageMsgList.toString());
+	}
+
+	@Test
+	public void verifyMyLibraryFromDropDown() {
+		boolean result = true;
+		MyLibraryUtilUtilObj = new LibraryPageUtil(driver);
+		result = MyLibraryUtilUtilObj.verifyLibraryItemFromHomeDropDown(driver);
+		Assert.assertEquals(result, true, MyLibraryUtilUtilObj.libraryPageMsgList.toString());
+	}
+
+	@Test
+	public void verifyCourseContentFromLibrary() {
+		boolean result = true;
+		MyLibraryUtilUtilObj = new LibraryPageUtil(driver);
+		result = MyLibraryUtilUtilObj.verifyCourseContentFromLibrary(driver);
 		Assert.assertEquals(result, true, MyLibraryUtilUtilObj.libraryPageMsgList.toString());
 	}
 

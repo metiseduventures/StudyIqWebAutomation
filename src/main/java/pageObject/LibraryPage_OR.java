@@ -314,5 +314,21 @@ public class LibraryPage_OR {
 	public WebElement getClose_Notification(){
 		return Close_Notification;
 	}
+	
+	
+	@FindBy(css = ".navigation-menu>li")
+	List<WebElement> listLibaryMenuItem;
+
+	public List<WebElement> getListLibaryMenuItem() {
+		return listLibaryMenuItem;
+	}
+	
+	
+	@FindBy(css = ".library-course-item")
+	List<WebElement> listLibaryMenuCourseItem;
+
+	public List<WebElement> getListLibaryMenuCourseItem() {
+		return listLibaryMenuCourseItem;
+	}
 
 }
