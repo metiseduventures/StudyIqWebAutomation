@@ -571,4 +571,25 @@ public class CoursePage_OR {
 	public WebElement getYesButtonPopUp() {
 		return YesButtonPopUp;
 	}
+	
+	@FindBy(xpath = "//button[contains(text(),'Buy Now')]")
+	WebElement BuyNowButton;
+
+	public WebElement getBuyNowButton() {
+		return BuyNowButton;
+	}
+	
+	@FindBy(xpath = "(//div[@class='_202C d-block po-n o-h pos-r'])[3]/div/div")
+	WebElement netBankingElement;
+
+	public WebElement netBankingElement() {
+		return netBankingElement;
+	}
+	
+	@FindBy(xpath = "(//button[contains(@class,'')])[2]")
+	WebElement payButton;
+
+	public WebElement payButton() {
+		return payButton;
+	}
 }

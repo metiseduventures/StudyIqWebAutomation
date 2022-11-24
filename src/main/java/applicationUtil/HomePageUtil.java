@@ -178,7 +178,6 @@ public class HomePageUtil {
 			if (!result) {
 				return result;
 			}
-			
 
 		} catch (Exception e) {
 			result = false;
@@ -390,7 +389,7 @@ public class HomePageUtil {
 				return false;
 			}
 			// Select first course
-			cfObj.commonClick(homePageORObj.getListCourse().get(1));
+			cfObj.commonClick(homePageORObj.getListCourse().get(3));
 
 			// wait for course detail page to be opened
 			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".course_basic_info_wrapper", "css", 30);
@@ -414,7 +413,7 @@ public class HomePageUtil {
 				return false;
 			}
 			// Select first course
-			cfObj.commonClick(homePageORObj.getListCourse().get(1));
+			cfObj.commonClick(homePageORObj.getListCourse().get(3));
 
 			// wait for course detail page to be opened
 			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".course_basic_info_wrapper", "css", 30);
@@ -500,7 +499,7 @@ public class HomePageUtil {
 				cfObj.commonClick(homePageORObj.getAccountInfo());
 			}else {
 				homePageMsgList.add("My-Profile Button is not Visible");
-			    return result;	
+				return result;
 			}
 
 		} catch (Exception e) {
@@ -759,6 +758,7 @@ public class HomePageUtil {
 				homePageMsgList.add("Log-Out Button is not Working");
 				return result;
 			}
+			cfObj.commonClick(homePageORObj.getClose_Notification());
 
 		} catch (Exception e) {
 			result = false;
@@ -1173,7 +1173,7 @@ public class HomePageUtil {
 					"(//button[@class='btn btn-dark btn-lg'])[1]", "xpath", 20);
 			if (result == true) {
 				cfObj.commonClick(homePageORObj.getStudyIQ_Poket_NewsApp());
-                Thread.sleep(7000);
+				Thread.sleep(7000);
 				Set<String> windowsId = driver.getWindowHandles();
 				Iterator<String> itr = windowsId.iterator();
 				String defaultwindowId = itr.next();
@@ -1216,12 +1216,12 @@ public class HomePageUtil {
 			}
 			cfObj.commonClick(homePageORObj.getListCourse().get(1));
 			Thread.sleep(21000);
-			result = coursePageUtilObj.selectExamPrefrences(driver);
-			if (!result) {
-				return result;
-			}
+//			result = coursePageUtilObj.selectExamPrefrences(driver);
+//			if (!result) {
+//				return result;
+//			}
 			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver,
-					"//div[@class='buy_now']/button[contains(text(),'Buy Now')]", "xpath", 20);
+					"//button[contains(text(),'Buy Now')]", "xpath", 20);
 			if (result==true) {
 				result=coursePageUtilObj.clickOnBuyNow();
 				if(result) {
@@ -1237,9 +1237,9 @@ public class HomePageUtil {
 				}
 			}else {
 				result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver,
-						"//div[@class='buy_now']/button[contains(text(),'Start My Course')]", "xpath", 20);
+						"//button[contains(text(),'Start My Course')]", "xpath", 20);
 				if(result==true) {
-					cfObj.commonClick(homePageORObj.getStartMyCourse_button());
+					cfObj.commonClick(homePageORObj.getStartMyCourse_Button());
 					cfObj.commonClick(homePageORObj.getHomePage());
 					cfObj.commonClick(homePageORObj.getClose_Notification());
 				}
@@ -1300,6 +1300,7 @@ public class HomePageUtil {
 			// Select first book course
 			cfObj.commonClick(homePageORObj.getlistOfBook().get(1));
 
+
 			// wait for course detail page to be opened
 			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".course_basic_info_wrapper", "css", 30);
 			if (!result) {
@@ -1323,7 +1324,7 @@ public class HomePageUtil {
 				return false;
 			}
 			// Select first book course
-			cfObj.commonClick(homePageORObj.getlistOfBook().get(2));
+			cfObj.commonClick(homePageORObj.getlistOfBook().get(1));
 
 			// wait for course detail page to be opened
 			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".course_basic_info_wrapper", "css", 30);
@@ -1338,7 +1339,7 @@ public class HomePageUtil {
 		}
 		return result;
 	}
-	
+
 	public boolean clickOnVerifyButton() {
 		boolean result = true;
 		try {
@@ -1363,7 +1364,6 @@ public class HomePageUtil {
 				homePageMsgList.add("Exam Preference is not Visible");
 				return result;
 			}
-			
 		} catch (Exception e) {
 			result = false;
 			homePageMsgList.add("VerifyExamPreference_Exception: " + e.getMessage());

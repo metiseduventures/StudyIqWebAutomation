@@ -383,5 +383,19 @@ public class HomePage_OR {
 	public WebElement getColseNotification() {
 	return ColseNotification;
 	}
+	
+	@FindBy(css = ".course_details")
+	List<WebElement> listOfTestSeries;
+
+	public List<WebElement> getListOfTestSeries() {
+		return listOfTestSeries;
+	}
+	
+	@FindBy(xpath="//button[contains(text(),'Start My Course')]")
+	private WebElement StartMyCourse_Button;
+	
+	public WebElement getStartMyCourse_Button(){
+		return StartMyCourse_Button;
+	}
 
 }

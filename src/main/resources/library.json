@@ -1,20 +1,54 @@
 {
-  "stage" : {
-
-   "course" :
-   
-   [ 
-   
-   ]
-   
-   },
-  "prod" : { 
-   "course" :
-   
-   [ 
-   
-   
-   ]
- 
-  }
+  "staging": [
+    {
+      "courseType": "liveStag",
+      "courseName": "courseName",
+      "paymentMethod" : "Paytm",
+      "bankNameForPaytm" : "SBI",
+      "isKey" : "pass",
+      "isExpires": ""
+    },
+    {
+      "courseType": "TestSeriesStag",
+      "courseName": "courseName",
+      "paymentMethod" : "Paytm",
+      "bankNameForPaytm" : "SBI",
+      "isKey" : "fail",
+      "isExpires": ""
+    },
+    {
+      "courseType": "MicroStag",
+      "courseName": "courseName",
+      "paymentMethod" : "Paytm",
+      "bankNameForPaytm" : "SBI",
+      "isKey" : "pass",
+      "isExpires": ""
+    }
+  ],
+  "prod": [
+    {
+      "courseType": "liveProd",
+      "courseName": "courseName",
+      "paymentMethod" : "Paytm",
+      "bankNameForPaytm" : "SBI",
+      "isKey" : "pass",
+      "isExpires": ""
+    },
+    {
+      "courseType": "TestSeriesProd",
+      "courseName": "courseName",
+      "paymentMethod" : "Paytm",
+      "bankNameForPaytm" : "SBI",
+      "isKey" : "fail",
+      "isExpires": ""
+    },
+    {
+      "courseType": "MicroProd",
+      "courseName": "courseName",
+      "paymentMethod" : "Paytm",
+      "bankNameForPaytm" : "SBI",
+      "isKey" : "pass",
+      "isExpires": ""
+    }
+  ]
 }

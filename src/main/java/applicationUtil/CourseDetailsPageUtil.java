@@ -112,6 +112,7 @@ public class CourseDetailsPageUtil {
 				return result;
 			}
 
+			
 			// click on About Authors
 			result = verifyAboutAuthor(driver, courseViewObj);
 
@@ -119,8 +120,32 @@ public class CourseDetailsPageUtil {
 				return result;
 			}
 
-			// click on Demo Videos
-			result = veirfyDemoVideos(driver, courseViewObj);
+			if ((ConfigFileReader.strEnv).equalsIgnoreCase("prod")) {
+				// click on Demo Videos
+				result = veirfyDemoVideos(driver, courseViewObj);
+
+				if (!result) {
+					return result;
+				}
+			}
+			
+			// Verify Cross Sell
+			result = verifySimilarCourses(driver, courseViewObj);
+			if (!result) {
+				return result;
+			}
+			      
+			// click on Our Packages
+
+			result = clickOnOurPackages(driver);
+
+			if (!result) {
+				return result;
+			}
+
+			// click on Frequently Asked Questions
+
+			result = clickFAQ(driver, courseViewObj);
 
 			if (!result) {
 				return result;
@@ -155,27 +180,6 @@ public class CourseDetailsPageUtil {
 
 			}
 
-			// Verify Cross Sell
-			result = verifySimilarCourses(driver, courseViewObj);
-			if (!result) {
-				return result;
-			}
-      
-			// click on Our Packages
-
-			result = clickOnOurPackages(driver);
-
-			if (!result) {
-				return result;
-			}
-
-			// click on Frequently Asked Questions
-
-			result = clickFAQ(driver, courseViewObj);
-
-			if (!result) {
-				return result;
-			}
 
 		} catch (Exception e) {
 			result = false;
@@ -808,51 +812,7 @@ public class CourseDetailsPageUtil {
 		return result;
 	}
 	
-	public boolean verifySimilarCourses(WebDriver driver) {
-		boolean result=true;
-		try {
-
-		result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver,
-		"(//h1[contains(text(),'Similar Courses')])[2]", "xpath", 10);
-		if (result == true) {
-			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver,
-					"(//div[@class='crossSell-Card-main-slick'])", "xpath", 10);
-			if(result==true) {
-				List<WebElement> L1 = CourseDetailsPageORObj.getlistOF_similarCourse();
-				for(int i=0;i<L1.size();i++) {
-					String NameOfCOurse=CourseDetailsPageORObj.getNameOf_listOF_similarCourse().get(i).getText();
-
-					cfObj.commonClick(CourseDetailsPageORObj.getViewButton_similarCourse().get(i));
-
-					Set<String> windowsId = driver.getWindowHandles();
-					Iterator<String> itr = windowsId.iterator();
-					String defaultwindowId = itr.next();
-					String childwindowId = itr.next();
-					driver.switchTo().window(childwindowId);
-					result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver,
-					"//div[@class='title_wrapper']/div[@class='title']", "xpath", 30);
-					if(result==true) {
-						String CourseTitle=CourseDetailsPageORObj.getCourseTitle_similarCourse().getText();
-						result=NameOfCOurse.contains(CourseTitle);
-						if(result==true) {
-							CourseDetailsPageMsgList.add("Course Name is Equal");
-						}else {
-							CourseDetailsPageMsgList.add("Course Name is not Equal");
-							return result;
-						}
-						driver.close();
-						driver.switchTo().window(defaultwindowId);
-						Thread.sleep(7000);
-					}
-				}
-			}else {
-					CourseDetailsPageMsgList.add("No Similar Course is available");
-					return result;
-					}
-		} else {
-			result = false;
-			CourseDetailsPageMsgList.add("BuyNow button is not Available");
-		}
+	
 
 
 	public boolean verifySimilarCourses(WebDriver driver, CourseView courseViewObj) {
@@ -893,6 +853,14 @@ public class CourseDetailsPageUtil {
 								driver.close();
 								driver.switchTo().window(defaultwindowId);
 								Thread.sleep(7000);
+							}else {
+								result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver,
+										"//button[@class='not-found--button']", "xpath", 30);
+								if(result) {
+									driver.close();
+									driver.switchTo().window(defaultwindowId);
+									Thread.sleep(7000);
+								}
 							}
 						}
 					} else {

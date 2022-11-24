@@ -220,6 +220,7 @@ public class MyProfileUtil {
 	public boolean verifyProfileRevamp(WebDriver driver) {
 		boolean result = true;
 		try {
+			//Profile Section
 			result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//div[@class='navbar-wrapper']/div[contains(text(),'My Profile')]", "xpath", 1);
 			if (result==true) {
 				result=MyProfileSection(driver);
@@ -230,7 +231,7 @@ public class MyProfileUtil {
 			}else {
 				MyProfileORobjMsgList.add("My-Profile_icon is not visible");
 			}
-			
+			//My Exam Section
 			result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//div[@class='navbar-wrapper']/div[contains(text(),'My Exam')]", "xpath", 1);
 			if (result==true) {
 				result=MyExamSection(driver);
@@ -243,7 +244,7 @@ public class MyProfileUtil {
 				MyProfileORobjMsgList.add("My-Exam Section is not visible");
             	return result;
 			}
-			
+			// Account Section
 			result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//div[@class='navbar-wrapper']/div[contains(text(),'Account')]", "xpath", 10);
 			if (result==true) {
 				result=AccountSection(driver);
@@ -256,7 +257,7 @@ public class MyProfileUtil {
 				MyProfileORobjMsgList.add("My-Account Section is not visible");
             	return result;
 			}
-			
+			//Transaction Section
 			result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//div[@class='navbar-wrapper']/div[contains(text(),'Transactions')]", "xpath", 1);
 			if (result==true) {
 				result=TransactionsSection(driver);
@@ -347,7 +348,6 @@ public class MyProfileUtil {
 	
 	public boolean MyExamSection(WebDriver driver) {
 		boolean result = true;
-		CoursePageUtil coursePageUtilObj=new CoursePageUtil(driver);
 		try {
 			//Click On My-Exam Section
 			cfObj.commonClick(MyProfileORobj.getMyExam_icon());
@@ -355,7 +355,7 @@ public class MyProfileUtil {
 			result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//div[contains(text(),'No goal is selected')]", "xpath", 10);
 			if(result==true) {
 				cfObj.commonClick(MyProfileORobj.getAddYourExam_Button());
-                result=coursePageUtilObj.selectExamPrefrences(driver);
+                result=UpdateExamPreference(driver);
                 if(!result) {
                 	MyProfileORobjMsgList.add("ExamPrefrences is not visible");
                 	return result;
@@ -366,7 +366,7 @@ public class MyProfileUtil {
 					result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//button[contains(text(),'Update Your Exam')]", "xpath", 10);
 					if (result==true) {
 						cfObj.commonClick(MyProfileORobj.getUpdateYourExam_Button());
-						result=coursePageUtilObj.selectExamPrefrences(driver);
+						result=UpdateExamPreference(driver);
 	                    if(!result) {
 	                    	MyProfileORobjMsgList.add("ExamPrefrences is not visible");
 	                    	return result;
@@ -440,7 +440,7 @@ public class MyProfileUtil {
 					result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//div[@class='grid-item']//input[@placeholder='Mobile Number']", "xpath", 10);
 					if (result==true) {
 						
-						result=ProfileEnterMobileNumber(driver,"5544332211");
+						result=ProfileEnterMobileNumber(driver,"5432112345");
 						if (!result) {
 							return result;
 						}
@@ -712,6 +712,25 @@ public class MyProfileUtil {
 		} catch (Exception e) {
 			result = false;
 			MyProfileORobjMsgList.add("verifyProfileInput_Exception: " + e.getMessage());
+		}
+		return result;
+	}
+	
+	public boolean UpdateExamPreference(WebDriver driver) {
+		boolean result = true;
+		try {
+
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//div[@class='App exam-modal']/div/div[@class='examContainer']/div/div", "xpath", 30);
+			if (result==true) {
+				cfObj.commonClick(MyProfileORobj.getListOfUpdateExamPreferenceCOurses().get(2));
+			}else {
+				MyProfileORobjMsgList.add("Exam Preference is not Visible");
+				return result;
+			}
+			
+		} catch (Exception e) {
+			result = false;
+			MyProfileORobjMsgList.add("UpdateExamPreference_Exception: " + e.getMessage());
 		}
 		return result;
 	}

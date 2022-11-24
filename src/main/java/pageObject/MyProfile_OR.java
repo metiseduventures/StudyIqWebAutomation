@@ -360,4 +360,18 @@ public class MyProfile_OR {
 		return NewYourState_input;
 	}
 	
+	@FindBy(xpath = "//div[@class='inputContainer']")
+	private List<WebElement> ListOfExamPreferenceCOurses;
+
+	public List<WebElement> getListOfExamPreferenceCOurses() {
+		return ListOfExamPreferenceCOurses;
+	}
+	
+	@FindBy(xpath = "//div[@class='App exam-modal']/div/div[@class='examContainer']/div/div")
+	private List<WebElement> ListOfUpdateExamPreferenceCOurses;
+
+	public List<WebElement> getListOfUpdateExamPreferenceCOurses() {
+		return ListOfUpdateExamPreferenceCOurses;
+	}
+	
 }
