@@ -314,5 +314,35 @@ public class LibraryPage_OR {
 	public WebElement getClose_Notification(){
 		return Close_Notification;
 	}
+	
+	
+	@FindBy(css = ".navigation-menu>li")
+	List<WebElement> listLibaryMenuItem;
+
+	public List<WebElement> getListLibaryMenuItem() {
+		return listLibaryMenuItem;
+	}
+	
+	
+	@FindBy(css = ".library-course-item")
+	List<WebElement> listLibaryMenuCourseItem;
+
+	public List<WebElement> getListLibaryMenuCourseItem() {
+		return listLibaryMenuCourseItem;
+	}
+	
+	@FindBy(xpath = "//*[@id=\"responsive-navbar-nav\"]/div[1]/div[2]/div/div/div/div[2]/div")
+	List<WebElement> listLibaryItem;
+
+	public List<WebElement> getlistLibaryItem() {
+		return listLibaryItem;
+	}
+	
+	@FindBy(xpath = "//div[@class='dropdown']/div[text()='My Library']")
+	List<WebElement> listLibCourseItem;
+
+	public List<WebElement> getlistLibCourseItem() {
+		return listLibCourseItem;
+	}
 
 }

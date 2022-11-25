@@ -21,9 +21,9 @@ public class ConfigFileReader {
 	public ConfigFileReader() {
 		BufferedReader reader;
 		String strPropertyPath = null;
-		//strEnv = System.getProperty("env");
-		strEnv = "prod";
-		//strEnv = "staging";						
+		strEnv = System.getProperty("env");
+		//strEnv = "prod";
+		strEnv = "staging";				
 
 		try {
 			if (strEnv.equalsIgnoreCase("staging")) {
@@ -97,5 +97,13 @@ public class ConfigFileReader {
 			return strCrossSellCourseSlug;
 		else
 			throw new RuntimeException("strCrossSellCourseSlug is not defined.");
+	}
+	
+	public String getliveClassMenuUrl() {
+		String strLiveClassMenuUrl = properties.getProperty("liveClassMenuUrl");
+		if (strLiveClassMenuUrl != null)
+			return strLiveClassMenuUrl;
+		else
+			throw new RuntimeException("strLiveClassMenuUrl is not defined.");
 	}
 }

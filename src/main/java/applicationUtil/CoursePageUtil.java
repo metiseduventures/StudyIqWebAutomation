@@ -80,12 +80,18 @@ public class CoursePageUtil {
 						coursePageMsgList.addAll(util.homePageMsgList);
 						return result;
 					}
+				} else if (testData.getCourseType().contains("live")) {
+					result = util.clickOnLiveCoursesOnHomePage(driver);
+					if (!result) {
+						coursePageMsgList.addAll(util.homePageMsgList);
+						return result;
+					}
 				}
 				strCourseSlug = driver.getCurrentUrl().split("course-detail/")[1];
 				System.out.println("strCourseSlug:" + strCourseSlug);
 				courseApiUtilObj = new CourseApiUtil();
 				courseViewObj = courseApiUtilObj.getCourseViewData(strCourseSlug);
-				System.out.println(courseViewObj.getData().getPriceInfo());
+				// System.out.println(courseViewObj.getData().getPriceInfo());
 
 				result = verifyClickBuy(driver, false);
 				if (!result) {
@@ -196,6 +202,12 @@ public class CoursePageUtil {
 						coursePageMsgList.addAll(util.homePageMsgList);
 						return result;
 					}
+				} else if (testData.getCourseType().contains("live")) {
+					result = util.clickOnLiveCoursesOnHomePage(driver);
+					if (!result) {
+						coursePageMsgList.addAll(util.homePageMsgList);
+						return result;
+					}
 				}
 				strCourseSlug = driver.getCurrentUrl().split("course-detail/")[1];
 				System.out.println("strCourseSlug:" + strCourseSlug);
@@ -293,16 +305,15 @@ public class CoursePageUtil {
 		boolean result = true;
 
 		try {
-			String BuyText = coursePageORobj.buyNowClick().getText();
-			
-			if (BuyText.equalsIgnoreCase("Buy Now")) {
-				cfObj.commonClick(coursePageORobj.buyNowClick());
-				Thread.sleep(10000);
-			} else {
 
-				coursePageMsgList.add("This is not buy now button");
+
+			if (coursePageORobj.buyNowClick().size() == 0) {
+				coursePageMsgList.add("Buy now button is not display on course detail page");
 				return false;
 			}
+
+			cfObj.commonClick(coursePageORobj.buyNowClick().get(0));
+			Thread.sleep(5000);
 
 			if (isLoggedInUser) {
 
@@ -710,6 +721,7 @@ public class CoursePageUtil {
 				cfObj.commonClick(coursePageORobj.getarrowLeftNew());
 				// Cancel payment
 				cfObj.commonClick(coursePageORobj.getYesButtonPopUp());
+
 				result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".retry-payment-btn", "css", 10);
 				if (!result) {
 					coursePageMsgList.add("Payment retry page is not opened when payment is unsuccessfull");
@@ -733,7 +745,7 @@ public class CoursePageUtil {
 				return result;
 			}
 
-			result = cfObj.commonWaitForElementToBeVisible(driver, coursePageORobj.payBtnClick(), 10);
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".btn.btn-primary.w100.pos-r._2fNU","css", 10);
 			if (!result) {
 				coursePageMsgList.add("The netbank btn is not visible in paytm method");
 				return result;
@@ -747,13 +759,13 @@ public class CoursePageUtil {
 				return result;
 			}
 
-			result = cfObj.commonWaitForElementToBeVisible(driver, coursePageORobj.successInPaytm(), 10);
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//button[@class='btn btnd']","xpath", 10);
 			if (!result) {
 				coursePageMsgList.add("The successful btn is not visible in paytm method");
 				return result;
 			}
 
-			result = cfObj.commonWaitForElementToBeVisible(driver, coursePageORobj.failureInPaytm(), 10);
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//button[@class='btn btnl']","xpath", 10);
 			if (!result) {
 				coursePageMsgList.add("The failure btn is not visible in paytm method");
 				return result;
@@ -771,6 +783,7 @@ public class CoursePageUtil {
 
 			} else if (testData.getIsKey().equalsIgnoreCase("fail")) {
 
+				Thread.sleep(10000);
 				cfObj.commonClick(coursePageORobj.failureInPaytm());
 
 				result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".pu-title.sub-txt-global", "css", 30);
@@ -1188,17 +1201,18 @@ public class CoursePageUtil {
 		boolean result = true;
 
 		try {
-			String BuyText = coursePageORobj.getBuyNowButton().getText();
 
-			if (BuyText.equalsIgnoreCase("Buy Now")) {
-				cfObj.commonClick(coursePageORobj.getBuyNowButton());
-			} else {
-				result = false;
-				coursePageMsgList.add("This is not buy now button");
+			if (coursePageORobj.buyNowClick().size() == 0) {
+
+				coursePageMsgList.add("Buy now button is not display on course detail page");
+				return false;
 			}
+
+			cfObj.commonClick(coursePageORobj.buyNowClick().get(0));
+
 		} catch (Exception e) {
 			result = false;
-			coursePageMsgList.add("click&VerifyBuyBtn_Exception: " + e.getMessage());
+			coursePageMsgList.add("clickOnBuyNow_Exception: " + e.getMessage());
 		}
 		return result;
 	}

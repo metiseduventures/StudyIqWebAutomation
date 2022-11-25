@@ -13,10 +13,10 @@ public class CoursePage_OR {
 		return titleOfPageElement;
 	}
 
-	@FindBy(css = "button[class='buy_now_btn btn btn-primary']")
-	WebElement buyNoWebElement;
+	@FindBy(xpath = "//button[text()='Buy Now']")
+	List<WebElement> buyNoWebElement;
 
-	public WebElement buyNowClick() {
+	public List<WebElement> buyNowClick() {
 		return buyNoWebElement;
 	}
 
@@ -509,14 +509,14 @@ public class CoursePage_OR {
 		return listOfferApplied;
 	}
 	
-	@FindBy(css = ".arrow-left-header")
+	@FindBy(css = ".ptm-go-back-btn")
 	WebElement arrowLeft;
 
 	public WebElement getArrowLeft() {
 		return arrowLeft;
 	}
 	
-	@FindBy(css = ".btn-primary")
+	@FindBy(css = ".ptm-cp-btn.ptm-cp-y-btn")
 	List<WebElement> listNoYesButtonPopUp;
 
 	public List<WebElement> getListNoYesButtonPopUp() {

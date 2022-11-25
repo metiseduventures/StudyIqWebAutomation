@@ -71,7 +71,7 @@ public class HomePageUtil {
 				return result;
 			}
 
-			result = clickOnMyLibraryButton(driver);
+			result = VerifyMyLibCOurse_List(driver);
 			if (!result) {
 				homePageMsgList.add("My-Library Button is not Working");
 				return result;
@@ -571,6 +571,7 @@ public class HomePageUtil {
 			//Exam Preference 
 			
 			result = VerifyExamPreference(driver);
+
 			if (!result) {
 				return result;
 			}
@@ -693,7 +694,7 @@ public class HomePageUtil {
 		boolean result = true;
 		librayUtilObj = new LibraryPageUtil(driver);
 		try {
-			result = librayUtilObj.DropDownLibrary_Course(driver);
+			result = clickOnDropDown(driver);
 			if (!result) {
 				cfObj.commonClick(homePageORObj.getDropDown_Button());
 				cfObj.commonClick(homePageORObj.getMyLibraryButton());
@@ -1300,7 +1301,6 @@ public class HomePageUtil {
 			// Select first book course
 			cfObj.commonClick(homePageORObj.getlistOfBook().get(1));
 
-
 			// wait for course detail page to be opened
 			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".course_basic_info_wrapper", "css", 30);
 			if (!result) {
@@ -1318,7 +1318,8 @@ public class HomePageUtil {
 	public boolean clickOnLiveCoursesOnHomePage(WebDriver driver) {
 		boolean result = true;
 		try {
-			driver.navigate().to(fileReader.getBaseUrlWeb() + "upsc-live");
+			driver.navigate()
+			.to(fileReader.getBaseUrlWeb()  + fileReader.getliveClassMenuUrl());
 			if (homePageORObj.getlistOfBook().size() == 0) {
 				homePageMsgList.add("Live_Course are not display on the home page");
 				return false;
@@ -1352,6 +1353,7 @@ public class HomePageUtil {
 		}
 		return result;
 	}
+
 	
 	public boolean VerifyExamPreference(WebDriver driver) {
 		boolean result = true;
@@ -1367,6 +1369,33 @@ public class HomePageUtil {
 		} catch (Exception e) {
 			result = false;
 			homePageMsgList.add("VerifyExamPreference_Exception: " + e.getMessage());
+		}
+		return result;
+	}
+	
+	public boolean VerifyMyLibCOurse_List(WebDriver driver) {
+		boolean result = true;
+		librayUtilObj = new LibraryPageUtil(driver);
+		try {
+			result = librayUtilObj.clickOnDropDownLibcourse(driver);
+			if (!result) {
+				cfObj.commonClick(homePageORObj.getDropDown_Button());
+				cfObj.commonClick(homePageORObj.getMyLibraryButton());
+				result = cfObj.commonWaitForElementToBeVisible(driver, homePageORObj.getLibraryEmptyText(), 20);
+				if (result == true) {
+					cfObj.commonClick(homePageORObj.getLibraryExplore_Courses());
+					cfObj.commonClick(homePageORObj.getHomePage());
+					cfObj.commonClick(homePageORObj.getClose_Notification());
+					return result;
+				} else {
+					homePageMsgList.add("Explore Button is not Working");
+					return result;
+				}
+			}
+
+		} catch (Exception e) {
+			result = false;
+			homePageMsgList.add("VerifyMyLibCOurse_List_Exception: " + e.getMessage());
 		}
 		return result;
 	}

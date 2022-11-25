@@ -70,7 +70,7 @@ public class HomePage_OR {
 		return listCourse;
 	}
 	
-	@FindBy(css = ".slick-list>div>div.slick-active")
+	@FindBy(css = ".course_details_wrapper>div>div.slick-list>div>div")
 	List<WebElement> listOfBook;
 
 	public List<WebElement> getlistOfBook() {
@@ -384,6 +384,7 @@ public class HomePage_OR {
 	return ColseNotification;
 	}
 	
+
 	@FindBy(css = ".course_details")
 	List<WebElement> listOfTestSeries;
 
@@ -397,5 +398,6 @@ public class HomePage_OR {
 	public WebElement getStartMyCourse_Button(){
 		return StartMyCourse_Button;
 	}
+
 
 }

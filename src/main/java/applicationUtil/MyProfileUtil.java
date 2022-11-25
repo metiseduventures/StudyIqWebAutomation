@@ -403,7 +403,7 @@ public class MyProfileUtil {
 					
 					result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//div[@class='grid-item']//input[@placeholder='Enter your Email']", "xpath", 10);
 					if (result==true) {
-						result=ProfileEnterEmail(driver,"test1234554321@gmail.com");
+						result=ProfileEnterEmail(driver,"test1234554321@gmail.com ");
 						if (!result) {
 							return result;
 						}
@@ -456,6 +456,9 @@ public class MyProfileUtil {
 						if(result) {
 							result=false;
 							MyProfileORobjMsgList.add("Please enter valid OTP");
+							return result;
+						}else {
+							result=true;
 							return result;
 						}
 					}else {
