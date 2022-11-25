@@ -306,7 +306,6 @@ public class CoursePageUtil {
 
 		try {
 
-
 			if (coursePageORobj.buyNowClick().size() == 0) {
 				coursePageMsgList.add("Buy now button is not display on course detail page");
 				return false;
