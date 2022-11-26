@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <suite name="StudyIq Web Automation Test Suite">
-	
 
 	<test name="LOGIN_SIGNUP">
 		<classes>
 			<class name="test_scripts.LoginTest" />
 		</classes>
 	</test>
-<<<<<<< HEAD
-</suite>
-=======
 	<test name="COURSE">
 		<classes>
 			<class name="test_scripts.CourseTest" />
@@ -21,4 +17,4 @@
 		</classes>
 	</test>
 </suite>
->>>>>>> 796efc447f50e7d0228a8b4d576689ae2d866917
+
