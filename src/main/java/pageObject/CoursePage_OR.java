@@ -543,4 +543,53 @@ public class CoursePage_OR {
 	public WebElement closePopUp() {
 		return closePopUpElement;
 	}
+	
+	@FindBy(xpath="//button[@id='moe-dontallow_button']")
+	private WebElement ColseNotification;
+
+	public WebElement getColseNotification() {
+	return ColseNotification;
+	}
+	
+	@FindBy(xpath = "//div[@class='inputContainer']")
+	private List<WebElement> ListOfExamPreferenceCOurses;
+
+	public List<WebElement> getListOfExamPreferenceCOurses() {
+		return ListOfExamPreferenceCOurses;
+	}
+	
+	@FindBy(xpath = "//button[@class='ptm-go-back-btn']")
+	WebElement arrowLeftNew;
+
+	public WebElement getarrowLeftNew() {
+		return arrowLeftNew;
+	}
+	
+	@FindBy(xpath = "//button[contains(text(),'Yes')]")
+	WebElement YesButtonPopUp;
+
+	public WebElement getYesButtonPopUp() {
+		return YesButtonPopUp;
+	}
+	
+	@FindBy(xpath = "//button[contains(text(),'Buy Now')]")
+	WebElement BuyNowButton;
+
+	public WebElement getBuyNowButton() {
+		return BuyNowButton;
+	}
+	
+	@FindBy(xpath = "(//div[@class='_202C d-block po-n o-h pos-r'])[3]/div/div")
+	WebElement netBankingElement;
+
+	public WebElement netBankingElement() {
+		return netBankingElement;
+	}
+	
+	@FindBy(xpath = "(//button[contains(@class,'')])[2]")
+	WebElement payButton;
+
+	public WebElement payButton() {
+		return payButton;
+	}
 }

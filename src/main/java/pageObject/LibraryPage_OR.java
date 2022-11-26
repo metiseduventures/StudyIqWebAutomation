@@ -212,7 +212,7 @@ public class LibraryPage_OR {
 		return CourseInsideLibrary;
 	}
 	
-	@FindBy(xpath = "//div[@id='library-listing-wrapper']/div[2]/div/div/div/div/button[contains(text(),'Renew Now')]")
+	@FindBy(xpath = "//button[contains(text(),'Renew Now')]")
 	private List<WebElement> RenewBUtton;
 
 	public List<WebElement> getRenewBUtton() {
@@ -226,14 +226,14 @@ public class LibraryPage_OR {
 		return ExtendValidity;
 	}
 	
-	@FindBy(xpath = "//div[@id='library-listing-wrapper']/div[2]/div/div/div/div/button[contains(text(),'Remove')]")
+	@FindBy(xpath = "//button[contains(text(),'Remove')]")
 	private List<WebElement> RemoveBUtton;
 
 	public List<WebElement> getRemoveBUtton() {
 		return RemoveBUtton;
 	}
 	
-	@FindBy(xpath = "//div[@id='library-listing-wrapper']/div[2]/div/div/div[2]/div[2]/span")
+	@FindBy(xpath = "//span[@class='info-validity']")
 //	@FindBy(xpath = "//div[@id='library-listing-wrapper']/div[2]/div/div/div[2]/div[2]/span/text()")
 	private List<WebElement> ValidCourse;
 
@@ -329,6 +329,20 @@ public class LibraryPage_OR {
 
 	public List<WebElement> getListLibaryMenuCourseItem() {
 		return listLibaryMenuCourseItem;
+	}
+	
+	@FindBy(xpath = "//*[@id=\"responsive-navbar-nav\"]/div[1]/div[2]/div/div/div/div[2]/div")
+	List<WebElement> listLibaryItem;
+
+	public List<WebElement> getlistLibaryItem() {
+		return listLibaryItem;
+	}
+	
+	@FindBy(xpath = "//div[@class='dropdown']/div[text()='My Library']")
+	List<WebElement> listLibCourseItem;
+
+	public List<WebElement> getlistLibCourseItem() {
+		return listLibCourseItem;
 	}
 
 }

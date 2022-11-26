@@ -80,6 +80,8 @@ public class CourseDetailsPageUtil {
 			if (!result) {
 				CourseDetailsPageMsgList.add("Course Info is not Present");
 			}
+			//Close Notification
+		    cfObj.commonClick(CourseDetailsPageORObj.getColseNotification());
 
 			result = verifyTestSeriesMockTest(driver, courseViewObj);
 			if (!result) {
@@ -110,6 +112,7 @@ public class CourseDetailsPageUtil {
 				return result;
 			}
 
+			
 			// click on About Authors
 			result = verifyAboutAuthor(driver, courseViewObj);
 
@@ -117,8 +120,32 @@ public class CourseDetailsPageUtil {
 				return result;
 			}
 
-			// click on Demo Videos
-			result = veirfyDemoVideos(driver, courseViewObj);
+			if ((ConfigFileReader.strEnv).equalsIgnoreCase("prod")) {
+				// click on Demo Videos
+				result = veirfyDemoVideos(driver, courseViewObj);
+
+				if (!result) {
+					return result;
+				}
+			}
+			
+			// Verify Cross Sell
+			result = verifySimilarCourses(driver, courseViewObj);
+			if (!result) {
+				return result;
+			}
+			      
+			// click on Our Packages
+
+			result = clickOnOurPackages(driver);
+
+			if (!result) {
+				return result;
+			}
+
+			// click on Frequently Asked Questions
+
+			result = clickFAQ(driver, courseViewObj);
 
 			if (!result) {
 				return result;
@@ -153,27 +180,6 @@ public class CourseDetailsPageUtil {
 
 			}
 
-			// Verify Cross Sell
-			result = verifySimilarCourses(driver, courseViewObj);
-			if (!result) {
-				return result;
-			}
-      
-			// click on Our Packages
-
-			result = clickOnOurPackages(driver);
-
-			if (!result) {
-				return result;
-			}
-
-			// click on Frequently Asked Questions
-
-			result = clickFAQ(driver, courseViewObj);
-
-			if (!result) {
-				return result;
-			}
 
 		} catch (Exception e) {
 			result = false;
@@ -333,8 +339,8 @@ public class CourseDetailsPageUtil {
 		boolean result = true;
 		int intStartTime, intPauseTime, intFinalTime;
 		try {
-
-			result = cfObj.commonWaitForElementToBeVisible(driver, CourseDetailsPageORObj.getDemo_Videos_Button(), 2);
+             
+			result = cfObj.commonWaitForElementToBeVisible(driver, CourseDetailsPageORObj.getDemo_Videos_Button(), 20);
 			if (courseViewObj.getData().getDemoUrls().size() > 0) {
 				if (result) {
 					cfObj.commonClick(CourseDetailsPageORObj.getDemo_Videos_Button());
@@ -344,15 +350,16 @@ public class CourseDetailsPageUtil {
 					return result;
 				}
 
-				result = cfObj.commonWaitForElementToBeVisible(driver, CourseDetailsPageORObj.getDemoVideos_Text(), 2);
+				result = cfObj.commonWaitForElementToBeVisible(driver, CourseDetailsPageORObj.getDemoVideos_Text(), 20);
 				if (!result) {
 					CourseDetailsPageMsgList.add("Title of Demo video is not Available");
 				}
 
 				List<WebElement> tx3 = CourseDetailsPageORObj.getListOf_Videos();
-				for (int i = 0; i < tx3.size(); i++) {
+				int sizeofVideo=tx3.size();
+				for (int i = 0; i < sizeofVideo; i++) {
 					cfObj.commonClick(tx3.get(i));
-					result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".shaka-current-time", "css", 10);
+					result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".shaka-current-time", "css", 20);
 					if (!result) {
 						CourseDetailsPageMsgList.add("Demo video not opned when click on videos from the list");
 						return result;
@@ -392,13 +399,14 @@ public class CourseDetailsPageUtil {
 					intFinalTime = Integer.valueOf(cfObj.commonGetElement(driver, ".shaka-current-time", "css")
 							.getText().toString().split("/")[0].trim().split(":")[2].trim());
 					System.out.println(intFinalTime);
+					
 
 					if (intPauseTime != intFinalTime) {
 						CourseDetailsPageMsgList.add("Video is not paused when click on paused button for course: "
 								+ courseViewObj.getData().getCourseDetail().getCourseTitle());
 						return false;
 					}
-
+					Thread.sleep(5000);
 				}
 			} else {
 				if (result) {
@@ -665,9 +673,10 @@ public class CourseDetailsPageUtil {
 				CourseDetailsPageMsgList.add("Pricing button is not Working");
 			}
 
-			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//a/img[@class='crossImage']", "xpath", 10);
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//img[@class='crossImage']", "xpath", 10);
+
 			if (result == true) {
-				cfObj.commonClick(CourseDetailsPageORObj.getNewcloseButton());
+				cfObj.commonClick(CourseDetailsPageORObj.getREVAMPcloseButton());
 			} else {
 				result = false;
 				CourseDetailsPageMsgList.add("Close button is not Available");
@@ -844,6 +853,14 @@ public class CourseDetailsPageUtil {
 								driver.close();
 								driver.switchTo().window(defaultwindowId);
 								Thread.sleep(7000);
+							}else {
+								result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver,
+										"//button[@class='not-found--button']", "xpath", 30);
+								if(result) {
+									driver.close();
+									driver.switchTo().window(defaultwindowId);
+									Thread.sleep(7000);
+								}
 							}
 						}
 					} else {

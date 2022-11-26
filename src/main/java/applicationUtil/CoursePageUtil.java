@@ -44,6 +44,16 @@ public class CoursePageUtil {
 		try {
 
 			strCourseType = testData.getCourseType().toString();
+			
+			result = cfObj.commonWaitForElementToBeVisible(driver, coursePageORobj.popUpFrame(), 10);
+			if (result) {
+				driver.switchTo().frame(coursePageORobj.popUpFrame());
+				cfObj.commonClick(coursePageORobj.closePopUp());
+				driver.switchTo().parentFrame();
+			}
+			//Close Notification
+		    cfObj.commonClick(coursePageORobj.getColseNotification());		
+		    
 			// for guest user
 			if (testData.getIsUserGuest()) {
 				if (testData.getCourseType().contains("smart")) {
@@ -88,7 +98,7 @@ public class CoursePageUtil {
 					return result;
 				}
 
-				result = util.doSignUp();
+				result = util.doSignUp(driver);
 				if (!result) {
 					coursePageMsgList.add("Fail Register");
 					return result;
@@ -130,11 +140,13 @@ public class CoursePageUtil {
 				if ((ConfigFileReader.strEnv).equalsIgnoreCase("staging")
 						|| (ConfigFileReader.strEnv).equalsIgnoreCase("dev")) {
 
+					Thread.sleep(5000);
 					if (testData.getIsKey().equalsIgnoreCase("pass")) {
-
-						result = verifyLibraryCourse(driver, testData, courseName);
-						if (!result) {
-							return result;
+						if (!testData.getCourseType().contains("books")) {
+							result = verifyLibraryCourse(driver, testData, courseName);
+							if (!result) {
+								return result;
+							}
 						}
 
 					} else {
@@ -160,7 +172,7 @@ public class CoursePageUtil {
 					return result;
 				}
 
-				result = util.doSignUp();
+				result = util.doSignUp(driver);
 				if (!result) {
 					coursePageMsgList.addAll(util.homePageMsgList);
 					return result;
@@ -207,7 +219,7 @@ public class CoursePageUtil {
 				if (!result) {
 					return result;
 				}
-
+				
 				result = verifyClickBuy(driver, true);
 				if (!result) {
 					return result;
@@ -235,15 +247,16 @@ public class CoursePageUtil {
 				if (!result) {
 					return result;
 				}
-
+                Thread.sleep(5000);
 				if ((ConfigFileReader.strEnv).equalsIgnoreCase("staging")
 						|| (ConfigFileReader.strEnv).equalsIgnoreCase("dev")) {
 
 					if (testData.getIsKey().equalsIgnoreCase("pass")) {
-
-						result = verifyLibraryCourse(driver, testData, courseName);
-						if (!result) {
-							return result;
+						if (!testData.getCourseType().contains("books")) {
+							result = verifyLibraryCourse(driver, testData, courseName);
+							if (!result) {
+								return result;
+							}
 						}
 
 					} else {
@@ -299,6 +312,7 @@ public class CoursePageUtil {
 			}
 
 			cfObj.commonClick(coursePageORobj.buyNowClick().get(0));
+			Thread.sleep(5000);
 
 			if (isLoggedInUser) {
 
@@ -621,7 +635,7 @@ public class CoursePageUtil {
 						return false;
 
 					}
-
+                    Thread.sleep(10000);
 					result = verifyPaytmMethod(driver, testData, bankName);
 					if (!result) {
 						return result;
@@ -695,17 +709,18 @@ public class CoursePageUtil {
 		boolean result = true;
 		try {
 
-			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//img[@data-key='qr-code']", "xpath", 10);
+			/*result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//img[@data-key='qr-code']", "xpath", 10);
 			if (!result) {
 				coursePageMsgList.add("The payment page is not open for paytm");
 				return result;
-			}
+			}*/
 
 			if (ConfigFileReader.strEnv.equalsIgnoreCase("prod")) {
 
-				cfObj.commonClick(coursePageORobj.getArrowLeft());
+				cfObj.commonClick(coursePageORobj.getarrowLeftNew());
 				// Cancel payment
-				cfObj.commonClick(coursePageORobj.getListNoYesButtonPopUp().get(0));
+				cfObj.commonClick(coursePageORobj.getYesButtonPopUp());
+
 				result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".retry-payment-btn", "css", 10);
 				if (!result) {
 					coursePageMsgList.add("Payment retry page is not opened when payment is unsuccessfull");
@@ -714,13 +729,14 @@ public class CoursePageUtil {
 					return result;
 				}
 			}
-			result = cfObj.commonWaitForElementToBeVisible(driver, coursePageORobj.netbankingInPaytm(), 10);
+			Thread.sleep(10000);
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "(//div[@class='_202C d-block po-n o-h pos-r'])[3]/div/div","xpath", 20);
 			if (!result) {
 				coursePageMsgList.add("The netbank btn is not visible in paytm method");
 				return result;
 			}
-
-			cfObj.commonClick(coursePageORobj.netbankingInPaytm());
+             
+			cfObj.commonClick(coursePageORobj.netBankingElement());
 
 			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".pu-title", "css", 10);
 			if (!result) {
@@ -728,12 +744,12 @@ public class CoursePageUtil {
 				return result;
 			}
 
-			result = cfObj.commonWaitForElementToBeVisible(driver, coursePageORobj.payBtnClick(), 10);
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".btn.btn-primary.w100.pos-r._2fNU","css", 10);
 			if (!result) {
 				coursePageMsgList.add("The netbank btn is not visible in paytm method");
 				return result;
 			}
-
+			Thread.sleep(10000);
 			cfObj.commonClick(coursePageORobj.payBtnClick());
 
 			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "div[class='midCont'] h1", "css", 10);
@@ -742,20 +758,21 @@ public class CoursePageUtil {
 				return result;
 			}
 
-			result = cfObj.commonWaitForElementToBeVisible(driver, coursePageORobj.successInPaytm(), 10);
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//button[@class='btn btnd']","xpath", 10);
 			if (!result) {
 				coursePageMsgList.add("The successful btn is not visible in paytm method");
 				return result;
 			}
 
-			result = cfObj.commonWaitForElementToBeVisible(driver, coursePageORobj.failureInPaytm(), 10);
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//button[@class='btn btnl']","xpath", 10);
 			if (!result) {
 				coursePageMsgList.add("The failure btn is not visible in paytm method");
 				return result;
 			}
 
 			if (testData.getIsKey().equalsIgnoreCase("pass")) {
-
+                
+				Thread.sleep(10000);
 				cfObj.commonClick(coursePageORobj.successInPaytm());
 
 				result = verifyPaymentStatus(driver);
@@ -765,9 +782,10 @@ public class CoursePageUtil {
 
 			} else if (testData.getIsKey().equalsIgnoreCase("fail")) {
 
+				Thread.sleep(10000);
 				cfObj.commonClick(coursePageORobj.failureInPaytm());
 
-				result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".pu-title.sub-txt-global", "css", 11);
+				result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".pu-title.sub-txt-global", "css", 30);
 				if (!result) {
 					coursePageMsgList.add("Your transaction has failed pop up not visible");
 					return result;
@@ -787,7 +805,7 @@ public class CoursePageUtil {
 
 				cfObj.commonClick(coursePageORobj.retryPaymentBtn());
 
-				result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".pu-title", "css", 10);
+				result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".pu-title", "css", 30);
 				if (!result) {
 					coursePageMsgList.add("Select bank pop up is not visible");
 					return result;
@@ -927,8 +945,8 @@ public class CoursePageUtil {
 	public boolean verifyPaymentStatus(WebDriver driver) {
 		boolean result = true;
 		try {
-
-			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".payment-h", "css", 10);
+            Thread.sleep(5000);
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".payment-h", "css", 30);
 			if (!result) {
 				coursePageMsgList.add("The status of course purchase is not visible or wrong page");
 				return result;

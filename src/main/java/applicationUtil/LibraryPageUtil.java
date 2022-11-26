@@ -33,6 +33,7 @@ public class LibraryPageUtil {
 	HomePageUtil homeUtilObj;
 	public List<String> libraryPageMsgList = new ArrayList<String>();
 	public Common_Function cfObj = new Common_Function();
+	ConfigFileReader fileReader = new ConfigFileReader();
 	ConfigFileReader rConfigFileReader;
 	HomePageUtil homPageUtilObj;
 
@@ -50,12 +51,13 @@ public class LibraryPageUtil {
 		LibraryApiUtil libraryApiObj;
 		MyLibrary myLibrayApiObj;
 		try {
-
+			driver.navigate().to(fileReader.getBaseUrlWeb() + "my-library");
 			result = homPageUtilObj.verifyLogin(driver, ConfigFileReader.strUserMobileNumber);
 			if (!result) {
 				libraryPageMsgList.add("Fail to Login/Register");
 				return result;
 			}
+
 			loginApiUtilObj = new LoginUtil();
 
 			loginObj = loginApiUtilObj.doLoginWeb(ConfigFileReader.strUserMobileNumber);
@@ -276,13 +278,13 @@ public class LibraryPageUtil {
 		boolean result = true;
 		homeUtilObj = new HomePageUtil(driver);
 		try {
-
+            Thread.sleep(7000);
 			// click on DropDown button
 			result = homeUtilObj.clickOnDropDown(driver);
 			if (!result) {
 				libraryPageMsgList.add("DropDown is not working");
 				return result;
-			}
+			}			
 
 			if (libraryPage_OR.getListOfsourse().size() != myLibraryObj.getData().size()) {
 
@@ -513,120 +515,112 @@ public class LibraryPageUtil {
 		myCoursePageUtil = new MyCourseUtil(driver);
 		homPageUtilObj = new HomePageUtil(driver);
 		try {
-			result = homPageUtilObj.verifyLogin(driver, ConfigFileReader.strUserMobileNumber);
-			if (!result) {
-				libraryPageMsgList.add("Failed to Login");
-				return result;
-			}
+			result = homPageUtilObj.verifyLogin(driver,ConfigFileReader.strUserMobileNumber);
+			 if (!result) {
+				 libraryPageMsgList.add("Failed to Login");
+				 return result;
+			 }
 
-			if (testData.getNewcourseType().contains("VideoCourse")) {
-				result = clickOnVideoCourses(driver);
-				if (!result) {
-					libraryPageMsgList.add("Video-Course is not Available");
-					return result;
-				}
-
-			} else if (testData.getNewcourseType().contains("live")) {
-				result = clickOnLiveClasses(driver);
-				if (!result) {
-					libraryPageMsgList.add("live Course is not Available");
-					return result;
-				}
-
-			} else if (testData.getNewcourseType().contains("test-series")) {
-				result = clickOnTestSeries(driver);
-				if (!result) {
-					libraryPageMsgList.add("test-series is not Available");
-					return result;
-				}
-			}
-
-			if (testData.getIsRemove().contains("Remove")) {
-				result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver,
-						"//div[@id='library-listing-wrapper']/div[2]/div/div/div/div/button[contains(text(),'Remove')]",
-						"xpath", 10);
-				if (result == true) {
-					if (libraryPage_OR.getCourseInsideLibrary().size() > 0) {
-						cfObj.commonClick(libraryPage_OR.getRemoveBUtton().get(0));
-					} else {
-						libraryPageMsgList.add("Courses is not avaible ");
-					}
-
-				} else {
-					result = true;
-					libraryPageMsgList.add("Remove Course is Not Available");
-					return result;
-				}
-			} else if (testData.getIsExpire().contains("RenewNow")) {
-				result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver,
-						"//div[@id='library-listing-wrapper']/div[2]/div/div/div/div/button[contains(text(),'Renew Now')]",
-						"xpath", 10);
-				if (result == true) {
-					if (libraryPage_OR.getCourseInsideLibrary().size() > 0) {
-						cfObj.commonClick(libraryPage_OR.getRenewBUtton().get(0));
-						result = CompletePayment(driver, testData);
-						if (!result) {
-							libraryPageMsgList.add("Payment is not completed");
-						}
-					} else {
-						libraryPageMsgList.add("Courses is not Available ");
-					}
-				} else {
-					result = true;
-					libraryPageMsgList.add("Renew Course is Not Available");
-					return result;
-				}
-			} else if (testData.getIsValidUpTo().contains("ValidUpTo")) {
-				if (testData.getNewcourseType().contains("test-series")) {
-					result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver,
-							"//div[@id='library-listing-wrapper']/div[2]/div/div/div[2]/div[2]/span", "xpath", 10);
-					if (result == true) {
-						cfObj.commonClick(libraryPage_OR.getValidCourse().get(0));
-						cfObj.commonClick(libraryPage_OR.getCloseButton_ofTestSeriesCourses());
-					} else {
-						result = true;
-						libraryPageMsgList.add("Valid Course of test-series is Not Available");
-						return result;
-					}
-				} else {
-					result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver,
-							"//div[@id='library-listing-wrapper']/div[2]/div/div/div[2]/div[2]/span", "xpath", 10);
-					if (result == true) {
-						if (libraryPage_OR.getCourseInsideLibrary().size() > 0) {
-							cfObj.commonClick(libraryPage_OR.getValidCourse().get(0));
-							Thread.sleep(10000);
-							cfObj.commonClick(libraryPage_OR.getClose_ExtendCourse());
-							result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver,
-									"//span[contains(text(),'More')]", "xpath", 10);
-							if (result == true) {
-								cfObj.commonClick(libraryPage_OR.getMore_Button());
-								cfObj.commonClick(libraryPage_OR.getClose_ExtendCourse());
-								result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver,
-										"//span[contains(text(),'Extend Validity')]", "xpath", 10);
-								if (result == true) {
-									cfObj.commonClick(libraryPage_OR.getExtend_Validity());
-									result = CompletePayment(driver, testData);
-									if (!result) {
-										libraryPageMsgList.add("Payment is not completed");
-									}
-								} else {
-									libraryPageMsgList.add("Extend-Validity Button is not available");
-									return result;
-								}
-							} else {
-								libraryPageMsgList.add("More Button is not available");
+       Thread.sleep(7000);
+			 if (testData.getCourseType().contains("Micro")) {
+				 result=clickOnVideoMicCourses(driver);
+				 if(!result) {
+					 libraryPageMsgList.add("Video-Course is not Available");
+					 return result;
+				 }
+				 
+			 }else if(testData.getCourseType().contains("live")) {
+				 result=clickOnLiveClasses(driver) ;
+				 if(!result) {
+					 libraryPageMsgList.add("live Course is not Available");
+					 return result;
+				 }
+				 
+			 }else if(testData.getCourseType().contains("TestSeries")) {
+				 result=clickOnTestSeries(driver);
+				 if(!result) {
+					 libraryPageMsgList.add("test-series is not Available");
+					 return result;
+				 }
+			 }
+		
+			 if(testData.isExpires()==false) {
+				 result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver,"//button[contains(text(),'Remove')]", "xpath", 10);
+				 if(result==true) {
+					 if(libraryPage_OR.getCourseInsideLibrary().size()>0) {
+						 cfObj.commonClick(libraryPage_OR.getRemoveBUtton().get(0));
+					 }else {
+						 libraryPageMsgList.add("Courses is not avaible ");
+					 }
+					 
+				 }else {
+					 if(testData.getCourseType().contains("TestSeries")) {
+			    		 result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver,"//span[@class='info-validity']", "xpath", 10);
+					     if(result==true) {
+					    	 cfObj.commonClick(libraryPage_OR.getValidCourse().get(0));
+					    	 cfObj.commonClick(libraryPage_OR.getCloseButton_ofTestSeriesCourses());
+					     }else {
+					    	 result=true;
+					    	 libraryPageMsgList.add("Valid Course of test-series is Not Available");
+				    		 return result;
+					     } 
+			    	 }else {
+			    		 result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver,"//span[@class='info-validity']", "xpath", 10);
+					     if(result==true) {
+					    	 if(libraryPage_OR.getCourseInsideLibrary().size()>0) {
+					    		 cfObj.commonClick(libraryPage_OR.getValidCourse().get(0));
+					    		 Thread.sleep(10000);
+					    		 cfObj.commonClick(libraryPage_OR.getClose_ExtendCourse());
+					    		 result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver,"//span[contains(text(),'More')]", "xpath", 10);
+									if(result==true) {
+										cfObj.commonClick(libraryPage_OR.getMore_Button());
+										cfObj.commonClick(libraryPage_OR.getClose_ExtendCourse());
+										result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver,"//span[contains(text(),'Extend Validity')]", "xpath", 10);
+										if(result==true) {
+											cfObj.commonClick(libraryPage_OR.getExtend_Validity());
+											Thread.sleep(5000);
+											result=CompletePayment(driver,testData);
+											if(!result) {
+												 libraryPageMsgList.add("Payment is not completed");
+											}
+										 }else {
+											 libraryPageMsgList.add("Extend-Validity Button is not available");
+											 return result;
+										 }
+									}else {
+										 libraryPageMsgList.add("More Button is not available");
+									 }
+					    	 }else {
+					    		 libraryPageMsgList.add("Courses is not avaible ");
+					    	 }
+					     }else {
+					    	 result=true;
+					    	 libraryPageMsgList.add("Valid Courses is not Available");
+					    	 return result;
+					     }
+			    	 }
+				 }
+			 } 
+			 else if(testData.isExpires()==true) {
+				 result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver,"//button[contains(text(),'Renew Now')]", "xpath", 10);
+			     if(result==true) {
+			    	 if(libraryPage_OR.getCourseInsideLibrary().size()>0) {
+			    		 cfObj.commonClick(libraryPage_OR.getRenewBUtton().get(0));
+			    		 Thread.sleep(5000);
+			    		 result=CompletePayment(driver,testData);
+							if(!result) {
+								 libraryPageMsgList.add("Payment is not completed");
 							}
-						} else {
-							libraryPageMsgList.add("Courses is not avaible ");
-						}
-					} else {
-						result = true;
-						libraryPageMsgList.add("Valid Courses is not Available");
-						return result;
-					}
-				}
-			}
-
+			    	 }else {
+			    		 libraryPageMsgList.add("Courses is not Available ");
+			    	 }
+			     }else{
+					 result=true;
+			    	 libraryPageMsgList.add("Renew Course is Not Available");
+					 return result;
+			     }
+			 }
+			 
 		} catch (Exception e) {
 			result = false;
 			libraryPageMsgList.add("VerifyExtRen_Courses_Exception: " + e.getMessage());
@@ -637,18 +631,8 @@ public class LibraryPageUtil {
 	public boolean CompletePayment(WebDriver driver, TestData testData) {
 		boolean result = true;
 		CoursePageUtil coursePageUtil_Obj = new CoursePageUtil(driver);
-		String strCourseSlug = null;
-		CourseView courseViewObj = null;
-		CourseApiUtil courseApiUtilObj;
 		try {
-			strCourseSlug = driver.getCurrentUrl().split("course-detail/")[1];
-			System.out.println("strCourseSlug:" + strCourseSlug);
-			courseApiUtilObj = new CourseApiUtil();
-			courseViewObj = courseApiUtilObj.getCourseViewData(strCourseSlug);
-			result = coursePageUtil_Obj.verifyPackages(driver, courseViewObj);
-			if (!result) {
-				return result;
-			}
+			
 			result = coursePageUtil_Obj.verifyPromoCode(driver);
 			if (!result) {
 				return result;
@@ -667,10 +651,11 @@ public class LibraryPageUtil {
 
 			if ((ConfigFileReader.strEnv).equalsIgnoreCase("staging")
 					|| (ConfigFileReader.strEnv).equalsIgnoreCase("dev")) {
-
-				result = coursePageUtil_Obj.goToLibrary(driver);
-				if (!result) {
-					return result;
+				if (testData.getIsKey().equalsIgnoreCase("pass")) {
+					result = coursePageUtil_Obj.goToLibrary(driver);
+					if (!result) {
+						return result;
+					}
 				}
 
 			} else if ((ConfigFileReader.strEnv).equalsIgnoreCase("prod")) {
@@ -897,6 +882,45 @@ public class LibraryPageUtil {
 
 		return result;
 	}
+	
+	public boolean clickOnVideoMicCourses(WebDriver driver) {
+		boolean result = true;
+		homeUtilObj = new HomePageUtil(driver);
+		try {
+
+			result = homeUtilObj.clickOnDropDown(driver);
+			if (!result) {
+				libraryPageMsgList.add("DropDown is not working");
+			}
+
+			if ((ConfigFileReader.strEnv).equalsIgnoreCase("staging")
+					|| (ConfigFileReader.strEnv).equalsIgnoreCase("dev")) {
+				
+				result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver,
+						"(//*[contains(text(),'Video Course')])[1]", "xpath", 10);
+				if (result == true) {
+					cfObj.commonClick(libraryPage_OR.getDotvideocourses());
+				} else {
+					libraryPageMsgList.add("Video-Courses is Not Available");
+				}
+			}else if((ConfigFileReader.strEnv).equalsIgnoreCase("prod")) {
+				
+				result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "(//*[contains(text(),'Micro Course')])",
+						"xpath", 10);
+				if (result == true) {
+					cfObj.commonClick(libraryPage_OR.getDotMicro());
+				} else {
+					libraryPageMsgList.add("TestSeries is Not Available");
+				}
+			}
+
+		} catch (Exception e) {
+			result = false;
+			libraryPageMsgList.add("clickOnVideoMicCourses_Exception: " + e.getMessage());
+		}
+
+		return result;
+	}
 
 	public boolean verifyMyLibraryMenu(MyLibrary myLibraryObj) {
 		boolean result = true;
@@ -1079,7 +1103,7 @@ public class LibraryPageUtil {
 		LibraryApiUtil libraryApiObj;
 		MyLibrary myLibrayApiObj;
 		try {
-
+			Thread.sleep(121000);
 			result = homPageUtilObj.verifyLogin(driver, ConfigFileReader.strUserMobileNumber);
 			if (!result) {
 				libraryPageMsgList.add("Fail to Login/Register");
@@ -1129,6 +1153,10 @@ public class LibraryPageUtil {
 				libraryPageMsgList.add("Fail to Login/Register");
 				return result;
 			}
+			result=clickOnLibCourses(driver);
+			if(!result) {
+				return result;
+			}
 			loginApiUtilObj = new LoginUtil();
 
 			loginObj = loginApiUtilObj.doLoginWeb(ConfigFileReader.strUserMobileNumber);
@@ -1146,7 +1174,6 @@ public class LibraryPageUtil {
 				libraryPageMsgList.add("Error in my library api");
 				return result;
 			}
-
 			result = verifyCourseContent(driver, myLibrayApiObj);
 
 		} catch (Exception e) {
@@ -1161,6 +1188,12 @@ public class LibraryPageUtil {
 		int size;
 		try {
 			size = mylibraryObj.getData().size();
+			driver.navigate().refresh();
+			result = homPageUtilObj.verifyLogin(driver, ConfigFileReader.strUserMobileNumber);
+			if (!result) {
+				libraryPageMsgList.add("Fail to Login/Register");
+				return result;
+			}
 
 			for (int i = 0; i < size; i++) {
 				// click on menu item
@@ -1187,6 +1220,7 @@ public class LibraryPageUtil {
 						}
 						
 						driver.navigate().back();
+						Thread.sleep(5000);
 
 					}
 
@@ -1195,6 +1229,91 @@ public class LibraryPageUtil {
 
 		} catch (Exception e) {
 			result = false;
+		}
+		return result;
+	}
+	
+	public boolean clickOnLibCourses(WebDriver driver) {
+		boolean result = true;
+		homeUtilObj = new HomePageUtil(driver);
+		try {
+
+			result = homeUtilObj.clickOnDropDown(driver);
+			if (!result) {
+				libraryPageMsgList.add("DropDown is not working");
+			}
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver,
+					"//div[@class='dropdown']/div[text()='My Library']", "xpath", 10);
+			if(result) {
+			cfObj.commonClick(libraryPage_OR.getlistLibCourseItem().get(0));
+			}
+
+		} catch (Exception e) {
+			result = false;
+			libraryPageMsgList.add("clickOnLibCourses_Exception: " + e.getMessage());
+		}
+
+		return result;
+	}
+	
+	public boolean clickOnDropDownLibcourse(WebDriver driver) {
+		boolean result = true;
+		homeUtilObj = new HomePageUtil(driver);
+		try {
+			// click on DropDown button
+			result = homeUtilObj.clickOnDropDown(driver);
+			if (!result) {
+				libraryPageMsgList.add("DropDown is not working");
+				return result;
+			}
+			
+             if(libraryPage_OR.getListOfsourse().size()>0) {
+            	   
+            	   if ((ConfigFileReader.strEnv).equalsIgnoreCase("staging")
+   						|| (ConfigFileReader.strEnv).equalsIgnoreCase("dev")) {
+   					
+   					//click on Video-Course button
+   					result=clickOnVideoCourses(driver);
+   					if(!result) {
+   						libraryPageMsgList.add("Video Course is not Available");
+   					}
+   				}else if((ConfigFileReader.strEnv).equalsIgnoreCase("prod")) {
+   					//click on Smart Courses
+   					result=clickOnSmart(driver);
+   					if(!result) {
+   						libraryPageMsgList.add("Smart Course is not Available");
+   					}
+   					
+   					//click on Micro Course
+   					result=clickOnMicro(driver);
+   					if(!result) {
+   						libraryPageMsgList.add("Micro Course is not Available");
+   					}
+   				}
+
+   				// click on TestSeries button
+   				result = clickOnTestSeries(driver);
+   				if (!result) {
+   					libraryPageMsgList.add("TestSeries is not Available");
+   				}
+   				
+   				// click on Live_Classes button
+   				result = clickOnLiveClasses(driver);
+   				if (!result) {
+   					libraryPageMsgList.add("Live_Classes is not Available");
+   				}
+   				result=true;
+   				return result;
+			}else {
+				if(libraryPage_OR.getListOfsourse().size()==0) {
+					result=false;
+					return result;
+				}
+			}
+
+		} catch (Exception e) {
+			result = false;
+			libraryPageMsgList.add("clickOnDropDownLibcourse_Exception: " + e.getMessage());
 		}
 		return result;
 	}
