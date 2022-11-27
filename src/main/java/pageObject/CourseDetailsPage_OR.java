@@ -521,5 +521,13 @@ public class CourseDetailsPage_OR {
 	return ColseNotification;
 	}
 	
+	@FindBy(css=".buy_now_btn_course_info")
+	private List<WebElement> btnBuyNowCourseInfo;
+
+	public List<WebElement> getBtnBuyNowCourseInfo() {
+		return btnBuyNowCourseInfo;
+	}
+	
+	
 	
 }

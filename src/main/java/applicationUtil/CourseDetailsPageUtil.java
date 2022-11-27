@@ -75,7 +75,12 @@ public class CourseDetailsPageUtil {
 			System.out.println("strCourseSlug:" + strCourseSlug);
 			courseApiUtilObj = new CourseApiUtil();
 			courseViewObj = courseApiUtilObj.getCourseViewData(strCourseSlug);
-			System.out.println(courseViewObj.getData().getPriceInfo());
+			if(courseViewObj == null)
+			{
+				CourseDetailsPageMsgList.add("Error in course detail api");
+				return false;
+			}
+			//System.out.println(courseViewObj.getData().getPriceInfo());
 			result = verifyCourseInfo(driver, courseViewObj);
 			if (!result) {
 				CourseDetailsPageMsgList.add("Course Info is not Present");
@@ -191,7 +196,6 @@ public class CourseDetailsPageUtil {
 
 	public boolean verifyCourseInfo(WebDriver driver, CourseView courseViewObj) {
 		boolean result = true;
-		String strOriginalPrice;
 		try {
 
 			if (CourseDetailsPageORObj.getListCourseTitle().size() == 0) {
@@ -203,28 +207,27 @@ public class CourseDetailsPageUtil {
 				CourseDetailsPageMsgList.add("Course image is not visible on course detail Page");
 				result = false;
 			}
-
-			if (courseViewObj.getData().getCourseDetail().getCourseBasePrice() != null) {
-				strOriginalPrice = courseViewObj.getData().getCourseDetail().getCourseBasePrice().toString();
-				System.out.println(strOriginalPrice);
-				if (CourseDetailsPageORObj.getOriginal_Price().size() == 0) {
-					CourseDetailsPageMsgList.add("Origin price is not display on course detail page");
-					result = false;
-				}
-
-			}
-
 			if (CourseDetailsPageORObj.getDiscounted_Price().size() != 2) {
 				CourseDetailsPageMsgList.add("No discounted Price");
 				result = false;
 			}
-
-			if (CourseDetailsPageORObj.getBuyNow_Button().size() != 1) {
-				CourseDetailsPageMsgList.add("Buy now button is not display on course detail page");
-				result = false;
+			
+			if(!courseViewObj.getData().getCourseType().getCourseTypeName().equalsIgnoreCase("Live Classes"))
+			{
+				if (CourseDetailsPageORObj.getBuyNow_Button().size() != 1) {
+					CourseDetailsPageMsgList.add("Buy now button is not display on course detail page");
+					result = false;
+				}
+				
+			}else
+			{
+				if (CourseDetailsPageORObj.getBtnBuyNowCourseInfo().size() != 1) {
+					CourseDetailsPageMsgList.add("Buy now button is not display on course info page");
+					result = false;
+				}
 			}
 
-			if (courseViewObj.getData().getCourseType().getCourseTypeName().equalsIgnoreCase("Testseries")) {
+			if (courseViewObj.getData().getCourseType().getCourseTypeName().equalsIgnoreCase("Testseries") || courseViewObj.getData().getCourseType().getCourseTypeName().equalsIgnoreCase("Live Classes")) {
 
 				if (CourseDetailsPageORObj.getListTestSeriesCourseInfo().size() == 0) {
 					CourseDetailsPageMsgList.add("Test series Course info is not display in course detail page");
@@ -339,8 +342,6 @@ public class CourseDetailsPageUtil {
 		boolean result = true;
 		int intStartTime, intPauseTime, intFinalTime;
 		try {
-             
-			result = cfObj.commonWaitForElementToBeVisible(driver, CourseDetailsPageORObj.getDemo_Videos_Button(), 20);
 			if (courseViewObj.getData().getDemoUrls().size() > 0) {
 				if (result) {
 					cfObj.commonClick(CourseDetailsPageORObj.getDemo_Videos_Button());
