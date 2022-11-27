@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="StudyIq Web Automation Test Suite">
+	
+
+	<test name="HOME_PAGE">
+		<classes>
+			<class name="test_scripts.HomePageTest" />
+		</classes>
+	</test>
+</suite>
+
