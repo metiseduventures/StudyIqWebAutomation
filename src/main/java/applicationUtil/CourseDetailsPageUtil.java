@@ -84,6 +84,7 @@ public class CourseDetailsPageUtil {
 			result = verifyCourseInfo(driver, courseViewObj);
 			if (!result) {
 				CourseDetailsPageMsgList.add("Course Info is not Present");
+				return result;
 			}
 			//Close Notification
 		    cfObj.commonClick(CourseDetailsPageORObj.getColseNotification());
@@ -227,7 +228,7 @@ public class CourseDetailsPageUtil {
 				}
 			}
 
-			if (courseViewObj.getData().getCourseType().getCourseTypeName().equalsIgnoreCase("Testseries") || courseViewObj.getData().getCourseType().getCourseTypeName().equalsIgnoreCase("Live Classes")) {
+			/*if (courseViewObj.getData().getCourseType().getCourseTypeName().equalsIgnoreCase("Testseries") || courseViewObj.getData().getCourseType().getCourseTypeName().equalsIgnoreCase("Live Classes")) {
 
 				if (CourseDetailsPageORObj.getListTestSeriesCourseInfo().size() == 0) {
 					CourseDetailsPageMsgList.add("Test series Course info is not display in course detail page");
@@ -243,7 +244,7 @@ public class CourseDetailsPageUtil {
 				} else {
 
 				}
-			}
+			}*/
 
 		} catch (Exception e) {
 			result = false;
