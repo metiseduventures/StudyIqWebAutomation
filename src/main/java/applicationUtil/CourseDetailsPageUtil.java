@@ -75,19 +75,18 @@ public class CourseDetailsPageUtil {
 			System.out.println("strCourseSlug:" + strCourseSlug);
 			courseApiUtilObj = new CourseApiUtil();
 			courseViewObj = courseApiUtilObj.getCourseViewData(strCourseSlug);
-			if(courseViewObj == null)
-			{
+			if (courseViewObj == null) {
 				CourseDetailsPageMsgList.add("Error in course detail api");
 				return false;
 			}
-			//System.out.println(courseViewObj.getData().getPriceInfo());
+			// System.out.println(courseViewObj.getData().getPriceInfo());
 			result = verifyCourseInfo(driver, courseViewObj);
 			if (!result) {
 				CourseDetailsPageMsgList.add("Course Info is not Present");
 				return result;
 			}
-			//Close Notification
-		    cfObj.commonClick(CourseDetailsPageORObj.getColseNotification());
+			// Close Notification
+			cfObj.commonClick(CourseDetailsPageORObj.getColseNotification());
 
 			result = verifyTestSeriesMockTest(driver, courseViewObj);
 			if (!result) {
@@ -118,7 +117,6 @@ public class CourseDetailsPageUtil {
 				return result;
 			}
 
-			
 			// click on About Authors
 			result = verifyAboutAuthor(driver, courseViewObj);
 
@@ -134,13 +132,13 @@ public class CourseDetailsPageUtil {
 					return result;
 				}
 			}
-			
+
 			// Verify Cross Sell
 			result = verifySimilarCourses(driver, courseViewObj);
 			if (!result) {
 				return result;
 			}
-			      
+
 			// click on Our Packages
 
 			result = clickOnOurPackages(driver);
@@ -186,7 +184,6 @@ public class CourseDetailsPageUtil {
 
 			}
 
-
 		} catch (Exception e) {
 			result = false;
 			CourseDetailsPageMsgList.add("verifyCourseDetailsPage_Exception: " + e.getMessage());
@@ -212,39 +209,41 @@ public class CourseDetailsPageUtil {
 				CourseDetailsPageMsgList.add("No discounted Price");
 				result = false;
 			}
-			
-			if(!courseViewObj.getData().getCourseType().getCourseTypeName().equalsIgnoreCase("Live Classes"))
-			{
+
+			if (!courseViewObj.getData().getCourseType().getCourseTypeName().equalsIgnoreCase("Live Classes")) {
 				if (CourseDetailsPageORObj.getBuyNow_Button().size() != 1) {
 					CourseDetailsPageMsgList.add("Buy now button is not display on course detail page");
 					result = false;
 				}
-				
-			}else
-			{
+
+			} else {
 				if (CourseDetailsPageORObj.getBtnBuyNowCourseInfo().size() != 1) {
 					CourseDetailsPageMsgList.add("Buy now button is not display on course info page");
 					result = false;
 				}
 			}
 
-			/*if (courseViewObj.getData().getCourseType().getCourseTypeName().equalsIgnoreCase("Testseries") || courseViewObj.getData().getCourseType().getCourseTypeName().equalsIgnoreCase("Live Classes")) {
-
-				if (CourseDetailsPageORObj.getListTestSeriesCourseInfo().size() == 0) {
-					CourseDetailsPageMsgList.add("Test series Course info is not display in course detail page");
-					result = false;
-				} else {
-
-				}
-
-			} else {
-				if (CourseDetailsPageORObj.getListCourseInfo().size() == 0) {
-					CourseDetailsPageMsgList.add("Course info is not display in course detail page");
-					result = false;
-				} else {
-
-				}
-			}*/
+			/*
+			 * if
+			 * (courseViewObj.getData().getCourseType().getCourseTypeName().equalsIgnoreCase
+			 * ("Testseries") ||
+			 * courseViewObj.getData().getCourseType().getCourseTypeName().
+			 * equalsIgnoreCase("Live Classes")) {
+			 * 
+			 * if (CourseDetailsPageORObj.getListTestSeriesCourseInfo().size() == 0) {
+			 * CourseDetailsPageMsgList.
+			 * add("Test series Course info is not display in course detail page"); result =
+			 * false; } else {
+			 * 
+			 * }
+			 * 
+			 * } else { if (CourseDetailsPageORObj.getListCourseInfo().size() == 0) {
+			 * CourseDetailsPageMsgList.
+			 * add("Course info is not display in course detail page"); result = false; }
+			 * else {
+			 * 
+			 * } }
+			 */
 
 		} catch (Exception e) {
 			result = false;
@@ -260,25 +259,34 @@ public class CourseDetailsPageUtil {
 
 			result = cfObj.commonWaitForElementToBeVisible(driver, CourseDetailsPageORObj.getExamsCovered_TextButton(),
 					2);
-			if (result) {
-				cfObj.commonClick(CourseDetailsPageORObj.getExamsCovered_TextButton());
+
+			if (courseViewObj.getData().getExamCovered().size() > 0) {
+				if (result) {
+					cfObj.commonClick(CourseDetailsPageORObj.getExamsCovered_TextButton());
+				} else {
+
+					CourseDetailsPageMsgList.add("Exam covered navigation is not display on course detail page");
+					return result;
+
+				}
+
+				if (CourseDetailsPageORObj.getExamsCovered_Textinside().size() == 0) {
+					CourseDetailsPageMsgList
+							.add("Exam covered list is not display on course detail page when click on exam covered");
+					return false;
+				}
+
+				if (CourseDetailsPageORObj.getExamsCovered_Textinside().size() != courseViewObj.getData()
+						.getExamCovered().size()) {
+					CourseDetailsPageMsgList.add("Mismatch in exam covered list in api and UI");
+					return false;
+				}
 			} else {
-
-				CourseDetailsPageMsgList.add("Exam covered navigation is not display on course detail page");
-				return result;
-
-			}
-
-			if (CourseDetailsPageORObj.getExamsCovered_Textinside().size() == 0) {
-				CourseDetailsPageMsgList
-						.add("Exam covered list is not display on course detail page when click on exam covered");
-				return false;
-			}
-
-			if (CourseDetailsPageORObj.getExamsCovered_Textinside().size() != courseViewObj.getData().getExamCovered()
-					.size()) {
-				CourseDetailsPageMsgList.add("Mismatch in exam covered list in api and UI");
-				return false;
+				if (result) {
+					CourseDetailsPageMsgList.add("Exam covered section section should not be display for course: "
+							+ courseViewObj.getData().getCourseDetail().getCourseTitle());
+					result = false;
+				}
 			}
 
 		} catch (Exception e) {
@@ -343,7 +351,7 @@ public class CourseDetailsPageUtil {
 		boolean result = true;
 		int intStartTime, intPauseTime, intFinalTime;
 		try {
-             
+
 			result = cfObj.commonWaitForElementToBeVisible(driver, CourseDetailsPageORObj.getDemo_Videos_Button(), 20);
 			if (courseViewObj.getData().getDemoUrls().size() > 0) {
 				if (result) {
@@ -360,7 +368,7 @@ public class CourseDetailsPageUtil {
 				}
 
 				List<WebElement> tx3 = CourseDetailsPageORObj.getListOf_Videos();
-				int sizeofVideo=tx3.size();
+				int sizeofVideo = tx3.size();
 				for (int i = 0; i < sizeofVideo; i++) {
 					cfObj.commonClick(tx3.get(i));
 					result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".shaka-current-time", "css", 20);
@@ -403,7 +411,6 @@ public class CourseDetailsPageUtil {
 					intFinalTime = Integer.valueOf(cfObj.commonGetElement(driver, ".shaka-current-time", "css")
 							.getText().toString().split("/")[0].trim().split(":")[2].trim());
 					System.out.println(intFinalTime);
-					
 
 					if (intPauseTime != intFinalTime) {
 						CourseDetailsPageMsgList.add("Video is not paused when click on paused button for course: "
@@ -815,9 +822,6 @@ public class CourseDetailsPageUtil {
 		}
 		return result;
 	}
-	
-	
-
 
 	public boolean verifySimilarCourses(WebDriver driver, CourseView courseViewObj) {
 		boolean result = true;
@@ -857,10 +861,10 @@ public class CourseDetailsPageUtil {
 								driver.close();
 								driver.switchTo().window(defaultwindowId);
 								Thread.sleep(7000);
-							}else {
+							} else {
 								result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver,
 										"//button[@class='not-found--button']", "xpath", 30);
-								if(result) {
+								if (result) {
 									driver.close();
 									driver.switchTo().window(defaultwindowId);
 									Thread.sleep(7000);
