@@ -342,6 +342,8 @@ public class CourseDetailsPageUtil {
 		boolean result = true;
 		int intStartTime, intPauseTime, intFinalTime;
 		try {
+             
+			result = cfObj.commonWaitForElementToBeVisible(driver, CourseDetailsPageORObj.getDemo_Videos_Button(), 20);
 			if (courseViewObj.getData().getDemoUrls().size() > 0) {
 				if (result) {
 					cfObj.commonClick(CourseDetailsPageORObj.getDemo_Videos_Button());
