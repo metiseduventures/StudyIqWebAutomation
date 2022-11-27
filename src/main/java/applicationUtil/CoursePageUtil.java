@@ -44,16 +44,16 @@ public class CoursePageUtil {
 		try {
 
 			strCourseType = testData.getCourseType().toString();
-			
+
 			result = cfObj.commonWaitForElementToBeVisible(driver, coursePageORobj.popUpFrame(), 10);
 			if (result) {
 				driver.switchTo().frame(coursePageORobj.popUpFrame());
 				cfObj.commonClick(coursePageORobj.closePopUp());
 				driver.switchTo().parentFrame();
 			}
-			//Close Notification
-		    cfObj.commonClick(coursePageORobj.getColseNotification());		
-		    
+			// Close Notification
+			cfObj.commonClick(coursePageORobj.getColseNotification());
+
 			// for guest user
 			if (testData.getIsUserGuest()) {
 				if (testData.getCourseType().contains("smart")) {
@@ -92,7 +92,10 @@ public class CoursePageUtil {
 				courseApiUtilObj = new CourseApiUtil();
 				courseViewObj = courseApiUtilObj.getCourseViewData(strCourseSlug);
 				// System.out.println(courseViewObj.getData().getPriceInfo());
-
+				if (courseViewObj == null) {
+					coursePageMsgList.add("Error in course detail api");
+					return false;
+				}
 				result = verifyClickBuy(driver, false);
 				if (!result) {
 					return result;
@@ -219,7 +222,7 @@ public class CoursePageUtil {
 				if (!result) {
 					return result;
 				}
-				
+
 				result = verifyClickBuy(driver, true);
 				if (!result) {
 					return result;
@@ -247,7 +250,7 @@ public class CoursePageUtil {
 				if (!result) {
 					return result;
 				}
-                Thread.sleep(5000);
+				Thread.sleep(5000);
 				if ((ConfigFileReader.strEnv).equalsIgnoreCase("staging")
 						|| (ConfigFileReader.strEnv).equalsIgnoreCase("dev")) {
 
@@ -635,7 +638,7 @@ public class CoursePageUtil {
 						return false;
 
 					}
-                    Thread.sleep(10000);
+					Thread.sleep(10000);
 					result = verifyPaytmMethod(driver, testData, bankName);
 					if (!result) {
 						return result;
@@ -709,11 +712,12 @@ public class CoursePageUtil {
 		boolean result = true;
 		try {
 
-			/*result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//img[@data-key='qr-code']", "xpath", 10);
-			if (!result) {
-				coursePageMsgList.add("The payment page is not open for paytm");
-				return result;
-			}*/
+			/*
+			 * result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver,
+			 * "//img[@data-key='qr-code']", "xpath", 10); if (!result) {
+			 * coursePageMsgList.add("The payment page is not open for paytm"); return
+			 * result; }
+			 */
 
 			if (ConfigFileReader.strEnv.equalsIgnoreCase("prod")) {
 
@@ -730,12 +734,13 @@ public class CoursePageUtil {
 				}
 			}
 			Thread.sleep(10000);
-			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "(//div[@class='_202C d-block po-n o-h pos-r'])[3]/div/div","xpath", 20);
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver,
+					"(//div[@class='_202C d-block po-n o-h pos-r'])[3]/div/div", "xpath", 20);
 			if (!result) {
 				coursePageMsgList.add("The netbank btn is not visible in paytm method");
 				return result;
 			}
-             
+
 			cfObj.commonClick(coursePageORobj.netBankingElement());
 
 			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".pu-title", "css", 10);
@@ -744,7 +749,8 @@ public class CoursePageUtil {
 				return result;
 			}
 
-			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".btn.btn-primary.w100.pos-r._2fNU","css", 10);
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".btn.btn-primary.w100.pos-r._2fNU", "css",
+					10);
 			if (!result) {
 				coursePageMsgList.add("The netbank btn is not visible in paytm method");
 				return result;
@@ -758,20 +764,22 @@ public class CoursePageUtil {
 				return result;
 			}
 
-			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//button[@class='btn btnd']","xpath", 10);
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//button[@class='btn btnd']", "xpath",
+					10);
 			if (!result) {
 				coursePageMsgList.add("The successful btn is not visible in paytm method");
 				return result;
 			}
 
-			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//button[@class='btn btnl']","xpath", 10);
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//button[@class='btn btnl']", "xpath",
+					10);
 			if (!result) {
 				coursePageMsgList.add("The failure btn is not visible in paytm method");
 				return result;
 			}
 
 			if (testData.getIsKey().equalsIgnoreCase("pass")) {
-                
+
 				Thread.sleep(10000);
 				cfObj.commonClick(coursePageORobj.successInPaytm());
 
@@ -945,7 +953,7 @@ public class CoursePageUtil {
 	public boolean verifyPaymentStatus(WebDriver driver) {
 		boolean result = true;
 		try {
-            Thread.sleep(5000);
+			Thread.sleep(5000);
 			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".payment-h", "css", 30);
 			if (!result) {
 				coursePageMsgList.add("The status of course purchase is not visible or wrong page");

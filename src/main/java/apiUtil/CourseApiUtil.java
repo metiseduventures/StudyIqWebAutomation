@@ -24,7 +24,7 @@ public class CourseApiUtil {
 			courseViewObj = ap.responseData.as(CourseView.class);
 
 		} catch (Exception e) {
-			// TODO: handle exception
+			System.out.println(e.getMessage().toString());
 		}
 
 		return courseViewObj;

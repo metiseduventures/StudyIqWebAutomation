@@ -36,8 +36,6 @@ public class Data {
     private List<CourseLanguage> courseLanguages = null;
     @JsonProperty("course_detail")
     private CourseDetail courseDetail;
-    @JsonProperty("course_info")
-    private CourseInfo courseInfo;
     @JsonProperty("exam_covered")
     private List<ExamCovered> examCovered = null;
     @JsonProperty("authors")
@@ -81,16 +79,6 @@ public class Data {
     @JsonProperty("course_detail")
     public void setCourseDetail(CourseDetail courseDetail) {
         this.courseDetail = courseDetail;
-    }
-
-    @JsonProperty("course_info")
-    public CourseInfo getCourseInfo() {
-        return courseInfo;
-    }
-
-    @JsonProperty("course_info")
-    public void setCourseInfo(CourseInfo courseInfo) {
-        this.courseInfo = courseInfo;
     }
 
     @JsonProperty("exam_covered")
