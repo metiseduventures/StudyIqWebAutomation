@@ -70,7 +70,6 @@ public class CourseDetailsPageUtil {
 				}
 			}
 			// click on Courses Info
-			Thread.sleep(20000);
 			strCourseSlug = driver.getCurrentUrl().split("course-detail/")[1];
 			System.out.println("strCourseSlug:" + strCourseSlug);
 			courseApiUtilObj = new CourseApiUtil();
@@ -286,6 +285,8 @@ public class CourseDetailsPageUtil {
 					CourseDetailsPageMsgList.add("Exam covered section section should not be display for course: "
 							+ courseViewObj.getData().getCourseDetail().getCourseTitle());
 					result = false;
+				} else {
+					result = true;
 				}
 			}
 
