@@ -409,7 +409,6 @@ public class MyProfileUtil {
 						}
 						//Click On Request OTP Button
 						cfObj.commonClick(MyProfileORobj.getRequestOTP_Button());
-						Thread.sleep(30000);
 						result=VerifyButtonOf_OTP(driver);
 						if (!result) {
 							MyProfileORobjMsgList.add("Verify Button is not clicked");
@@ -431,11 +430,11 @@ public class MyProfileUtil {
 			
 			result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "(//div[@class='grid-item']/label[contains(text(),'Mobile Number')])[1]", "xpath", 10);
 			if (result==true) {
-				result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "(//div[@class='grid-item']//button[contains(text(),'Update')])[2]", "xpath", 10);
+				result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "(//div[@class='grid-item']//button[contains(text(),'Update')])[1]", "xpath", 10);
 				if (result==true) {
 					
 					//Click On Update Button
-					cfObj.commonClick(MyProfileORobj.getMobileUpdate_Button());
+					cfObj.commonClick(MyProfileORobj.getUpdate_Button());
 					
 					result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//div[@class='grid-item']//input[@placeholder='Mobile Number']", "xpath", 10);
 					if (result==true) {
@@ -446,21 +445,12 @@ public class MyProfileUtil {
 						}
 						//Click On Request OTP Button
 						cfObj.commonClick(MyProfileORobj.getRequestOTP_Button());
-						Thread.sleep(30000);
-						result=VerifyButtonOf_OTP(driver);
+						result=VerifyButtonOf_OTP_Mobile(driver);
 						if (!result) {
 							MyProfileORobjMsgList.add("Verify Button is not clicked");
 							return result;
 						}
-						result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//div[contains(text(),'Please enter valid OTP')]", "xpath", 10);
-						if(result) {
-							result=false;
-							MyProfileORobjMsgList.add("Please enter valid OTP");
-							return result;
-						}else {
-							result=true;
-							return result;
-						}
+						
 					}else {
 						MyProfileORobjMsgList.add("Mobile Number-Input Box is not Visible");
 					}
@@ -473,6 +463,10 @@ public class MyProfileUtil {
             	return result;
 			}
 			
+			result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//div[contains(text(),'Please enter valid OTP')]", "xpath", 10);
+			if(result) {
+				result=true;
+			}
 		} catch (Exception e) {
 			result = false;
 			MyProfileORobjMsgList.add("AccountSection_Exception: " + e.getMessage());
@@ -734,6 +728,23 @@ public class MyProfileUtil {
 		} catch (Exception e) {
 			result = false;
 			MyProfileORobjMsgList.add("UpdateExamPreference_Exception: " + e.getMessage());
+		}
+		return result;
+	}
+	
+	public boolean VerifyButtonOf_OTP_Mobile(WebDriver driver) {
+		boolean result = true;
+		try {
+			
+			result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "(//div[@class='grid-item']//button[contains(text(),'Verify')])[2]", "xpath", 10);
+			if (result==true) {
+				cfObj.commonClick(MyProfileORobj.getVerifyOTP_Button_Mobile());
+			}else {
+				MyProfileORobjMsgList.add("Verify Button is Not Visible");
+			}
+		} catch (Exception e) {
+			result = false;
+			MyProfileORobjMsgList.add("VerifyButtonOf_OTP_Mobile_Exception: " + e.getMessage());
 		}
 		return result;
 	}
