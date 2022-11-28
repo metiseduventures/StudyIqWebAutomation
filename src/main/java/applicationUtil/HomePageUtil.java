@@ -39,7 +39,7 @@ public class HomePageUtil {
 
 	public boolean validateHomePage(WebDriver driver, String strMobileNumber) {
 		boolean result = true;
-		MyProfileUtil ObjMyProfileUtil=new MyProfileUtil(driver);
+		MyProfileUtil ObjMyProfileUtil = new MyProfileUtil(driver);
 		try {
 			result = VerifyContacts(driver);
 			if (!result) {
@@ -129,8 +129,8 @@ public class HomePageUtil {
 				}
 				driver.close();
 				driver.switchTo().window(defaultwindowId);
-				//Close Notification
-			    cfObj.commonClick(homePageORObj.getColseNotification());
+				// Close Notification
+				cfObj.commonClick(homePageORObj.getColseNotification());
 			} else {
 				homePageMsgList.add("Contacts is not Available");
 				return result;
@@ -494,10 +494,11 @@ public class HomePageUtil {
 	public boolean clickOnMyProfile(WebDriver driver) {
 		boolean result = true;
 		try {
-			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//a[contains(text(),'Account Info')]", "xpath", 30);
-			if (result==true) {
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//a[contains(text(),'Account Info')]",
+					"xpath", 30);
+			if (result == true) {
 				cfObj.commonClick(homePageORObj.getAccountInfo());
-			}else {
+			} else {
 				homePageMsgList.add("My-Profile Button is not Visible");
 				return result;
 			}
@@ -535,7 +536,7 @@ public class HomePageUtil {
 				return result;
 			}
 			// click on get OTP
-            Thread.sleep(5000);
+			Thread.sleep(5000);
 			result = clickOnContinueButton();
 			if (!result) {
 				return result;
@@ -567,9 +568,9 @@ public class HomePageUtil {
 			if (!result) {
 				return result;
 			}
-			
-			//Exam Preference 
-			
+
+			// Exam Preference
+
 			result = VerifyExamPreference(driver);
 
 			if (!result) {
@@ -771,21 +772,20 @@ public class HomePageUtil {
 	public boolean VerifyTestimonial(WebDriver driver) {
 		boolean result = true;
 		try {
-			JavascriptExecutor j1=(JavascriptExecutor)driver;
+			JavascriptExecutor j1 = (JavascriptExecutor) driver;
 			j1.executeScript("window.scrollBy(0,5000)", "");
-			result=cfObj.commonWaitForElementToBeVisible(driver, homePageORObj.getViewAllButton_ofTestimonial(),
-					 20);
-			if(result==true) {
+			result = cfObj.commonWaitForElementToBeVisible(driver, homePageORObj.getViewAllButton_ofTestimonial(), 20);
+			if (result == true) {
 				cfObj.commonClick(homePageORObj.getViewAllButton_ofTestimonial());
 				cfObj.commonClick(homePageORObj.getTestimonialVideo().get(1));
 				cfObj.commonClick(homePageORObj.getVideo());
 				driver.navigate().back();
 				cfObj.commonClick(homePageORObj.getClose_Notification());
 				cfObj.commonClick(homePageORObj.getHomePage());
-			}else {
-				result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "(//div[@class='t_img']/img)",
-						"xpath", 20);
-				if(result==true) {
+			} else {
+				result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "(//div[@class='t_img']/img)", "xpath",
+						20);
+				if (result == true) {
 					cfObj.commonClick(homePageORObj.getListOfFronttestimonialVideo().get(0));
 					cfObj.commonClick(homePageORObj.getPlayListOfFronttestimonialVideo());
 				}
@@ -1221,30 +1221,30 @@ public class HomePageUtil {
 //			if (!result) {
 //				return result;
 //			}
-			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver,
-					"//button[contains(text(),'Buy Now')]", "xpath", 20);
-			if (result==true) {
-				result=coursePageUtilObj.clickOnBuyNow();
-				if(result) {
-				result = coursePageUtilObj.PackageVerification();
-				if (!result) {
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//button[contains(text(),'Buy Now')]",
+					"xpath", 20);
+			if (result == true) {
+				result = coursePageUtilObj.clickOnBuyNow();
+				if (result) {
+					result = coursePageUtilObj.PackageVerification();
+					if (!result) {
+						return result;
+					}
+					cfObj.commonClick(homePageORObj.getCloseButton());
+					cfObj.commonClick(homePageORObj.getHomePage());
+					cfObj.commonClick(homePageORObj.getClose_Notification());
+				} else {
 					return result;
 				}
-				cfObj.commonClick(homePageORObj.getCloseButton());
-				cfObj.commonClick(homePageORObj.getHomePage());
-				cfObj.commonClick(homePageORObj.getClose_Notification());
-				}else {
-					return result;
-				}
-			}else {
+			} else {
 				result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver,
 						"//button[contains(text(),'Start My Course')]", "xpath", 20);
-				if(result==true) {
+				if (result == true) {
 					cfObj.commonClick(homePageORObj.getStartMyCourse_Button());
 					cfObj.commonClick(homePageORObj.getHomePage());
 					cfObj.commonClick(homePageORObj.getClose_Notification());
 				}
-				
+
 			}
 		} catch (Exception e) {
 			result = false;
@@ -1318,8 +1318,7 @@ public class HomePageUtil {
 	public boolean clickOnLiveCoursesOnHomePage(WebDriver driver) {
 		boolean result = true;
 		try {
-			driver.navigate()
-			.to(fileReader.getBaseUrlWeb()  + fileReader.getliveClassMenuUrl());
+			driver.navigate().to(fileReader.getBaseUrlWeb() + fileReader.getliveClassMenuUrl());
 			if (homePageORObj.getlistOfBook().size() == 0) {
 				homePageMsgList.add("Live_Course are not display on the home page");
 				return false;
@@ -1354,15 +1353,15 @@ public class HomePageUtil {
 		return result;
 	}
 
-	
 	public boolean VerifyExamPreference(WebDriver driver) {
 		boolean result = true;
 		try {
-			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//div[@class='inputContainer']", "xpath", 30);
-			if (result==true) {
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//div[@class='inputContainer']", "xpath",
+					30);
+			if (result == true) {
 				cfObj.commonClick(homePageORObj.getListOfExamPreferenceCOurses().get(0));
-			}else {
-				result=true;
+			} else {
+				result = true;
 				homePageMsgList.add("Exam Preference is not Visible");
 				return result;
 			}
@@ -1372,7 +1371,7 @@ public class HomePageUtil {
 		}
 		return result;
 	}
-	
+
 	public boolean VerifyMyLibCOurse_List(WebDriver driver) {
 		boolean result = true;
 		librayUtilObj = new LibraryPageUtil(driver);
@@ -1396,6 +1395,28 @@ public class HomePageUtil {
 		} catch (Exception e) {
 			result = false;
 			homePageMsgList.add("VerifyMyLibCOurse_List_Exception: " + e.getMessage());
+		}
+		return result;
+	}
+
+	public boolean navigateToMyLibrary(WebDriver driver) {
+		boolean result = true;
+		try {
+			
+			result = clickOnDropDown(driver);		
+					//result = clickOnDropDown(driver);
+			cfObj.commonClick(homePageORObj.getMyLibraryButton());
+			//driver.navigate().to(fileReader.getBaseUrlWeb() + "my-library");
+			// wait for library to be opened
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".listing-header-container", "css", 10);
+			if (!result) {
+				homePageMsgList.add("My library page is not opened from home page");
+				return result;
+			}
+
+		} catch (Exception e) {
+			result = false;
+			homePageMsgList.add("navigateToMyLibrary_Exception: " + e.getMessage());
 		}
 		return result;
 	}

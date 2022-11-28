@@ -46,7 +46,7 @@ public class MyLibraryTest extends BaseTest {
 	public void verifyMyLibrary() {
 		boolean result = true;
 		MyLibraryUtilUtilObj = new LibraryPageUtil(driver);
-		result = MyLibraryUtilUtilObj.verifyMyLibrary(driver);
+		result = MyLibraryUtilUtilObj.verifyMyLibrary(driver,loginObj);
 		Assert.assertEquals(result, true, MyLibraryUtilUtilObj.libraryPageMsgList.toString());
 	}
 
@@ -54,7 +54,7 @@ public class MyLibraryTest extends BaseTest {
 	public void verifyMyLibraryFromDropDown() {
 		boolean result = true;
 		MyLibraryUtilUtilObj = new LibraryPageUtil(driver);
-		result = MyLibraryUtilUtilObj.verifyLibraryItemFromHomeDropDown(driver);
+		result = MyLibraryUtilUtilObj.verifyLibraryItemFromHomeDropDown(driver,loginObj);
 		Assert.assertEquals(result, true, MyLibraryUtilUtilObj.libraryPageMsgList.toString());
 	}
 
@@ -62,7 +62,7 @@ public class MyLibraryTest extends BaseTest {
 	public void verifyCourseContentFromLibrary() {
 		boolean result = true;
 		MyLibraryUtilUtilObj = new LibraryPageUtil(driver);
-		result = MyLibraryUtilUtilObj.verifyCourseContentFromLibrary(driver);
+		result = MyLibraryUtilUtilObj.verifyCourseContentFromLibrary(driver,loginObj);
 		Assert.assertEquals(result, true, MyLibraryUtilUtilObj.libraryPageMsgList.toString());
 	}
 
