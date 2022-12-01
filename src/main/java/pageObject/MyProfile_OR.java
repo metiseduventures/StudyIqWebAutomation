@@ -374,4 +374,20 @@ public class MyProfile_OR {
 		return ListOfUpdateExamPreferenceCOurses;
 	}
 	
+	@FindBy(xpath = "(//div[@class='grid-item']//button[contains(text(),'Update')])[1]")
+	private WebElement Update_Button;
+	
+	
+	public WebElement getUpdate_Button() {
+		return Update_Button;
+	}
+	
+	@FindBy(xpath = "(//div[@class='grid-item']//button[contains(text(),'Verify')])[2]")
+	private WebElement VerifyOTP_Button_Mobile;
+	
+	
+	public WebElement getVerifyOTP_Button_Mobile() {
+		return VerifyOTP_Button_Mobile;
+	}
+	
 }
