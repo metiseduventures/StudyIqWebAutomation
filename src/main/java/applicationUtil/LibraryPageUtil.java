@@ -8,8 +8,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
-
-import apiUtil.CourseApiUtil;
 import apiUtil.LibraryApiUtil;
 import apiUtil.LoginUtil;
 import pageObject.CoursePage_OR;
@@ -17,7 +15,6 @@ import pageObject.HomePage_OR;
 import pageObject.LibraryPage_OR;
 import pageObject.MyCourse_OR;
 import pojo.TestData;
-import pojo.courseView.CourseView;
 import pojo.login.Login;
 import pojo.myLibrary.MyLibrary;
 import util.Common_Function;
@@ -38,6 +35,7 @@ public class LibraryPageUtil {
 	ConfigFileReader rConfigFileReader;
 	HomePageUtil homPageUtilObj;
 	MyCourseUtil myCourseUtilObj;
+	LoginUtil loginApiUtilObj;
 
 	public LibraryPageUtil(WebDriver driver) {
 		libraryPage_OR = new LibraryPage_OR();
