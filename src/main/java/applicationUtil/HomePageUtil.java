@@ -389,7 +389,7 @@ public class HomePageUtil {
 				return false;
 			}
 			// Select first course
-			cfObj.commonClick(homePageORObj.getListCourse().get(3));
+			cfObj.commonClick(homePageORObj.getListCourse().get(1));
 
 			// wait for course detail page to be opened
 			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".course_basic_info_wrapper", "css", 30);
@@ -413,7 +413,7 @@ public class HomePageUtil {
 				return false;
 			}
 			// Select first course
-			cfObj.commonClick(homePageORObj.getListCourse().get(3));
+			cfObj.commonClick(homePageORObj.getListCourse().get(2));
 
 			// wait for course detail page to be opened
 			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".course_basic_info_wrapper", "css", 30);
@@ -869,19 +869,14 @@ public class HomePageUtil {
 				String defaultwindowId = itr.next();
 				String childwindowId = itr.next();
 				driver.switchTo().window(childwindowId);
-				driver.navigate().refresh();
-				Thread.sleep(10000);
-				String title = "StudyIQ IAS - YouTube";
-				result = driver.getTitle().contains(title);
-				if (result == true) {
-					homePageMsgList.add("StudyIQ Youtube Website");
-				} else {
-					homePageMsgList.add("Not StudyIQ Youtube Website");
+				result = driver.getCurrentUrl().contains("youtube");
+				if (!result) {
+					homePageMsgList.add("Youtube Not is Open");
 					return result;
 				}
 				driver.close();
 				driver.switchTo().window(defaultwindowId);
-				Thread.sleep(10000);
+				Thread.sleep(5000);
 			} else {
 				homePageMsgList.add("StudyIQ Youtube Social Icon Button is not Available");
 				return result;
@@ -907,19 +902,14 @@ public class HomePageUtil {
 				String defaultwindowId = itr.next();
 				String childwindowId = itr.next();
 				driver.switchTo().window(childwindowId);
-				driver.navigate().refresh();
-				Thread.sleep(10000);
-				String title = "Study IQ - Home | Facebook";
-				result = driver.getTitle().contains(title);
-				if (result == true) {
-					homePageMsgList.add("StudyIQ Facebook Website");
-				} else {
-					homePageMsgList.add("Not StudyIQ Facebook Website");
+				result = driver.getCurrentUrl().contains("facebook");
+				if (!result) {
+					homePageMsgList.add("Facebook Not is Open");
 					return result;
 				}
 				driver.close();
 				driver.switchTo().window(defaultwindowId);
-				Thread.sleep(10000);
+				Thread.sleep(5000);
 			} else {
 				homePageMsgList.add("StudyIQ Facebook Social Icon Button is not Available");
 				return result;
@@ -946,19 +936,9 @@ public class HomePageUtil {
 				String defaultwindowId = itr.next();
 				String childwindowId = itr.next();
 				driver.switchTo().window(childwindowId);
-				driver.navigate().refresh();
-				Thread.sleep(10000);
-				String title = "Telegram: Contact @Studyiqeducation";
-				result = driver.getTitle().contains(title);
-				if (result == true) {
-					homePageMsgList.add("StudyIQ Telegram Website");
-				} else {
-					homePageMsgList.add("Not StudyIQ Telegram Website");
-					return result;
-				}
 				driver.close();
 				driver.switchTo().window(defaultwindowId);
-				Thread.sleep(10000);
+				Thread.sleep(5000);
 			} else {
 				homePageMsgList.add("StudyIQ Telegram Social Icon Button is not Available");
 				return result;
@@ -985,19 +965,14 @@ public class HomePageUtil {
 				String defaultwindowId = itr.next();
 				String childwindowId = itr.next();
 				driver.switchTo().window(childwindowId);
-				driver.navigate().refresh();
-				Thread.sleep(10000);
-				String title = "Instagram";
-				result = driver.getTitle().contains(title);
-				if (result == true) {
-					homePageMsgList.add("StudyIQ Instagram  Website");
-				} else {
-					homePageMsgList.add("Not StudyIQ Instagram Website");
+				result = driver.getCurrentUrl().contains("instagram");
+				if (!result) {
+					homePageMsgList.add("Instagram Not is Open");
 					return result;
 				}
 				driver.close();
 				driver.switchTo().window(defaultwindowId);
-				Thread.sleep(10000);
+				Thread.sleep(5000);
 			} else {
 				homePageMsgList.add("StudyIQ Instagram Social Icon Button is not Available");
 				return result;
@@ -1024,19 +999,14 @@ public class HomePageUtil {
 				String defaultwindowId = itr.next();
 				String childwindowId = itr.next();
 				driver.switchTo().window(childwindowId);
-				driver.navigate().refresh();
-				Thread.sleep(10000);
-				String title = driver.getTitle();
-				result = driver.getTitle().contains(title);
-				if (result == true) {
-					homePageMsgList.add("StudyIQ Twitter Website");
-				} else {
-					homePageMsgList.add("Not StudyIQ Twitter Website");
+				result = driver.getCurrentUrl().contains("twitter");
+				if (!result) {
+					homePageMsgList.add("Twitter Not is Open");
 					return result;
 				}
 				driver.close();
 				driver.switchTo().window(defaultwindowId);
-				Thread.sleep(10000);
+				Thread.sleep(5000);
 			} else {
 				homePageMsgList.add("StudyIQ Twitter Social Icon Button is not Available");
 				return result;
@@ -1063,19 +1033,14 @@ public class HomePageUtil {
 				String defaultwindowId = itr.next();
 				String childwindowId = itr.next();
 				driver.switchTo().window(childwindowId);
-				driver.navigate().refresh();
-				Thread.sleep(10000);
-				String title = "LinkedIn";
-				result = driver.getTitle().contains(title);
-				if (result == true) {
-					homePageMsgList.add("StudyIQ LinkedIn Website");
-				} else {
-					homePageMsgList.add("Not StudyIQ LinkedIn Website");
+				result = driver.getCurrentUrl().contains("linkedin");
+				if (!result) {
+					homePageMsgList.add("StudyIQ LinkedIn Not is Open");
 					return result;
 				}
 				driver.close();
 				driver.switchTo().window(defaultwindowId);
-				Thread.sleep(10000);
+				Thread.sleep(5000);
 			} else {
 				homePageMsgList.add("StudyIQ LinkedIn Social Icon Button is not Available");
 				return result;
@@ -1102,19 +1067,14 @@ public class HomePageUtil {
 				String defaultwindowId = itr.next();
 				String childwindowId = itr.next();
 				driver.switchTo().window(childwindowId);
-				driver.navigate().refresh();
-				Thread.sleep(10000);
-				String title = "StudyIQ";
-				result = driver.getTitle().contains(title);
-				if (result == true) {
-					homePageMsgList.add("StudyIQ Tumblr Website");
-				} else {
-					homePageMsgList.add("Not StudyIQ Tumblr Website");
+				result = driver.getCurrentUrl().contains("tumblr");
+				if (!result) {
+					homePageMsgList.add("Tumblr Not is Open");
 					return result;
 				}
 				driver.close();
 				driver.switchTo().window(defaultwindowId);
-				Thread.sleep(10000);
+				Thread.sleep(5000);
 			} else {
 				homePageMsgList.add("StudyIQ Tumblr Social Icon Button is not Available");
 				return result;
@@ -1141,19 +1101,14 @@ public class HomePageUtil {
 				String defaultwindowId = itr.next();
 				String childwindowId = itr.next();
 				driver.switchTo().window(childwindowId);
-				driver.navigate().refresh();
-				Thread.sleep(10000);
-				String title = "Share on WhatsApp";
-				result = driver.getTitle().contains(title);
-				if (result == true) {
-					homePageMsgList.add("StudyIQ whatsapp Website");
-				} else {
-					homePageMsgList.add("Not StudyIQ whatsapp Website");
+				result = driver.getCurrentUrl().contains("whatsapp");
+				if (!result) {
+					homePageMsgList.add("whatsapp Not is Open");
 					return result;
 				}
 				driver.close();
 				driver.switchTo().window(defaultwindowId);
-				Thread.sleep(10000);
+				Thread.sleep(5000);
 			} else {
 				homePageMsgList.add("StudyIQ whatsapp Social Icon Button is not Available");
 				return result;
@@ -1210,13 +1165,12 @@ public class HomePageUtil {
 			List<WebElement> L3 = homePageORObj.getListCourse();
 			for (int i = 0; i < 2; i++) {
 				cfObj.commonClick(L3.get(i));
-				Thread.sleep(21000);
 				cfObj.commonClick(homePageORObj.getCloseButton());
 				driver.navigate().back();
 				cfObj.commonClick(homePageORObj.getClose_Notification());
 			}
 			cfObj.commonClick(homePageORObj.getListCourse().get(1));
-			Thread.sleep(21000);
+			Thread.sleep(5000);
 //			result = coursePageUtilObj.selectExamPrefrences(driver);
 //			if (!result) {
 //				return result;

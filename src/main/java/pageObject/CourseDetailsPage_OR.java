@@ -528,6 +528,11 @@ public class CourseDetailsPage_OR {
 		return btnBuyNowCourseInfo;
 	}
 	
-	
+	@FindBy(xpath="//div[@class='shaka-scrim-container']")
+	private WebElement DemoVideo;
+
+	public WebElement getDemoVideo() {
+	return DemoVideo;
+	}
 	
 }

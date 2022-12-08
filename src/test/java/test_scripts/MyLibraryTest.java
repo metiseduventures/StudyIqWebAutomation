@@ -65,5 +65,13 @@ public class MyLibraryTest extends BaseTest {
 		result = MyLibraryUtilUtilObj.verifyCourseContentFromLibrary(driver);
 		Assert.assertEquals(result, true, MyLibraryUtilUtilObj.libraryPageMsgList.toString());
 	}
+	
+	@Test
+	public void VideoConsumption() {
+		boolean result = true;
+		MyLibraryUtilUtilObj = new LibraryPageUtil(driver);
+		result = MyLibraryUtilUtilObj.VideoConsumption(driver);
+		Assert.assertEquals(result, true, MyLibraryUtilUtilObj.libraryPageMsgList.toString());
+	}
 
 }

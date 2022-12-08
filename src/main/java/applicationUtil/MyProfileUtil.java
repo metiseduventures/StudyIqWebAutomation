@@ -2,6 +2,8 @@ package applicationUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 import pageObject.MyProfile_OR;
@@ -352,9 +354,10 @@ public class MyProfileUtil {
 			//Click On My-Exam Section
 			cfObj.commonClick(MyProfileORobj.getMyExam_icon());
 			
-			result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//div[contains(text(),'No goal is selected')]", "xpath", 10);
+			result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//div[contains(text(),'No goal is selected')]", "xpath", 30);
 			if(result==true) {
 				cfObj.commonClick(MyProfileORobj.getAddYourExam_Button());
+				driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
                 result=UpdateExamPreference(driver);
                 if(!result) {
                 	MyProfileORobjMsgList.add("ExamPrefrences is not visible");
@@ -366,6 +369,7 @@ public class MyProfileUtil {
 					result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//button[contains(text(),'Update Your Exam')]", "xpath", 10);
 					if (result==true) {
 						cfObj.commonClick(MyProfileORobj.getUpdateYourExam_Button());
+						driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 						result=UpdateExamPreference(driver);
 	                    if(!result) {
 	                    	MyProfileORobjMsgList.add("ExamPrefrences is not visible");
@@ -425,6 +429,7 @@ public class MyProfileUtil {
             	return result;
 			}
 			
+			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 			
 			//Updating Mobile No.
 			

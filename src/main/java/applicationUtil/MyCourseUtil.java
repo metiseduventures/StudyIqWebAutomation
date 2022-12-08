@@ -2,6 +2,8 @@ package applicationUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
@@ -191,5 +193,143 @@ public class MyCourseUtil {
 		}
 		return result;
 	}
+	
+	public boolean OpenCourse_ofVideo(WebDriver driver) {
+		boolean result = true;
+		LibraryUtilObj=new LibraryPageUtil(driver);
+		try {
+			List<WebElement> tx5=myCourses_OR.getDropDown_Arrow();
+			List<WebElement> tx6=myCourses_OR.getInsideDropDown_Arrow();
+			List<WebElement> tx10=myCourses_OR.getVIDEO_LogoCourse();
+			int count=0;
+            
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//div[@class='ci_content_wrapper']/div/div/div/div/img", "xpath", 30);
+			if(result) {
+				if(tx5.size()>0)
+				{
+					for(int j=0;j<tx5.size();j++) {
+						
+						if(count>=4) {
+							driver.navigate().back();
+							break;
+						}
+						cfObj.commonClick(myCourses_OR.getDropDown_Arrow().get(j));
+						result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//div[@class='collapse show']/div/div/div/div[@class='subchapter_header list-group-item']/div/img",
+								"xpath", 30);
+						if(result) {
+							if(tx6.size()>0) {
+								for(int k=0;k<tx6.size();k++) {
+									cfObj.commonClick(myCourses_OR.getInsideDropDown_Arrow().get(k));
+									result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//div[@class='collapse show']/div/div/div/img[contains(@src,'video_icon.png')]",
+											"xpath", 20);
+									if(result) {
+										if(myCourses_OR.getVIDEO_Logo().size()>0 & myCourses_OR.getVIDEO_LogoCourse().size()>0 ) {
+											for(int i=0;i<tx10.size();i++)
+									        {
+												result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//div[@class='collapse show']/div/div/div[@class='video_name']",
+														"xpath", 10);
+												if(result) {
+													count++;
+										        	cfObj.commonClick(myCourses_OR.getVIDEO_LogoCourse().get(i));
+										        	Thread.sleep(5000);
+													result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".new_video_player_wrapper", "css", 30);
+													if(result) {
+														cfObj.commonClick(myCourses_OR.getVideoPlayer());
+														Thread.sleep(10000);
+														driver.navigate().back();
+														if(count==4) {
+															break;
+														}
+														driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+													}else {
+														myCoursePageMsgList.add("Video Leacture is not displayed");
+														return result;
+													}
+												}else {
+													myCoursePageMsgList.add("Not Click on Video Course ");
+													return result;
+												}
+									        }	
+										}
+									}else {
+										result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//div[@class='collapse show']/div/div/span/img[contains(@src,'pdf.png')]",
+												"xpath", 10);
+										if(result) {
+											myCoursePageMsgList.add("Contain PDF Document ");
+											result=true;
+										}else {
+											result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//div[@class='collapse show']/div/div/div/img[contains(@src,'quiz_icon.png')]",
+													"xpath", 10);
+											if(result) {
+												myCoursePageMsgList.add("Contain Quiz ");
+												result=true;
+											}
+										}
+									}
+									cfObj.commonClick(myCourses_OR.getInsideDropDown_Arrow().get(k));
+									if(count==4) {
+										break;
+									}
+								}
+							}
+						}else if(cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//div[@class='collapse show']/div/div/div/img[contains(@src,'video_icon.png')]",
+								"xpath", 10)) {
+							result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//div[@class='collapse show']/div/div/div[@class='video_name']",
+									"xpath", 10);
+							if(result) {
+								for(int i=0;i<tx10.size();i++)
+						        {
+									result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//div[@class='collapse show']/div/div/div[@class='video_name']",
+											"xpath", 10);
+									if(result) {
+										count++;
+							        	cfObj.commonClick(tx10.get(i));
+							        	Thread.sleep(5000);
+										result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//div[@class='new_video_player_wrapper ']", "xpath", 30);
+										if(result) {
+											cfObj.commonClick(myCourses_OR.getVideoPlayer());
+											Thread.sleep(20000);
+											driver.navigate().back();
+											if(count==4) {
+												break;
+											}
+											driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+										}else {
+											myCoursePageMsgList.add("Video Leacture is not displayed");
+											return result;
+										}
+									}
+						        }
+							}
+						}else if(cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//div[@class='collapse show']/div/div/span/img[contains(@src,'pdf.png')]",
+								"xpath", 10)) {
+							myCoursePageMsgList.add("Contain PDF Document ");
+							result=true;
+						}else if(cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//div[@class='collapse show']/div/div/div/img[contains(@src,'quiz_icon.png')]",
+								"xpath", 10)) {
+							myCoursePageMsgList.add("Contain Quiz ");
+							result=true; 
+						}else if(cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//div[@class='collapse show']/div/div/li",
+								"xpath", 10)) {
+							myCoursePageMsgList.add("Contain Test");
+							result=true;
+						}
+						if(j==tx5.size()-1) {
+							driver.navigate().back();
+							break;
+						}
+					}
+				}else {
+					return result;
+				}
+			}
+
+		} catch (Exception e) {
+			result = false;
+			myCoursePageMsgList.add("OpenCourse_ofVideo_Exception: " + e.getMessage());
+		}
+		return result;
+	}
+	
 	
 }
