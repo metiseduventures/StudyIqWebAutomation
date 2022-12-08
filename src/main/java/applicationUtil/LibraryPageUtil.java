@@ -2,6 +2,7 @@ package applicationUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -36,6 +37,7 @@ public class LibraryPageUtil {
 	ConfigFileReader fileReader = new ConfigFileReader();
 	ConfigFileReader rConfigFileReader;
 	HomePageUtil homPageUtilObj;
+	MyCourseUtil myCourseUtilObj;
 
 	public LibraryPageUtil(WebDriver driver) {
 		libraryPage_OR = new LibraryPage_OR();
@@ -49,6 +51,17 @@ public class LibraryPageUtil {
 		LibraryApiUtil libraryApiObj;
 		MyLibrary myLibrayApiObj;
 		try {
+			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+			driver.navigate().to(fileReader.getBaseUrlWeb() + "my-library");
+			result = homPageUtilObj.verifyLogin(driver, ConfigFileReader.strUserMobileNumber);
+			if (!result) {
+				libraryPageMsgList.add("Fail to Login/Register");
+				return result;
+			}
+
+			loginApiUtilObj = new LoginUtil();
+
+			loginObj = loginApiUtilObj.doLoginWeb(ConfigFileReader.strUserMobileNumber);
 			if (loginObj == null) {
 				libraryPageMsgList.add("Fail to Login via api");
 				return result;
@@ -1141,6 +1154,19 @@ public class LibraryPageUtil {
 		LibraryApiUtil libraryApiObj;
 		MyLibrary myLibrayApiObj;
 		try {
+			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+			result = homPageUtilObj.verifyLogin(driver, ConfigFileReader.strUserMobileNumber);
+			if (!result) {
+				libraryPageMsgList.add("Fail to Login/Register");
+				return result;
+			}
+			result=clickOnLibCourses(driver);
+			if(!result) {
+				return result;
+			}
+			loginApiUtilObj = new LoginUtil();
+
+			loginObj = loginApiUtilObj.doLoginWeb(ConfigFileReader.strUserMobileNumber);
 			if (loginObj == null) {
 				libraryPageMsgList.add("Fail to Login via api");
 				return result;
@@ -1313,4 +1339,274 @@ public class LibraryPageUtil {
 		}
 		return result;
 	}
+	
+	public boolean VideoConsumption(WebDriver driver) {
+		boolean result = true;
+		homeUtilObj = new HomePageUtil(driver);
+		try {
+			result = homeUtilObj.verifyLogin(driver, ConfigFileReader.strUserMobileNumber);
+			if (!result) {
+				libraryPageMsgList.add("Failed to Login");
+				return result;
+			}
+
+			result=clickOnLibCourses(driver);
+			if(!result) {
+				return result;
+			}
+			
+			// Close Notification
+			cfObj.commonClick(libraryPage_OR.getColseNotification());
+			
+			result=checkLibrary(driver);
+			if(!result) {
+				return result;
+			}
+			
+			result=verifyLibrary(driver);
+			if(!result) {
+				return result;
+			}
+			
+
+
+		} catch (Exception e) {
+			result = false;
+			libraryPageMsgList.add("VideoConsumption_Exception: " + e.getMessage());
+		}
+
+		return result;
+	}
+	
+	public boolean checkLibrary(WebDriver driver) {
+		boolean result = true;
+		try {
+
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//h3[contains(text(),'Your library is empty')]","xpath", 20);
+			if (result) {
+				libraryPageMsgList.add("Library is Empty");
+				result=false;
+			} else {
+				result=true;
+			}
+
+		} catch (Exception e) {
+			result = false;
+			libraryPageMsgList.add("checkLibrary_Exception: " + e.getMessage());
+		}
+
+		return result;
+	}
+	
+	public boolean verifyLibrary(WebDriver driver) {
+		boolean result = true;
+		coursePageUtil = new CoursePageUtil(driver);
+		homPageUtilObj = new HomePageUtil(driver);
+		LoginUtil loginApiUtilObj;
+		Login loginObj;
+		LibraryApiUtil libraryApiObj;
+		MyLibrary myLibrayApiObj;
+		try {
+
+			loginApiUtilObj = new LoginUtil();
+
+			loginObj = loginApiUtilObj.doLoginWeb(ConfigFileReader.strUserMobileNumber);
+			if (loginObj == null) {
+				libraryPageMsgList.add("Fail to Login via api");
+				return result;
+			}
+
+			libraryApiObj = new LibraryApiUtil();
+
+			myLibrayApiObj = libraryApiObj.getLibraryData(loginObj.getData().getApiToken(),
+					loginObj.getData().getUserId());
+
+			if (myLibrayApiObj == null) {
+				libraryPageMsgList.add("Error in my library api");
+				return result;
+			}
+			result = CheckMyLibraryMenu_Course(myLibrayApiObj);
+
+			if (!result) {
+				return result;
+			}
+			
+			result = ValidateVideoConsumption(driver, myLibrayApiObj);
+
+			if (!result) {
+				return result;
+			}
+
+		} catch (Exception e) {
+			result = false;
+			libraryPageMsgList.add("verifyMyLibrary_Page_Exception: " + e.getMessage());
+		}
+		return result;
+	}
+	
+	public boolean CheckMyLibraryMenu_Course(MyLibrary myLibraryObj) {
+		boolean result = true;
+		int size;
+		try {
+			
+			size = myLibraryObj.getData().size();
+			// check for my library course type menu item
+
+			if (size > 0) {
+
+				if (myLibraryObj.getData().size() != libraryPage_OR.getListLibaryMenuItem().size()) {
+					libraryPageMsgList.add("Mismatch in library menu item from api and ui");
+					return false;
+				}
+
+				// verify menu text
+
+				for (int i = 0; i < size; i++) {
+					String strCourseType = libraryPage_OR.getListLibaryMenuItem().get(i).getText().toString().trim();
+					String strcourseTypeApi = myLibraryObj.getData().get(i).getCourseDisplayName().toString();
+					if (!strCourseType.equalsIgnoreCase(strcourseTypeApi)) {
+						result = false;
+						libraryPageMsgList.add("Mismatch in course type name from api and UI: Expected: "
+								+ strcourseTypeApi + ": actual: " + strCourseType);
+					}
+				}
+				
+				String strCourseType = libraryPage_OR.getListLibaryMenuItem().get(0).getText().toString().trim();
+				String strcourseTypeApi = myLibraryObj.getData().get(0).getCourseDisplayName().toString();
+				if(strCourseType.equalsIgnoreCase("Test Series") & strcourseTypeApi.equalsIgnoreCase("Test Series")) {
+					libraryPageMsgList.add("Video Consumption Not for Test Series");
+					result=false;
+				}
+			}
+				
+			} catch (Exception e) {
+				result = false;
+				libraryPageMsgList.add("CheckMyLibraryMenu_Course_Exception: " + e.getMessage());
+			}
+
+			return result;
+		}
+	
+	public boolean ValidateVideoConsumption(WebDriver driver, MyLibrary mylibraryObj) {
+		boolean result = true;
+		int size;
+		MyCourseUtil myCourseUtilOBJ=new MyCourseUtil(driver);
+		try {
+			size = mylibraryObj.getData().size();
+
+			for (int i = 0; i < size;i++) {
+				
+				if(!libraryPage_OR.getListLibaryMenuItem().get(i).getText().contains("Test Series")) {
+					
+					// click on menu item
+					cfObj.commonClick(libraryPage_OR.getListLibaryMenuItem().get(i));
+					if (!libraryPage_OR.getListLibaryMenuItem().get(i).getAttribute("class").toString()
+							.equalsIgnoreCase("nav-item active")) {
+						libraryPageMsgList.add("course type is not active after click on menu item in library");
+						result = false;
+					}
+
+					for (int j = 0; j < mylibraryObj.getData().get(i).getCourseData().size(); j++) {
+						if (mylibraryObj.getData().get(i).getCourseData().get(j).getValidityDaysLeft() < 0) {
+							// click on expired courses
+							cfObj.commonClick(libraryPage_OR.getListLibaryMenuCourseItem().get(i)
+									.findElement(By.cssSelector(".renew")));
+							// wait for package modal to be visible
+							result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".packages-section", "css",
+									10);
+							if (!result) {
+								libraryPageMsgList.add("Pricing modal is not display when click on renew button");
+								return result;
+							} else {
+								// close modal
+								cfObj.commonClick(cfObj.commonGetElement(driver, ".btn-link", "css"));
+								driver.navigate().back();
+							}
+
+						}else if(mylibraryObj.getData().get(i).getCourseData().get(j).getValidityDaysLeft() > 0) {
+							// click on Valid courses
+							int index=i;
+							if(i>=1) {
+								index=i-1;
+							}
+							cfObj.commonClick(libraryPage_OR.getListLibaryMenuCourseItem().get(index));
+							driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+							cfObj.commonClick(libraryPage_OR.getLoginButton());
+							result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//div[@class='course_dashboard_content_wrapper']", "xpath",
+									10);
+							if(result) {
+								result=myCourseUtilOBJ.OpenCourse_ofVideo(driver);
+								if(!result) {
+									libraryPageMsgList.add("Course Page is not Verifed");
+									return result;
+								}
+								result=VerifyPlayLIst(driver);
+								if(!result) {
+									libraryPageMsgList.add("PlayList is not verifid");
+									return result;
+								}
+							}else {
+								return result;
+							}
+							
+						}
+						break;
+					}
+				}
+				
+			}
+		} catch (Exception e) {
+			result = false;
+		}
+		return result;
+	}
+	
+	public boolean VerifyPlayLIst(WebDriver driver) {
+		boolean result = true;
+		myCourseUtilObj = new MyCourseUtil(driver);
+		try {
+			List<WebElement> tx6=libraryPage_OR.getContinueButton();
+			
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver,
+					"(//div[@class='slick-list'])", "xpath", 30);
+			if (result) {
+				result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver,
+						"//div[@class='card-description mt-1']", "xpath", 20);
+				if(result) {
+					result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver,
+							"//button[contains(text(),'Continue watching')]", "xpath", 20);
+					if(result) {
+						for(int j=0;j<tx6.size();j++) {
+							if(j<=1) {
+								cfObj.commonClick(libraryPage_OR.getContinueButton().get(j));
+								Thread.sleep(5000);
+								result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver,
+										"//div[@class='new_video_player_wrapper ']", "xpath", 20);
+								if(result) {
+									cfObj.commonClick(libraryPage_OR.getVideoPlayer());
+									Thread.sleep(5000);
+									driver.navigate().back();
+								}else {
+									return result;
+								}
+							}else {
+								break;
+							}
+						}
+					}else {
+						libraryPageMsgList.add("Video is not available in Play_List");
+						return result;
+					}
+				}
+			}
+			
+
+		} catch (Exception e) {
+			result = false;
+			libraryPageMsgList.add("VerifyPlayLIst_Exception: " + e.getMessage());
+		}
+
+		return result;
+	}
+	
 }

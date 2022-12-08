@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -353,7 +354,8 @@ public class CourseDetailsPageUtil {
 		int intStartTime, intPauseTime, intFinalTime;
 		try {
 
-			result = cfObj.commonWaitForElementToBeVisible(driver, CourseDetailsPageORObj.getDemo_Videos_Button(), 20);
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver,
+					"//button[text()='Demo Videos']", "xpath", 30);
 			if (courseViewObj.getData().getDemoUrls().size() > 0) {
 				if (result) {
 					cfObj.commonClick(CourseDetailsPageORObj.getDemo_Videos_Button());
@@ -363,15 +365,19 @@ public class CourseDetailsPageUtil {
 					return result;
 				}
 
-				result = cfObj.commonWaitForElementToBeVisible(driver, CourseDetailsPageORObj.getDemoVideos_Text(), 20);
+				result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver,
+						"//div[@class='title col-lg-6']", "xpath", 30);
 				if (!result) {
 					CourseDetailsPageMsgList.add("Title of Demo video is not Available");
 				}
+				
+				driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
 				List<WebElement> tx3 = CourseDetailsPageORObj.getListOf_Videos();
 				int sizeofVideo = tx3.size();
 				for (int i = 0; i < sizeofVideo; i++) {
 					cfObj.commonClick(tx3.get(i));
+					driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 					result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".shaka-current-time", "css", 20);
 					if (!result) {
 						CourseDetailsPageMsgList.add("Demo video not opned when click on videos from the list");
@@ -391,13 +397,13 @@ public class CourseDetailsPageUtil {
 
 					// Click on play button
 
-					cfObj.commonClick(cfObj.commonGetElement(driver, ".shaka-small-play-button", "css"));
+					cfObj.commonClick(CourseDetailsPageORObj.getDemoVideo());
 
 					Thread.sleep(5000);
 
 					// Click on pause button
 
-					cfObj.commonClick(cfObj.commonGetElement(driver, ".shaka-small-play-button", "css"));
+					cfObj.commonClick(CourseDetailsPageORObj.getDemoVideo());
 					intPauseTime = Integer.valueOf(cfObj.commonGetElement(driver, ".shaka-current-time", "css")
 							.getText().toString().split("/")[0].trim().split(":")[2].trim());
 					System.out.println(intPauseTime);
@@ -418,7 +424,6 @@ public class CourseDetailsPageUtil {
 								+ courseViewObj.getData().getCourseDetail().getCourseTitle());
 						return false;
 					}
-					Thread.sleep(5000);
 				}
 			} else {
 				if (result) {
@@ -827,7 +832,7 @@ public class CourseDetailsPageUtil {
 	public boolean verifySimilarCourses(WebDriver driver, CourseView courseViewObj) {
 		boolean result = true;
 		try {
-
+			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver,
 					"(//h1[contains(text(),'Similar Courses')])[2]", "xpath", 10);
 

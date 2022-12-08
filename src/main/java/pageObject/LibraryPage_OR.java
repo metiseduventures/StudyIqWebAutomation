@@ -344,5 +344,66 @@ public class LibraryPage_OR {
 	public List<WebElement> getlistLibCourseItem() {
 		return listLibCourseItem;
 	}
+	
+	@FindBy(xpath="(//div[@class='slick-list'])")
+	private WebElement Watch_List;
+	
+	public WebElement getWatch_List()
+	{
+		return Watch_List;
+	}
+	
+	@FindBy(xpath = "//button[contains(text(),'Continue watching')]")
+	List<WebElement> ContinueButton;
+
+	public List<WebElement> getContinueButton() {
+		return ContinueButton;
+	}
+	
+	@FindBy(xpath = "//div[@class='card-description mt-1']")
+	List<WebElement> VideoName_in_Watch_List;
+
+	public List<WebElement> getVideoName_in_Watch_List() {
+		return VideoName_in_Watch_List;
+	}
+	
+	@FindBy(xpath="//div[@class='slick-slider slick-initialized']/span")
+	private WebElement BackButton;
+	
+	public WebElement getBackButton()
+	{
+		return BackButton;
+	}
+	
+	@FindBy(xpath="//div[@class='right_arrow_wrapper right-arrow slick-arrow slick-next']")
+	private WebElement FarwardButton;
+	
+	public WebElement getFarwardButton()
+	{
+		return FarwardButton;
+	}
+	
+	@FindBy(xpath="(//button[contains(text(),'Login')])[1]")
+	private WebElement LoginButton;
+	
+	public WebElement getLoginButton()
+	{
+		return LoginButton;
+	}
+	
+	@FindBy(xpath="//button[@id='moe-dontallow_button']")
+	private WebElement ColseNotification;
+
+	public WebElement getColseNotification() {
+	return ColseNotification;
+	}
+	
+	@FindBy(xpath="//div[@class='new_video_player_wrapper ']")
+	private WebElement VideoPlayer;
+	
+	public WebElement getVideoPlayer()
+	{
+		return VideoPlayer;
+	}
 
 }

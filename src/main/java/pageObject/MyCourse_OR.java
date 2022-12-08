@@ -200,4 +200,75 @@ public class MyCourse_OR {
 		return HomePage;
 	}
 	
+	@FindBy(css=".new_video_player_wrapper")
+	private WebElement VideoPlayer;
+	
+	public WebElement getVideoPlayer()
+	{
+		return VideoPlayer;
+	}
+	
+	@FindBy(xpath="//div[@class='ci_content_wrapper']/div/div/div/div/img")
+	private List<WebElement>  DropDown_Arrow;
+	
+	public List<WebElement> getDropDown_Arrow()
+	{
+		return DropDown_Arrow;
+	}
+	
+	@FindBy(xpath="//div[@class='collapse show']/div/div/div/div[@class='subchapter_header list-group-item']/div/img")
+	private List<WebElement>  InsideDropDown_Arrow;
+	
+	public List<WebElement> getInsideDropDown_Arrow()
+	{
+		return InsideDropDown_Arrow;
+	}
+	
+	@FindBy(xpath="//div[@class='collapse show']/div/div/span/img[contains(@src,'pdf.png')]")
+	private List<WebElement>  PDF_Logo;
+	
+	public List<WebElement> getPDF_Logo()
+	{
+		return PDF_Logo;
+	}
+	
+	@FindBy(xpath="//div[@class='collapse show']/div/div/div/img[contains(@src,'video_icon.png')]")
+	private List<WebElement>  VIDEO_Logo;
+	
+	public List<WebElement> getVIDEO_Logo()
+	{
+		return VIDEO_Logo;
+	}
+	
+	@FindBy(xpath="//div[@class='collapse show']/div/div/div/img[contains(@src,'quiz_icon.png')]")
+	private List<WebElement>  QUIZ_Logo;
+	
+	public List<WebElement> getQUIZ_Logo()
+	{
+		return QUIZ_Logo;
+	}
+	
+	@FindBy(xpath="//div[@class='collapse show']/div/div/div[@class='video_name']/span[1]")
+	private List<WebElement>  VIDEO_LogoCourse;
+	
+	public List<WebElement> getVIDEO_LogoCourse()
+	{
+		return VIDEO_LogoCourse;
+	}
+	
+	@FindBy(xpath="//div[@class='new_video_name']")
+	private WebElement VideoName_ContentPage;
+	
+	public WebElement getVideoName_ContentPage()
+	{
+		return VideoName_ContentPage;
+	}
+	
+	@FindBy(xpath="//button[@id='moe-dontallow_button']")
+	private WebElement ColseNotification;
+
+	public WebElement getColseNotification() {
+	return ColseNotification;
+	}
+	
 }
