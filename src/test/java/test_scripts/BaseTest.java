@@ -1,7 +1,6 @@
 package test_scripts;
 
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 
 import apiUtil.LoginUtil;
@@ -9,7 +8,6 @@ import pojo.login.Login;
 
 import org.openqa.selenium.WebDriver;
 import util.Common_Function;
-import util.ConfigFileReader;
 
 public class BaseTest {
 
@@ -43,14 +41,6 @@ public class BaseTest {
 			e.printStackTrace();
 		}
 
-	}
-	
-	
-	@BeforeClass
-	public void loginViaApi()
-	{
-		loginApiUtilObj = new LoginUtil();
-		loginObj = loginApiUtilObj.doLoginWeb(ConfigFileReader.strUserMobileNumber);
 	}
 
 }

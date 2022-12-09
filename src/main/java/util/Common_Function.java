@@ -31,6 +31,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.mozilla.javascript.ast.WhileLoop;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Cookie;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.MutableCapabilities;
@@ -509,6 +510,34 @@ public class Common_Function {
 		} catch (Exception e) {
 
 		}
+	}
+
+	public String getApiTokenfromCookies(WebDriver driver) {
+		String strApiToken = null;
+		Cookie cookieValue;
+		try {
+			cookieValue = driver.manage().getCookieNamed("apiToken");
+			strApiToken = cookieValue.getValue();
+			System.out.println("strApiToken: " + strApiToken);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
+		return strApiToken;
+	}
+	
+	public String getUserIdFromCookies(WebDriver driver) {
+		String strUserId = null;
+		Cookie cookieValue;
+		try {
+			cookieValue = driver.manage().getCookieNamed("userID");
+			strUserId = cookieValue.getValue();
+			System.out.println("userID: " + strUserId);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
+		return strUserId;
 	}
 
 }

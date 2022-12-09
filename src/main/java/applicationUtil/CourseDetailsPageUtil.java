@@ -840,7 +840,7 @@ public class CourseDetailsPageUtil {
 				if (result) {
 					result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver,
 							"(//div[@class='crossSell-Card-main-slick'])", "xpath", 10);
-					if (result == true) {
+					if (result) {
 						List<WebElement> L1 = CourseDetailsPageORObj.getlistOF_similarCourse();
 						for (int i = 0; i < L1.size(); i++) {
 							String NameOfCOurse = CourseDetailsPageORObj.getNameOf_listOF_similarCourse().get(i)
@@ -878,12 +878,12 @@ public class CourseDetailsPageUtil {
 							}
 						}
 					} else {
-						CourseDetailsPageMsgList.add("No Similar Course is available");
+						CourseDetailsPageMsgList.add("No Similar Course is available on web but data is present in api");
 						return result;
 					}
 				} else {
 					result = false;
-					CourseDetailsPageMsgList.add("BuyNow button is not Available");
+					CourseDetailsPageMsgList.add("No Similar Course is available on web but data is present in api");
 				}
 			} else {
 
@@ -920,11 +920,6 @@ public class CourseDetailsPageUtil {
 			System.out.println("strCourseSlug:" + strCourseSlug);
 			courseApiUtilObj = new CourseApiUtil();
 			courseViewObj = courseApiUtilObj.getCourseViewData(strCourseSlug);
-			System.out.println(courseViewObj.getData().getPriceInfo());
-			result = verifyCourseInfo(driver, courseViewObj);
-			if (!result) {
-				CourseDetailsPageMsgList.add("Course Info is not Present");
-			}
 			// Verify Cross Sell
 			result = verifySimilarCourses(driver, courseViewObj);
 			if (!result) {

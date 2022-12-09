@@ -492,7 +492,7 @@ public class CourseDetailsPage_OR {
 	return NameOf_listOF_similarCourse;
 	}
 
-	@FindBy(xpath="(//div[@class='thumb-content'])//button[contains(text(),'View Details')]")
+	@FindBy(css=".crossSell-Card-main-slick>div>div.thumb-content>button.view-offer-btn")
 	private List<WebElement> ViewButton_similarCourse;
 
 	public List<WebElement> getViewButton_similarCourse() {
