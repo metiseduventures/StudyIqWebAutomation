@@ -378,7 +378,7 @@ public class CourseDetailsPageUtil {
 				int sizeofVideo = tx3.size();
 				for (int i = 0; i < sizeofVideo; i++) {
 					cfObj.commonClick(tx3.get(i));
-					driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+					Thread.sleep(5000);//driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 					result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".shaka-current-time", "css", 20);
 					if (!result) {
 						CourseDetailsPageMsgList.add("Demo video not opned when click on videos from the list");
