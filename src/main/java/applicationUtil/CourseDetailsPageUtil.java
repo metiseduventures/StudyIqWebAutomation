@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
@@ -383,11 +384,21 @@ public class CourseDetailsPageUtil {
 						CourseDetailsPageMsgList.add("Demo video not opned when click on videos from the list");
 						return result;
 					}
+					
+					int int2StartTime = CourseDetailsPageORObj.getSizeOfDuration().getText().length();					
+					System.out.println(int2StartTime);
 
 					// get video time
-					intStartTime = Integer.valueOf(cfObj.commonGetElement(driver, ".shaka-current-time", "css")
-							.getText().toString().split("/")[0].trim().split(":")[2].trim());
-					System.out.println(intStartTime);
+					if(int2StartTime>=17) {
+						intStartTime = Integer.valueOf(cfObj.commonGetElement(driver, ".shaka-current-time", "css")
+								.getText().toString().split("/")[0].trim().split(":")[2].trim());
+						System.out.println(intStartTime);
+					}else {
+						intStartTime = Integer.valueOf(cfObj.commonGetElement(driver, ".shaka-current-time", "css")
+								.getText().toString().split("/")[0].trim().split(":")[1].trim());
+						System.out.println(intStartTime);
+					}
+					
 
 					if (intStartTime > 0) {
 						CourseDetailsPageMsgList.add("Start time should be zero in starting of the video for course: "
@@ -403,10 +414,18 @@ public class CourseDetailsPageUtil {
 
 					// Click on pause button
 
-					cfObj.commonClick(CourseDetailsPageORObj.getDemoVideo());
-					intPauseTime = Integer.valueOf(cfObj.commonGetElement(driver, ".shaka-current-time", "css")
-							.getText().toString().split("/")[0].trim().split(":")[2].trim());
-					System.out.println(intPauseTime);
+					if(int2StartTime>=17) {
+						cfObj.commonClick(CourseDetailsPageORObj.getDemoVideo());
+						intPauseTime = Integer.valueOf(cfObj.commonGetElement(driver, ".shaka-current-time", "css")
+								.getText().toString().split("/")[0].trim().split(":")[2].trim());
+						System.out.println(intPauseTime);
+					}else {
+						cfObj.commonClick(CourseDetailsPageORObj.getDemoVideo());
+						intPauseTime = Integer.valueOf(cfObj.commonGetElement(driver, ".shaka-current-time", "css")
+								.getText().toString().split("/")[0].trim().split(":")[1].trim());
+						System.out.println(intPauseTime);
+					}
+					
 					if (intPauseTime < 5) {
 						CourseDetailsPageMsgList.add("Video is not playing when click on start button for course: "
 								+ courseViewObj.getData().getCourseDetail().getCourseTitle());
@@ -415,9 +434,16 @@ public class CourseDetailsPageUtil {
 
 					Thread.sleep(5000);
 
-					intFinalTime = Integer.valueOf(cfObj.commonGetElement(driver, ".shaka-current-time", "css")
-							.getText().toString().split("/")[0].trim().split(":")[2].trim());
-					System.out.println(intFinalTime);
+					if(int2StartTime>=17) {
+						intFinalTime = Integer.valueOf(cfObj.commonGetElement(driver, ".shaka-current-time", "css")
+								.getText().toString().split("/")[0].trim().split(":")[2].trim());
+						System.out.println(intFinalTime);
+					}else {
+						intFinalTime = Integer.valueOf(cfObj.commonGetElement(driver, ".shaka-current-time", "css")
+								.getText().toString().split("/")[0].trim().split(":")[1].trim());
+						System.out.println(intFinalTime);
+					}
+					
 
 					if (intPauseTime != intFinalTime) {
 						CourseDetailsPageMsgList.add("Video is not paused when click on paused button for course: "
@@ -920,6 +946,11 @@ public class CourseDetailsPageUtil {
 			System.out.println("strCourseSlug:" + strCourseSlug);
 			courseApiUtilObj = new CourseApiUtil();
 			courseViewObj = courseApiUtilObj.getCourseViewData(strCourseSlug);
+			
+			JavascriptExecutor j1 = (JavascriptExecutor) driver;
+			j1.executeScript("window.scrollBy(0,3000)", "");
+			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+			
 			// Verify Cross Sell
 			result = verifySimilarCourses(driver, courseViewObj);
 			if (!result) {

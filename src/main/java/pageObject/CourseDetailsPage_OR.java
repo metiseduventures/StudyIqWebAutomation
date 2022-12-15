@@ -535,4 +535,11 @@ public class CourseDetailsPage_OR {
 	return DemoVideo;
 	}
 	
+	@FindBy(css=".shaka-current-time")
+	private WebElement SizeOfDuration;
+
+	public WebElement getSizeOfDuration() {
+	return SizeOfDuration;
+	}
+	
 }
