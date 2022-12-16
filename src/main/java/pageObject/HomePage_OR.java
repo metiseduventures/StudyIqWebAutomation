@@ -321,7 +321,7 @@ public class HomePage_OR {
 	@FindBy(xpath = "//input[@id='phoneNumber'] ")
 	private List<WebElement> listTextpHONENumber;
 	
-	@FindBy(xpath = "//button[@class='loginBtn smallFont btn btn-primary btn-block']")
+	@FindBy(css = "button[class='loginBtn smallFont btn btn-primary btn-block']")
 	private List<WebElement> BtnContinue;
 
 	public List<WebElement> getBtnContinue() {

@@ -36,6 +36,7 @@ public class LibraryPageUtil {
 	HomePageUtil homPageUtilObj;
 	MyCourseUtil myCourseUtilObj;
 	LoginUtil loginApiUtilObj;
+	public List<String> VideoName_in_Watch_List;
 
 	public LibraryPageUtil(WebDriver driver) {
 		libraryPage_OR = new LibraryPage_OR();
@@ -1331,6 +1332,11 @@ public class LibraryPageUtil {
 			if (!result) {
 				return result;
 			}
+			
+			result = ValidateVideoConsumption(driver);
+			if (!result) {
+				return result;
+			}
 
 		} catch (Exception e) {
 			result = false;
@@ -1404,12 +1410,13 @@ public class LibraryPageUtil {
 		return result;
 	}
 
-	public boolean ValidateVideoConsumption(WebDriver driver, MyLibrary mylibraryObj) {
+	public boolean ValidateVideoConsumption(WebDriver driver) {
 		boolean result = true;
 		int size;
 		MyCourseUtil myCourseUtilOBJ = new MyCourseUtil(driver);
 		try {
-			size = mylibraryObj.getData().size();
+			size = libraryPage_OR.getListLibaryMenuItem().size();
+			List<WebElement> tx01=libraryPage_OR.getValidCourse();
 
 			for (int i = 0; i < size; i++) {
 
@@ -1423,24 +1430,12 @@ public class LibraryPageUtil {
 						result = false;
 					}
 
-					for (int j = 0; j < mylibraryObj.getData().get(i).getCourseData().size(); j++) {
-						if (mylibraryObj.getData().get(i).getCourseData().get(j).getValidityDaysLeft() < 0) {
-							// click on expired courses
-							cfObj.commonClick(libraryPage_OR.getListLibaryMenuCourseItem().get(i)
-									.findElement(By.cssSelector(".renew")));
-							// wait for package modal to be visible
-							result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".packages-section", "css",
-									10);
-							if (!result) {
-								libraryPageMsgList.add("Pricing modal is not display when click on renew button");
-								return result;
-							} else {
-								// close modal
-								cfObj.commonClick(cfObj.commonGetElement(driver, ".btn-link", "css"));
-								driver.navigate().back();
-							}
+					for (int j = 0; j < tx01.size(); j++) {
+						if (tx01.size() < 0) {
+							libraryPageMsgList.add("Either Course is Expired OR Free Course");
+							result=false;
 
-						} else if (mylibraryObj.getData().get(i).getCourseData().get(j).getValidityDaysLeft() > 0) {
+						} else if (tx01.size() > 0) {
 							// click on Valid courses
 							int index = i;
 							if (i >= 1) {
@@ -1448,7 +1443,6 @@ public class LibraryPageUtil {
 							}
 							cfObj.commonClick(libraryPage_OR.getListLibaryMenuCourseItem().get(index));
 							driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-							cfObj.commonClick(libraryPage_OR.getLoginButton());
 							result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver,
 									"//div[@class='course_dashboard_content_wrapper']", "xpath", 10);
 							if (result) {
@@ -1457,7 +1451,7 @@ public class LibraryPageUtil {
 									libraryPageMsgList.add("Course Page is not Verifed");
 									return result;
 								}
-								result = VerifyPlayLIst(driver);
+								result = VerifyPlayLIst(driver,myCourseUtilOBJ);
 								if (!result) {
 									libraryPageMsgList.add("PlayList is not verifid");
 									return result;
@@ -1478,24 +1472,49 @@ public class LibraryPageUtil {
 		return result;
 	}
 
-	public boolean VerifyPlayLIst(WebDriver driver) {
+	public boolean VerifyPlayLIst(WebDriver driver,MyCourseUtil myCourseUtilOBJ) {
 		boolean result = true;
 		myCourseUtilObj = new MyCourseUtil(driver);
+		List<WebElement> tx02=libraryPage_OR.getVideoName_in_Watch_List();
+		VideoName_in_Watch_List=new ArrayList<String>();
+		int Sizeof_VideoName_in_Watch_List,SizeOf_LeactureName;
 		try {
-			List<WebElement> tx6 = libraryPage_OR.getContinueButton();
-
-			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "(//div[@class='slick-list'])", "xpath",
-					30);
+			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".col-12", "css",30);
 			if (result) {
 				result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver,
 						"//div[@class='card-description mt-1']", "xpath", 20);
 				if (result) {
-					result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver,
-							"//button[contains(text(),'Continue watching')]", "xpath", 20);
-					if (result) {
-						for (int j = 0; j < tx6.size(); j++) {
-							if (j <= 1) {
-								cfObj.commonClick(libraryPage_OR.getContinueButton().get(j));
+					Sizeof_VideoName_in_Watch_List=libraryPage_OR.getVideoName_in_Watch_List().size();
+					
+					for(int i=0;i<Sizeof_VideoName_in_Watch_List;i++) {
+						if(Sizeof_VideoName_in_Watch_List>3 & i>2) {
+							cfObj.commonClick(libraryPage_OR.getFarwardButton());
+							VideoName_in_Watch_List.add(tx02.get(i).getText());
+						}else {
+							VideoName_in_Watch_List.add(libraryPage_OR.getVideoName_in_Watch_List().get(i).getText());
+						}
+					}
+					
+					if(Sizeof_VideoName_in_Watch_List>3 & libraryPage_OR.getBackButton().isDisplayed()) {
+						for(int q=0;q<Sizeof_VideoName_in_Watch_List;q++) {
+							cfObj.commonClick(libraryPage_OR.getBackButton());
+						}
+					}
+					
+					SizeOf_LeactureName=myCourseUtilOBJ.LeactureName.size();
+					System.out.println(SizeOf_LeactureName);
+					
+					for(int k=0,l=SizeOf_LeactureName-1;k<SizeOf_LeactureName & l>=0;k++,l--) {
+						if(myCourseUtilOBJ.LeactureName.get(k).contains(VideoName_in_Watch_List.get(l))) {
+							
+							result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver,
+									"//button[contains(text(),'Continue watching')]", "xpath", 20);
+							if (result) {
+								if(Sizeof_VideoName_in_Watch_List>3 & k>2) {
+									cfObj.commonClick(libraryPage_OR.getFarwardButton());
+								}
+								cfObj.commonClick(libraryPage_OR.getContinueButton().get(k));
 								Thread.sleep(5000);
 								result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver,
 										"//div[@class='new_video_player_wrapper ']", "xpath", 20);
@@ -1506,13 +1525,11 @@ public class LibraryPageUtil {
 								} else {
 									return result;
 								}
-							} else {
-								break;
 							}
+						}else {
+							libraryPageMsgList.add("Played video is not Equal to Video at PlayList");
+							result=false;
 						}
-					} else {
-						libraryPageMsgList.add("Video is not available in Play_List");
-						return result;
 					}
 				}
 			}

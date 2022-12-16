@@ -18,6 +18,7 @@ public class MyCourseUtil {
 	public List<String> myCoursePageMsgList = new ArrayList<String>();
 	HomePageUtil homeUtilObj;
 	LibraryPageUtil LibraryUtilObj;
+	public List<String> LeactureName;
 	
 	public MyCourseUtil(WebDriver driver) {
 		myCourses_OR = new MyCourse_OR();
@@ -197,6 +198,7 @@ public class MyCourseUtil {
 	public boolean OpenCourse_ofVideo(WebDriver driver) {
 		boolean result = true;
 		LibraryUtilObj=new LibraryPageUtil(driver);
+		LeactureName=new ArrayList<String>();
 		try {
 			List<WebElement> tx5=myCourses_OR.getDropDown_Arrow();
 			List<WebElement> tx6=myCourses_OR.getInsideDropDown_Arrow();
@@ -210,6 +212,7 @@ public class MyCourseUtil {
 					for(int j=0;j<tx5.size();j++) {
 						
 						if(count>=4) {
+							System.out.println(LeactureName.size());
 							driver.navigate().back();
 							break;
 						}
@@ -236,11 +239,12 @@ public class MyCourseUtil {
 													if(result) {
 														cfObj.commonClick(myCourses_OR.getVideoPlayer());
 														Thread.sleep(10000);
+														LeactureName.add(myCourses_OR.getVideoName_ContentPage().getText());
 														driver.navigate().back();
 														if(count==4) {
 															break;
 														}
-														driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+														driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 													}else {
 														myCoursePageMsgList.add("Video Leacture is not displayed");
 														return result;
@@ -289,11 +293,12 @@ public class MyCourseUtil {
 										if(result) {
 											cfObj.commonClick(myCourses_OR.getVideoPlayer());
 											Thread.sleep(20000);
+											LeactureName.add(myCourses_OR.getVideoName_ContentPage().getText());
 											driver.navigate().back();
 											if(count==4) {
 												break;
 											}
-											driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+											driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 										}else {
 											myCoursePageMsgList.add("Video Leacture is not displayed");
 											return result;
