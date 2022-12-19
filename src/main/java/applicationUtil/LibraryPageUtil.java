@@ -1479,7 +1479,7 @@ public class LibraryPageUtil {
 		VideoName_in_Watch_List=new ArrayList<String>();
 		int Sizeof_VideoName_in_Watch_List,SizeOf_LeactureName;
 		try {
-			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+			Thread.sleep(10000);//driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".col-12", "css",30);
 			if (result) {
 				result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver,
@@ -1531,7 +1531,13 @@ public class LibraryPageUtil {
 							result=false;
 						}
 					}
+				}else {
+					libraryPageMsgList.add("Video is not Avialable");
+					result=false;
 				}
+			}else {
+				libraryPageMsgList.add("Continue List of video is not Not Available");
+				result=false;
 			}
 
 		} catch (Exception e) {
