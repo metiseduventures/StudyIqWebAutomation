@@ -1529,15 +1529,18 @@ public class LibraryPageUtil {
 						}else {
 							libraryPageMsgList.add("Played video is not Equal to Video at PlayList");
 							result=false;
+							return result;
 						}
 					}
 				}else {
 					libraryPageMsgList.add("Video is not Avialable");
 					result=false;
+					return result;
 				}
 			}else {
 				libraryPageMsgList.add("Continue List of video is not Not Available");
 				result=false;
+				return result;
 			}
 
 		} catch (Exception e) {
