@@ -12,6 +12,14 @@ import util.ConfigFileReader;
 public class LoginTest extends BaseTest {
 
 	HomePageUtil homePageUtilObj;
+	
+	@Test
+	public void VerifyFaildLogin_Case() {
+		boolean result=true;
+		homePageUtilObj = new HomePageUtil(driver);
+		result=homePageUtilObj.verifyLoginFailCase(driver);
+		Assert.assertEquals(result, true,homePageUtilObj.homePageMsgList.toString());
+	}
   
 	@Test
 	public void verifyLogin() {
@@ -24,6 +32,14 @@ public class LoginTest extends BaseTest {
 	}
 	
 	@Test
+	public void VerifyFaildSignUp_Case() {
+		boolean result=true;
+		homePageUtilObj = new HomePageUtil(driver);
+		result=homePageUtilObj.verifySignUpFailCase(driver);
+		Assert.assertEquals(result, true,homePageUtilObj.homePageMsgList.toString());
+	}
+	
+	@Test
 	public void verifySignUp() {
 
 		boolean result = true;
@@ -32,6 +48,6 @@ public class LoginTest extends BaseTest {
 		Assert.assertEquals(result, true, homePageUtilObj.homePageMsgList.toString());
 
 	}
-
+	
 
 }

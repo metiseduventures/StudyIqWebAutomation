@@ -232,6 +232,7 @@ public class MyProfileUtil {
 				}
 			}else {
 				MyProfileORobjMsgList.add("My-Profile_icon is not visible");
+				return result;
 			}
 			//My Exam Section
 			result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//div[@class='navbar-wrapper']/div[contains(text(),'My Exam')]", "xpath", 1);
@@ -352,9 +353,16 @@ public class MyProfileUtil {
 		boolean result = true;
 		try {
 			//Click On My-Exam Section
-			cfObj.commonClick(MyProfileORobj.getMyExam_icon());
+			result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//div[@class='navbar-wrapper']/div[contains(text(),'My Exam')]", "xpath", 30);
+			if(result==true) {
+				cfObj.commonClick(MyProfileORobj.getMyExam_icon());
+			}else {
+				MyProfileORobjMsgList.add("My_Exam_Icon is not visible");
+            	return result;
+			}
 			
-			result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//div[contains(text(),'No goal is selected')]", "xpath", 30);
+			
+			result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//div[@class='helper-text']", "xpath", 30);
 			if(result==true) {
 				cfObj.commonClick(MyProfileORobj.getAddYourExam_Button());
 				driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
@@ -379,6 +387,9 @@ public class MyProfileUtil {
 						MyProfileORobjMsgList.add("Update_Your_Button is not visible");
                     	return result;
 					}
+				}else {
+					MyProfileORobjMsgList.add("Selected ExamPrefrences is not visible");
+                	return result;
 				}
 			}
 			
@@ -393,7 +404,13 @@ public class MyProfileUtil {
 		boolean result = true;
 		try {
 			//Click On My-Account Section
-			cfObj.commonClick(MyProfileORobj.getMyAccount_icon());
+			result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//div[@class='navbar-wrapper']/div[contains(text(),'Account')]", "xpath", 30);
+			if(result==true) {
+				cfObj.commonClick(MyProfileORobj.getMyAccount_icon());
+			}else {
+				MyProfileORobjMsgList.add("My_Account_Icon is not visible");
+            	return result;
+			}
 			
 			//Updating Email-id
 			
@@ -483,7 +500,14 @@ public class MyProfileUtil {
 		boolean result = true;
 		try {
 			//Click On Transactions Section
-			cfObj.commonClick(MyProfileORobj.getTransactions_icon());
+			result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//div[@class='navbar-wrapper']/div[contains(text(),'Transactions')]", "xpath", 30);
+			if(result==true) {
+				cfObj.commonClick(MyProfileORobj.getTransactions_icon());
+			}else {
+				MyProfileORobjMsgList.add("Transactions_Icon is not visible");
+            	return result;
+			}
+			
 			
 			result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//th[contains(text(),'Order Details')]", "xpath", 10);
 			if(result) {
