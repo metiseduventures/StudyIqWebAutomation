@@ -24,8 +24,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import javax.xml.parsers.ParserConfigurationException;
-
-import org.json.JSONObject;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -77,6 +75,7 @@ public class Common_Function {
 			capability = new DesiredCapabilities();
 			if (strBrowser.equalsIgnoreCase("Chrome")) {
 				ChromeOptions chromeOptions = new ChromeOptions();
+				chromeOptions.addArguments("--start-maximized");
 				capability.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
 				capability.setBrowserName("Chrome");
 				WebDriverManager.chromedriver().setup();
@@ -84,7 +83,8 @@ public class Common_Function {
 			}
 
 			driver.get(configReaderObj.getBaseUrlWeb());
-			driver.manage().window().maximize();
+			Dimension newDimension = new Dimension(1512, 982);
+			driver.manage().window().setSize(newDimension);
 			driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 			if (commonGetElements(driver, ".close_img", "css").size() > 0) {
 				commonClick(commonGetElement(driver, ".close_img", "css"));

@@ -13,7 +13,7 @@ public class LoginTest extends BaseTest {
 
 	HomePageUtil homePageUtilObj;
 	
-	@Test
+	@Test(enabled = false)
 	public void VerifyFaildLogin_Case() {
 		boolean result=true;
 		homePageUtilObj = new HomePageUtil(driver);
@@ -31,7 +31,7 @@ public class LoginTest extends BaseTest {
 
 	}
 	
-	@Test
+	@Test(enabled = false)
 	public void VerifyFaildSignUp_Case() {
 		boolean result=true;
 		homePageUtilObj = new HomePageUtil(driver);

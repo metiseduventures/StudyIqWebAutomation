@@ -39,8 +39,7 @@ public class TestListener implements ITestListener {
 		// testWatcher.set(extent.createTest(result.getTestContext().getAttribute("testName").toString()));
 		// ExtentTest extentTest =
 		// extent.createTest(result.getTestContext().getAttribute("testName").toString(),result.getMethod().getDescription());
-		ExtentTest extentTest = extent.createTest(result.getTestContext().getAttribute("testName").toString(),
-				result.getMethod().getDescription());
+		ExtentTest extentTest = extent.createTest(result.getMethod().getMethodName(),result.getMethod().getDescription());
 		test.set(extentTest);
 	}
 

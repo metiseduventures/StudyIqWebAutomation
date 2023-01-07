@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <suite name="StudyIq Web Automation Test Suite">
+<listeners>
+		<listener class-name="com.listener.TestListener" />
+		<listener class-name="com.listener.AnnotationTransformer" />
+	</listeners>
 	<test name="COURSE_PURCHASE">
 		<classes>
 			<class name="test_scripts.CoursePurchaseTest" />
