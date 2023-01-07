@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -1374,5 +1375,690 @@ public class HomePageUtil {
 		}
 		return result;
 	}
+	
+	//Check Negative Scenario Of Login Case
+	public boolean verifyLoginFailCase(WebDriver driver) {
+		boolean result = true;
+		String strMobileNumber0="9135442893",strMobileNumber1="8709545754";
+		try {
+			
+			//Check Without Mobile no.
+			result=checkWithoutMobileNumber(driver);
+			if(!result) {
+				homePageMsgList.add("not Verify Through Mobile No..");
+				return result;
+			}
+			
+			// Try many Attempt for OTP 
+			result=VerifyOTPPage(driver,strMobileNumber0,strMobileNumber1);
+			if(!result) {
+				homePageMsgList.add("There is No any Limition Attempt for OTP page");
+				return result;
+			}
+			
+			// Login after Failed Attempt(check Error Massage)
+			result=verifyLogin_AfterFaliedAttempt(driver,strMobileNumber1);
+			if(!result) {
+				homePageMsgList.add("Not Login after Failed Logn");
+				return result;
+			}
+			
+			// Verify Wrong OTP
+			result=VerifyWrongOTP(driver,strMobileNumber0);
+			if(!result) {
+				homePageMsgList.add("Wrong OTP Not Verify");
+				return result;
+			}
+			
+			Thread.sleep(121000);
+			
+			//Check Login After 2Min..(After Failed Attempt)
+			result=verifyLoginAfter_2min(driver,strMobileNumber0);
+			if(!result) {
+				homePageMsgList.add("Login is Not Verify");
+				return result;
+			}
+
+		} catch (Exception e) {
+			result = false;
+			homePageMsgList.add("verifyLogin_Exception: " + e.getMessage());
+		}
+
+		return result;
+	}
+	
+	public boolean VerifyOTPPage(WebDriver driver,String strMobileNumber,String strMobileNumber1) {
+		boolean result=true;
+		try {
+			// click on login/register button
+			result = clickOnLoginRegisterButton(driver);
+			if (!result) {
+				homePageMsgList.add(result + " Login/Register Button is not working");
+				return result;
+			}
+
+			// enter mobile number
+			result = enterMobileNumber(strMobileNumber);
+			if (!result) {
+				return result;
+			}
+
+			// click on Continue_Button
+			result = clickOnContinueButton();
+			if (!result) {
+				return result;
+			}
+			
+			// Verify Attempt
+			result=VerifyNumberOfAttempt(driver,strMobileNumber1);
+			if(!result) {
+				return result;
+			}
+			
+           // close on Login_Page
+           result=closeLoginPage(driver);
+		   if(result) {
+			  homePageMsgList.add("Login page is Not Closed");
+			  return result;
+		    } 
+			
+		}catch(Exception e) {
+			result=false;
+			homePageMsgList.add("VerifyOTPPage: " + e.getMessage());
+		}
+	return result;
+	}
+	
+	public boolean verifyLogin_AfterFaliedAttempt(WebDriver driver, String strMobileNumber) {
+		boolean result = true;
+		try {
+			// click on login/register button
+			result = clickOnLoginRegisterButton(driver);
+			if (!result) {
+				homePageMsgList.add(result + " Login/Register Button is not working");
+				return result;
+			}
+
+			// enter mobile number
+			result = enterMobileNumber(strMobileNumber);
+			if (!result) {
+				return result;
+			}
+
+			// click on get OTP
+			result = clickOnContinueButton();
+			if (!result) {
+				return result;
+			}
+			
+			// check Error Massage 
+			result = checkErrorMassage(driver);
+			if (!result) {
+				homePageMsgList.add("Error Massage is Not Visible");
+				return result;
+			}
+			
+			// close on Login_Page
+			result=closeLoginPage(driver);
+			if(!result) {
+				homePageMsgList.add("Login page is Not Closed");
+				return result;
+			}
+			
+		} catch (Exception e) {
+			result = false;
+			homePageMsgList.add("verifyLogin_AfterFaliedAttempt_Exception: " + e.getMessage());
+		}
+
+		return result;
+	}
+	
+	public boolean checkErrorMassage(WebDriver driver) {
+		boolean result = true;
+		try {
+			
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//div[contains(text(),\"You've attempted too many times, Retry after 2 mins,\")]", "xpath", 5);
+			if (result) {
+				return result;
+			}else {
+				result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//div[contains(text(),'User crossed registration limit')]", "xpath", 5);
+				if(result) {
+					return result;
+				}else {
+					return result;
+				}
+				
+			}
+
+		} catch (Exception e) {
+			result = false;
+			homePageMsgList.add("checkErrorMassage_Exception: " + e.getMessage());
+
+		}
+		return result;
+	}
+	
+	public boolean VerifyWrongOTP(WebDriver driver, String strMobileNumber) {
+		boolean result = true;
+		try {
+			// click on login/register button
+			result = clickOnLoginRegisterButton(driver);
+			if (!result) {
+				homePageMsgList.add(result + " Login/Register Button is not working");
+				return result;
+			}
+
+			// enter mobile number
+			result = enterMobileNumber(strMobileNumber);
+			if (!result) {
+				return result;
+			}
+
+			// click on get OTP
+			result = clickOnContinueButton();
+			if (!result) {
+				return result;
+			}
+			
+			// check Through Wrong OTP
+			result=CheckWrongOTP(driver);
+			if(!result) {
+				homePageMsgList.add("Through Wrong OTP Login Is not verified");
+				return result;
+			}
+								
+
+		} catch (Exception e) {
+			result = false;
+			homePageMsgList.add("VerifyWorngOTP_Exception: " + e.getMessage());
+		}
+
+		return result;
+	}
+	
+	public boolean CheckWrongOTP(WebDriver driver) {
+		boolean result = true;
+		try {
+
+			for(int i=0;i<=15;i++) {
+				// enter OTP
+				result = enterOtp("232323");
+				if (!result) {
+					return result;
+				}
+				
+				result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//div[contains(text(),'Please enter valid OTP')] ", "xpath", 5);
+				if (!result) {
+					result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//div[contains(text(),\"You've attempted too many times, Retry after 2 mins,\")]", "xpath", 5);
+					if (result) {
+						break;
+					}else {
+						homePageMsgList.add("Retry after 2min.. Error Text is Not visble");
+						result=false;
+					}
+				}
+				
+			}
+			
+			if(result==false) {
+				return result;
+			}
+			
+			
+			// click on Back_Button
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "p[class='otp-verifcation'] span", "css", 30);
+			if (result) {
+				cfObj.commonClick(homePageORObj.getBackArrow());
+			}else {
+				homePageMsgList.add("Back_Button is Not Visible");
+				return result;
+			}
+			
+			// click on Continue_Button
+			cfObj.commonClick(homePageORObj.getBtnContinue().get(0));
+			
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//div[contains(text(),\"You've attempted too many times, Retry after 2 mins,\")]", "xpath", 5);
+			if (!result) {
+				homePageMsgList.add("Retry after 2min.. Error Text is Not visble");
+				return result;
+			}
+			
+			// Close Login Page
+			cfObj.commonClick(homePageORObj.getCrossButton());
+
+		} catch (Exception e) {
+			result = false;
+			homePageMsgList.add("CheckWrongOTP_Exception: " + e.getMessage());
+		}
+		return result;
+	}
+	
+	public boolean closeLoginPage(WebDriver driver) {
+		boolean result = true;
+		try {
+			
+			result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver, " //img[@alt='cross']", "xpath", 10);
+			if(result) {
+				cfObj.commonClick(homePageORObj.getCrossButton());;
+			}else {
+				homePageMsgList.add("Cross Button is Not Visible");
+				result=false;
+			}
+
+		} catch (Exception e) {
+			result = false;
+			homePageMsgList.add("closeLoginPage_Exception: " + e.getMessage());
+
+		}
+		return result;
+	}
+	
+	public boolean VerifyNumberOfAttempt(WebDriver driver,String strMobileNumber) {
+		boolean result = true;
+		try {
+
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//p[@class='otp-verifcation']//span", "xpath", 30);
+			if (!result) {
+				homePageMsgList.add("Back_Button is Not Visible");
+				return result;
+			}
+			
+			//1st way
+			for(int i=0;i<=25;i++) {
+				
+				// click on Back_Button
+				cfObj.commonClick(homePageORObj.getBackArrow());
+				
+				// click on Continue_Button
+				cfObj.commonClick(homePageORObj.getBtnContinue().get(0));
+				
+				result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//div[contains(text(),\"You've attempted too many times, Retry after 2 mins,\")]", "xpath", 5);
+				if(result) {
+					break;
+				}else {
+					result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//div[contains(text(),'User crossed registration limit')]", "xpath", 5);
+					if(result) {
+						break;
+					}else {
+						homePageMsgList.add("Retry Massage is Not Visible");
+						result=false;
+					}
+				}
+				
+				driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+					
+			} 
+			if(result==false) {
+				return result;
+			}
+			
+			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+			
+			//2nd Way
+			
+			// enter mobile number
+			result = enterMobileNumber(strMobileNumber);
+			if (!result) {
+				return result;
+			}
+
+			// click on Continue_Button
+			result = clickOnContinueButton();
+			if (!result) {
+				return result;
+			}
+			
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "p[class='otp-verified'] a span", "css", 10);
+			if (!result) {
+				homePageMsgList.add("Edit_Button is Not Visible");
+				return result;
+			}
+            for(int j=0;j<=25;j++) {
+            	
+            	// click on Edit_Button
+            	cfObj.commonClick(homePageORObj.getEditButton());
+				
+            	// click on Continue_Button
+				cfObj.commonClick(homePageORObj.getBtnContinue().get(0));
+				
+				result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//div[contains(text(),\"You've attempted too many times, Retry after 2 mins,\")]", "xpath", 5);
+				if(result) {
+					break;
+				}else {
+					result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//div[contains(text(),'User crossed registration limit')]", "xpath", 5);
+					if(result) {
+						break;
+					}else {
+						homePageMsgList.add("Retry Massage is Not Visible");
+						result=false;
+					}
+				}
+				
+				driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+				
+			}
+            
+            if(result==false) {
+				return result;
+			}
+
+		} catch (Exception e) {
+			result = false;
+			homePageMsgList.add("VerifyNumberOfAttempt_Exception: " + e.getMessage());
+		}
+		return result;
+	}
+	
+	public boolean checkWithoutMobileNumber(WebDriver driver) {
+		boolean result = true;
+		try {
+			// click on login/register button
+			result = clickOnLoginRegisterButton(driver);
+			if (!result) {
+				homePageMsgList.add(result + " Login/Register Button is not working");
+				return result;
+			}
+
+			// click on Continue Button
+			result = clickOnContinueButton();
+			if (!result) {
+				return result;
+			}
+			
+			// check Error Massage 
+			result = checkErrorMassage_WithoutNumber(driver);
+			if (!result) {
+				homePageMsgList.add("Error Massage is Not Visible");
+				return result;
+			}
+			
+			// close on Login_Page
+			result=closeLoginPage(driver);
+			if(!result) {
+				homePageMsgList.add("Login page is Not Closed");
+				return result;
+			}
+			
+		} catch (Exception e) {
+			result = false;
+			homePageMsgList.add("checkWithoutMobileNumber_Exception: " + e.getMessage());
+		}
+
+		return result;
+	}
+	
+	public boolean checkErrorMassage_WithoutNumber(WebDriver driver) {
+		boolean result = true;
+		try {
+			
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//div[contains(text(),'Please enter your mobile number.')] ", "xpath", 5);
+			if (result) {
+				return result;
+			}else {
+				return result;
+			}
+
+		} catch (Exception e) {
+			result = false;
+			homePageMsgList.add("checkErrorMassage_WithoutNumber_Exception: " + e.getMessage());
+
+		}
+		return result;
+	}
+	
+	public boolean verifyLoginAfter_2min(WebDriver driver, String strMobileNumber) {
+		boolean result = true;
+		String strOtp = null;
+		try {
+			// click on login/register button
+			result = clickOnLoginRegisterButton(driver);
+			if (!result) {
+				homePageMsgList.add(result + " Login/Register Button is not working");
+				return result;
+			}
+
+			// enter mobile number
+			result = enterMobileNumber(strMobileNumber);
+			if (!result) {
+				return result;
+			}
+
+			// click on get OTP
+			result = clickOnContinueButton();
+			if (!result) {
+				return result;
+			}
+			
+			// check Error Massage 
+			result = checkErrorMassage(driver);
+			if (result) {
+				homePageMsgList.add("Error Massage is Visible");
+				result=false;
+				return result;
+			}
+			
+			otpUtilObj = new OtpUtil();
+			strOtp = otpUtilObj.getOtp(strMobileNumber, false);
+			if (strOtp == null) {
+				homePageMsgList.add("Error in getting otp");
+				return false;
+			}
+
+			// enter OTP
+			result = enterOtp(strOtp);
+			if (!result) {
+				return result;
+			}
+			
+		} catch (Exception e) {
+			result = false;
+			homePageMsgList.add("verifyLoginAfter_2min_Exception: " + e.getMessage());
+		}
+
+		return result;
+	}
+	
+	//Check Negative Scenario Of Sign-up Case
+		public boolean verifySignUpFailCase(WebDriver driver) {
+			boolean result = true;
+			String strMobileNumber01=null,strMobileNumber02=null;
+			try {
+				
+				strMobileNumber01 = Common_Function.randomPhoneNumber(10, "3");
+				strMobileNumber02 = Common_Function.randomPhoneNumber(10, "4");
+				
+				//Check Without Mobile no.
+				result=checkWithoutMobileNumber(driver);
+				if(!result) {
+					homePageMsgList.add("not Verify Through Mobile No..");
+					return result;
+				}
+				
+				// Try many Attempt for OTP 
+				result=VerifyOTPPage(driver,strMobileNumber01,strMobileNumber02);
+				if(!result) {
+					homePageMsgList.add("There is No any Limition Attempt for OTP page");
+					return result;
+				}
+				
+				// Sign-Up after Failed Attempt(check Error Massage)
+				result=verifyLogin_AfterFaliedAttempt(driver,strMobileNumber02);
+				if(!result) {
+					homePageMsgList.add("Not Login after Failed Logn");
+					return result;
+				}
+				
+				strMobileNumber01 = Common_Function.randomPhoneNumber(10, "6");
+				
+				//Sign-Up through Wrong OTP
+				result=VerifyWrongOTPSignUp(driver,strMobileNumber01);
+				if(!result) {
+					homePageMsgList.add("Not verify through Wrong OTP");
+					return result;
+				}
+				
+				//Sign-Up
+				result=verifySignUp(driver);
+				if(!result) {
+					return result;
+				}
+
+			} catch (Exception e) {
+				result = false;
+				homePageMsgList.add("verifySignUpFailCase_Exception: " + e.getMessage());
+			}
+
+			return result;
+		}
+		
+		public boolean VerifyWrongOTPSignUp(WebDriver driver, String strMobileNumber) {
+			boolean result = true;
+			try {
+				// click on login/register button
+				result = clickOnLoginRegisterButton(driver);
+				if (!result) {
+					homePageMsgList.add(result + " Login/Register Button is not working");
+					return result;
+				}
+
+				// enter mobile number
+				result = enterMobileNumber(strMobileNumber);
+				if (!result) {
+					return result;
+				}
+
+				// click on get OTP
+				result = clickOnContinueButton();
+				if (!result) {
+					return result;
+				}
+				
+				// check Through Wrong OTP
+				result=CheckWrongOTPSignUp(driver);
+				if(!result) {
+					homePageMsgList.add("Through Wrong OTP Login Is not verified");
+					return result;
+				}
+									
+
+			} catch (Exception e) {
+				result = false;
+				homePageMsgList.add("VerifyWrongOTPSignUp_Exception: " + e.getMessage());
+			}
+
+			return result;
+		}
+		
+		public boolean CheckWrongOTPSignUp(WebDriver driver) {
+			boolean result = true;
+			String strMobileNumber03=null;
+			try {
+				strMobileNumber03 = Common_Function.randomPhoneNumber(10, "5");
+
+				for(int i=0;i<=20;i++) {
+					
+					if(i==0) {
+						result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//button[contains(text(),'Verify')]", "xpath", 5);
+						if (result) {
+							cfObj.commonClick(homePageORObj.getVerifyButton_SignUp());
+						}else {
+							homePageMsgList.add("Verify Button is Not visble");
+							return result;
+						}
+						
+					}else if(i==1) {
+						// enter OTP
+						result = enterOtp("232323");
+						if (!result) {
+							return result;
+						}
+						
+						result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//button[contains(text(),'Verify')]", "xpath", 5);
+						if (result) {
+							cfObj.commonClick(homePageORObj.getVerifyButton_SignUp());
+						}else {
+							homePageMsgList.add("Verify Button is Not visble");
+							return result;
+						}
+					}else if(i==2) {
+						
+						// Enter name
+						result = enterName("Test");
+						if (!result) {
+							return result;
+						}
+						
+						result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//button[contains(text(),'Verify')]", "xpath", 5);
+						if (result) {
+							cfObj.commonClick(homePageORObj.getVerifyButton_SignUp());
+						}else {
+							homePageMsgList.add("Verify Button is Not visble");
+							return result;
+						}
+					}else if(i==3) {
+						// Enter Email
+						result = enterEmail("Test" + strMobileNumber03 + "@gmail.com");
+						if (!result) {
+							return result;
+						}
+						
+						result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//button[contains(text(),'Verify')]", "xpath", 5);
+						if (result) {
+							cfObj.commonClick(homePageORObj.getVerifyButton_SignUp());
+						}else {
+							homePageMsgList.add("Verify Button is Not visble");
+							return result;
+						}
+						
+						result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//div[contains(text(),'Please enter valid OTP')] ", "xpath", 5);
+						if (!result) {
+							homePageMsgList.add("Alert massage is Not visble");
+							return result;
+						}
+					}else if(i>3) {
+					
+						result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//button[contains(text(),'Verify')]", "xpath", 5);
+						if (result) {
+							cfObj.commonClick(homePageORObj.getVerifyButton_SignUp());
+						}else {
+							homePageMsgList.add("Verify Button is Not visble");
+							return result;
+						}
+						
+						result=cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//div[contains(text(),\"You've attempted too many times, Retry after 2 mins,\")]", "xpath", 5);
+						if(result) {
+							break;
+						}else {
+							homePageMsgList.add("Retry After 2min Massage is Not visble");
+							result=false;
+						}
+						
+					}
+					
+				}
+				
+				if(result==false) {
+					return result;
+				}
+				
+				
+				// click on Back_Button
+				result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "p[class='otp-verifcation'] span", "css", 30);
+				if (result) {
+					cfObj.commonClick(homePageORObj.getBackArrow());
+				}else {
+					homePageMsgList.add("Back_Button is Not Visible");
+					return result;
+				}
+				
+				// Close Login/Sign-up Page
+				cfObj.commonClick(homePageORObj.getCrossButton());
+
+			} catch (Exception e) {
+				result = false;
+				homePageMsgList.add("CheckWrongOTPSignUp_Exception: " + e.getMessage());
+			}
+			return result;
+		}
 
 }

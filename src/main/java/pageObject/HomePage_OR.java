@@ -398,6 +398,61 @@ public class HomePage_OR {
 	public WebElement getStartMyCourse_Button(){
 		return StartMyCourse_Button;
 	}
+	
+	@FindBy(css="p[class='otp-verifcation'] span")
+	private WebElement BackArrow;
+	
+	public WebElement getBackArrow(){
+		return BackArrow;
+	}
+	
+	@FindBy(xpath="//div[@class='login_form_error']")
+	private WebElement RetryText;
+	
+	public WebElement getRetryText(){
+		return RetryText;
+	}
+	
+	@FindBy(css="p[class='otp-verified'] a span")
+	private WebElement EditButton;
+	
+	public WebElement getEditButton(){
+		return EditButton;
+	}
+	
+	@FindBy(xpath="//div[contains(text(),\"You've attempted too many times, Retry after 2 mins,\")]")
+	private WebElement RetryAFTER_2minText;
+	
+	public WebElement getRetryAFTER_2minText(){
+		return RetryAFTER_2minText;
+	}
+	
+	@FindBy(xpath=" //img[@alt='cross']")
+	private WebElement CrossButton;
+	
+	public WebElement getCrossButton(){
+		return CrossButton;
+	}
 
+	@FindBy(xpath="//div[contains(text(),'Please enter valid OTP')] ")
+	private WebElement ValidOTP_ErrorText;
+	
+	public WebElement getValidOTP_ErrorText(){
+		return ValidOTP_ErrorText;
+	}
+	
+	@FindBy(xpath="//div[contains(text(),'Please enter your mobile number.')] ")
+	private WebElement EnterMobileNumber_ErrorText;
+	
+	public WebElement getEnterMobileNumber_ErrorText(){
+		return EnterMobileNumber_ErrorText;
+	}
+	
+	@FindBy(xpath="//button[contains(text(),'Verify')]")
+	private WebElement VerifyButton_SignUp;
+	
+	public WebElement getVerifyButton_SignUp(){
+		return VerifyButton_SignUp;
+	}
 
 }

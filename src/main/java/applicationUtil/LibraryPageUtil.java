@@ -1480,7 +1480,7 @@ public class LibraryPageUtil {
 		int Sizeof_VideoName_in_Watch_List,SizeOf_LeactureName;
 		try {
 			Thread.sleep(10000);//driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, ".col-12", "css",30);
+			result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver, "//span[contains(text(),'Continue from Where You Left')]", "xpath",30);
 			if (result) {
 				result = cfObj.commonWaitForElementToBeLocatedAndVisible(driver,
 						"//div[@class='card-description mt-1']", "xpath", 20);
